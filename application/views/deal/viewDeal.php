@@ -187,7 +187,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="row gx-5">
+                            <!-- chs -->
+
+                             <div class="row gx-5">
                                 <div class="col">
                                     <div class="p-3">
                                         <?php if ($validarHorario == 1) { ?>
@@ -255,7 +257,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div> 
+                            <!-- chs -->
                         </div>
 
                         <!-- <button type="button" id="subir" class="btn btn-success ">Guardar</button> -->
@@ -337,121 +340,7 @@
 
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="txtT1" class="form-label">Tarifas de Recibos (MXN/KWH):</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio1" placeholder="Año 1"
-                                    name="txtTAnio1">
-                                <input type="text" class="form-control" id="txtTMes1" placeholder="Mes 1"
-                                    name="txtTMes1">
-                                <input type="text" class="form-control" id="txtTTarifa1" placeholder="Tarifa 1"
-                                    name="txtTTarifa1">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio2" placeholder="Año 2"
-                                    name="txtTAnio2">
-                                <input type="text" class="form-control" id="txtTMes2" placeholder="Mes 2"
-                                    name="txtTMes2">
-                                <input type="text" class="form-control" id="txtTTarifa2" placeholder="Tarifa 2"
-                                    name="txtTTarifa2">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio3" placeholder="Año 3"
-                                    name="txtTAnio3">
-                                <input type="text" class="form-control" id="txtTMes3" placeholder="Mes 3"
-                                    name="txtTMes3">
-                                <input type="text" class="form-control" id="txtTTarifa3" placeholder="Tarifa 3"
-                                    name="txtTTarifa3">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio4" placeholder="Año 4"
-                                    name="txtTAnio4">
-                                <input type="text" class="form-control" id="txtTMes4" placeholder="Mes 4"
-                                    name="txtTMes4">
-                                <input type="text" class="form-control" id="txtTTarifa4" placeholder="Tarifa 4"
-                                    name="txtTTarifa4">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio5" placeholder="Año 5"
-                                    name="txtTAnio5">
-                                <input type="text" class="form-control" id="txtTMes5" placeholder="Mes 5"
-                                    name="txtTMes5">
-                                <input type="text" class="form-control" id="txtTTarifa5" placeholder="Tarifa 5"
-                                    name="txtTTarifa5">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio6" placeholder="Año 6"
-                                    name="txtTAnio6">
-                                <input type="text" class="form-control" id="txtTMes6" placeholder="Mes 6"
-                                    name="txtTMes6">
-                                <input type="text" class="form-control" id="txtTTarifa6" placeholder="Tarifa 6"
-                                    name="txtTTarifa6">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio7" placeholder="Año 7"
-                                    name="txtTAnio7">
-                                <input type="text" class="form-control" id="txtTMes7" placeholder="Mes 7"
-                                    name="txtTMes7">
-                                <input type="text" class="form-control" id="txtTTarifa7" placeholder="Tarifa 7"
-                                    name="txtTTarifa7">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio8" placeholder="Año 8"
-                                    name="txtTAnio8">
-                                <input type="text" class="form-control" id="txtTMes8" placeholder="Mes 8"
-                                    name="txtTMes8">
-                                <input type="text" class="form-control" id="txtTTarifa8" placeholder="Tarifa 8"
-                                    name="txtTTarifa8">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio9" placeholder="Año 9"
-                                    name="txtTAnio9">
-                                <input type="text" class="form-control" id="txtTMes9" placeholder="Mes 9"
-                                    name="txtTMes9">
-                                <input type="text" class="form-control" id="txtTTarifa9" placeholder="Tarifa 9"
-                                    name="txtTTarifa9">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio10" placeholder="Año 10"
-                                    name="txtTAnio10">
-                                <input type="text" class="form-control" id="txtTMes10" placeholder="Mes 10"
-                                    name="txtTMes10">
-                                <input type="text" class="form-control" id="txtTTarifa10" placeholder="Tarifa 10"
-                                    name="txtTTarifa10">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio11" placeholder="Año 11"
-                                    name="txtTAnio11">
-                                <input type="text" class="form-control" id="txtTMes11" placeholder="Mes 11"
-                                    name="txtTMes11">
-                                <input type="text" class="form-control" id="txtTTarifa11" placeholder="Tarifa 11"
-                                    name="txtTTarifa11">
-
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtTAnio12" placeholder="Año 12"
-                                    name="txtTAnio12">
-                                <input type="text" class="form-control" id="txtTMes12" placeholder="Mes 12"
-                                    name="txtTMes12">
-                                <input type="text" class="form-control" id="txtTTarifa12" placeholder="Tarifa 12"
-                                    name="txtTTarifa12">
-
-                            </div>
-                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6">
                                 </br>
@@ -488,120 +377,25 @@
                                     name="txtCelMxn">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 1</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 2</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 3</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 4</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 5</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 6</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 7</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 8</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 9</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 10</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 11</label>
-                            </div>
-                            <div class="col-xs-1">
-                                <label class="form-label">Mes 12</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel1"
-                                    placeholder="% Req Cel 1" name="txtPorcentajeReqCel1">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel2"
-                                    placeholder="% Req Cel 2" name="txtPorcentajeReqCel2">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel3"
-                                    placeholder="% Req Cel 3" name="txtPorcentajeReqCel3">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel4"
-                                    placeholder="% Req Cel 4" name="txtPorcentajeReqCel4">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel5"
-                                    placeholder="% Req Cel 5" name="txtPorcentajeReqCel5">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel6"
-                                    placeholder="% Req Cel 6" name="txtPorcentajeReqCel6">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel7"
-                                    placeholder="% Req Cel 7" name="txtPorcentajeReqCel7">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel8"
-                                    placeholder="% Req Cel 8" name="txtPorcentajeReqCel8">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel9"
-                                    placeholder="% Req Cel 9" name="txtPorcentajeReqCel9">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel10"
-                                    placeholder="% Req Cel 10" name="txtPorcentajeReqCel10">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel11"
-                                    placeholder="% Req Cel 11" name="txtPorcentajeReqCel11">
-                            </div>
-                            <div class="col-xs-1">
-                                <input type="text" class="form-control" id="txtPorcentajeReqCel12"
-                                    placeholder="% Req Cel 12" name="txtPorcentajeReqCel12">
-                            </div>
-                        </div>
-                        </br>
+                        
+                    </div>
+                    <div class="card-body">    
+                        <br></br>
                         <div class="row">
                             <div class="container text-center">
                                 <button type="button" id="generar" class="btn btn-success">Generar</button>
                             </div>
                         </div>
-                        <hr>
-                        <h3>% Perfil</h3>
-                        <div id="dperfil" name="dperfil" class="row">
-                            <!-- /tabla de perfil/ -->
-
-
-                        </div>
-                        <hr>
-                        <h3>Facturacion CFESSB</h3>
-                        <div id="dfcfessb" name="dfcfessb" class="row" style="overflow-x: auto;">
-                            <!-- /tabla facturacion CFEBBS/ -->
-
-                        </div>
-                        <hr>
-                        <h3>Facturacion</h3>
-                        <div id="dfacturacion" name="dfacturacion" class="row">
-                            <!-- /tabla facturacion/ -->
-
-                        </div>
-
+                        <hr></hr>
+                    </div>
+                    <?php
+                        $this->load->view("deal/paso2/tablaResultados")
+                    ?>
+                        
+                    <div class="card-body">
+                        <div class="row">
+                            </br>
+                        </div>                      
                         <button type="button" id="guardar" class="btn btn-success">Guardar</button>
                         <button type="button" id="validar2" class="btn btn-success ">Validar</button>
                         <?php if ($validarBtnPasoSi2 == 1 ) { ?>
@@ -612,9 +406,7 @@
                         <?php } ?>
 
                     </div>
-                    <div class="container text-center">
-
-                    </div>
+                    
                 </div>
                 <div class="card">
                     <!-- paso 3 -->
@@ -718,7 +510,7 @@
                                 <span class="glyphicon glyphicon-ok"></span> Finalizar
                             </button>
                             <?php } else { ?>
-                            <button type="button" id="paso5" class="btn btn-success btn-lg" style="display: none;>
+                            <button type="button" id="paso5" class="btn btn-success btn-lg" style="display: none";>
                             <span class=" glyphicon glyphicon-ok"></span> Finalizar
                             </button>
                             <?php } ?>

@@ -243,6 +243,7 @@ class MainCtr extends VX_Controller
     ////// alejandro castro
     public function clients()
     {
+        log_message('debug', __FILE__." ".__LINE__);
 
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
             redirect(base_url() . "login");
@@ -377,25 +378,41 @@ class MainCtr extends VX_Controller
     }
    
     public function saveData()
-{
-    //$preciosFile = $_FILES['preciosFile'];
-      $tarifasFile = $_FILES['tarifasFile'];
-    // $horariosFile = $_FILES['horariosFile'];
-    // $generadorFile = $_FILES['generadorFile']; 
-    $ofertaId = $_POST['ofertaId'];
-   
+    {
+        log_message('debug', __FILE__." ".__LINE__);
+        log_message('debug', print_r($_FILES,true));
+        $ofertaId = $_POST['ofertaId'];
+        //$preciosFile = $_FILES['preciosFile'];
+        // $this->mainctrdao->savePrecios($preciosFile);
+        
+        $tarifasFile = $_FILES['tarifasFile'];
+        //$this->mainctrdao->saveTarifas($tarifasFile);
+        
+        if (isset( $_FILES['horariosFile'] ) ){
+            log_message("info", __FILE__." ".__LINE__);
+            $horariosFile = $_FILES['horariosFile'];
+            //$this->mainctrdao->saveHorarios($horariosFile); 
+    
+        }
 
-   // $this->mainctrdao->savePrecios($preciosFile);
-      $this->mainctrdao->saveTarifas($tarifasFile);
-    // $this->mainctrdao->saveHorarios($horariosFile); 
-    // $this->mainctrdao->saveGenerador($generadorFile, $ofertaId);
-    // $this->mainctrdao->saveSeguimiento($ofertaId);
+        if (isset( $_FILES['generadorFile'] ) ){
+            log_message("info", __FILE__." ".__LINE__);
+            $generadorFile = $_FILES['generadorFile']; 
+            //$this->mainctrdao->saveGenerador($generadorFile, $ofertaId); 
     
+        }
+        
     
+        log_message('debug', __FILE__." ".__LINE__);
+        $this->mainctrdao->saveSeguimiento($ofertaId);
+        
     
-    return  $res["status"] = "success";
-    echo json_encode($res);
-}
+        log_message('debug', __FILE__." ".__LINE__);
+          
+        $res["status"] = "success";
+        echo json_encode($res);
+        return;
+    }
 
 
 public function saveContrato()
@@ -459,7 +476,8 @@ public function saveContrato()
     echo json_encode($response);
 }
 
-public function generarWord() {    
+public function generarWord() {
+    log_message('debug', __FILE__." ".__LINE__);    
     if(isset($_POST['word'])) {
         $params = $this->input->post();
         $result = $this->mainctrdao->generarDatosEmpresa($params);
@@ -470,18 +488,20 @@ public function generarWord() {
         $nombre = $datos[0]['nombre'];
         $razon = $datos[0]['razonSocial'];
         $templatePath = $_SERVER['DOCUMENT_ROOT'] . '/e-manage/Contrato/oferta.docx';
-    
+        log_message('debug', __FILE__." ".__LINE__);
     
         $document = new TemplateProcessor($templatePath);
+        log_message('debug', __FILE__." ".__LINE__);
 
         $document->setValue('nombre', $nombre);
         $document->setValue('fOferta', strftime('%d de %B de %Y', strtotime($createdDate)));
         $document->setValue('razon', $razon);
-    
+        
+        log_message('debug', __FILE__." ".__LINE__);
         $tempFilePath = tempnam(sys_get_temp_dir(), 'word');
         $document->saveAs($tempFilePath);
     
-    
+        log_message('debug', __FILE__." ".__LINE__);
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="oferta.docx"');
@@ -490,7 +510,7 @@ public function generarWord() {
     
         unlink($tempFilePath);
     } else {
-      
+        log_message('debug', __FILE__." ".__LINE__);
         header('HTTP/1.1 400 Bad Request');
         echo "Solicitud inválida";
     }
@@ -724,12 +744,14 @@ public function viewDeal()
 
     public function generar()
     {
-        
+        log_message('debug', __FILE__." ".__LINE__);
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
             redirect(base_url() . "login");
         }
 
         $params = $this->input->post();
+
+        log_message('debug',print_r($params,true));
 
         //$newInfo = $this->mainctrdao->saveDeal($this->getUserData(), $params);
         $perfil = $params["perfil"];
@@ -740,19 +762,20 @@ public function viewDeal()
         $tarifa=$params["selTarifa"];
 
         $arrTarifas = array(
-        '0'=>[$ofertaId, $params["anio1"],$params["mes1"],$params["recibo1"]],
-        '1'=>[$ofertaId, $params["anio2"],$params["mes2"],$params["recibo2"]],
-        '2'=>[$ofertaId, $params["anio3"],$params["mes3"],$params["recibo3"]],
-        '3'=>[$ofertaId, $params["anio4"],$params["mes4"],$params["recibo4"]],
-        '4'=>[$ofertaId, $params["anio5"],$params["mes5"],$params["recibo5"]],
-        '5'=>[$ofertaId, $params["anio6"],$params["mes6"],$params["recibo6"]],
-        '6'=>[$ofertaId, $params["anio7"],$params["mes7"],$params["recibo7"]],
-        '7'=>[$ofertaId, $params["anio8"],$params["mes8"],$params["recibo8"]],
-        '8'=>[$ofertaId, $params["anio9"],$params["mes9"],$params["recibo9"]],
-        '9'=>[$ofertaId, $params["anio10"],$params["mes10"],$params["recibo10"]],
-        '10'=>[$ofertaId, $params["anio11"],$params["mes11"],$params["recibo11"]],
-        '11'=>[$ofertaId, $params["anio12"],$params["mes12"],$params["recibo12"]]
+            '0'=>[$ofertaId, $params["anio1"],$params["mes1"],$params["recibo1"]],
+            '1'=>[$ofertaId, $params["anio2"],$params["mes2"],$params["recibo2"]],
+            '2'=>[$ofertaId, $params["anio3"],$params["mes3"],$params["recibo3"]],
+            '3'=>[$ofertaId, $params["anio4"],$params["mes4"],$params["recibo4"]],
+            '4'=>[$ofertaId, $params["anio5"],$params["mes5"],$params["recibo5"]],
+            '5'=>[$ofertaId, $params["anio6"],$params["mes6"],$params["recibo6"]],
+            '6'=>[$ofertaId, $params["anio7"],$params["mes7"],$params["recibo7"]],
+            '7'=>[$ofertaId, $params["anio8"],$params["mes8"],$params["recibo8"]],
+            '8'=>[$ofertaId, $params["anio9"],$params["mes9"],$params["recibo9"]],
+            '9'=>[$ofertaId, $params["anio10"],$params["mes10"],$params["recibo10"]],
+            '10'=>[$ofertaId, $params["anio11"],$params["mes11"],$params["recibo11"]],
+            '11'=>[$ofertaId, $params["anio12"],$params["mes12"],$params["recibo12"]]
         );
+        log_message('debug', __FILE__." ".__LINE__);
         $this->mainctrdao->saveRecibosTarifas($arrTarifas);
         $arrPRC = array(
             '0'=>[$ofertaId, $params["anio1"],$params["mes1"],$params["reqcel1"]],
@@ -768,6 +791,8 @@ public function viewDeal()
             '10'=>[$ofertaId, $params["anio11"],$params["mes11"],$params["reqcel11"]],
             '11'=>[$ofertaId, $params["anio12"],$params["mes12"],$params["reqcel12"]]
             );
+        
+        log_message('debug', __FILE__." ".__LINE__);
         $this->mainctrdao->savePorcentajeReqCel($arrPRC);
 
         $GB=1; // indica si va a usar la primer tabla de Generador de Bloques o el segundo
@@ -778,12 +803,13 @@ public function viewDeal()
         $arrRangoMeses=null;
         $arrRangoMeses=$this->mainctrdao->getRangoMesesGB($ofertaId);
         if (sizeof($arrRangoMeses) == 0){
+            log_message('debug', __FILE__." ".__LINE__);
             $arrRangoMeses=$this->mainctrdao->getRangoMesesGBdos($ofertaId);
             $GB=2;
         }
         /*FIN obtener del GB el rango de meses cargado*/
         /*********/
-
+        log_message('debug', __FILE__." ".__LINE__);
         /********************/
         /*INICIO crear porcentaje perfil*/
         $res["porcentajeperfil"] = $this->mainctrdao->crearPorcentajePerfil($ofertaId, $GB);
@@ -793,12 +819,15 @@ public function viewDeal()
 
         /********************/
         /*INICIO facturacion cfessb*/
+        log_message('debug', __FILE__." ".__LINE__);
         $res["facturacioncfessb"] =$this->mainctrdao->crearFacturacionCFESSB($ofertaId, $GB, $params);        
         /********************/
         /*FIN facturacion cfessb*/
 
         /********************/
         /*INICIO facturacion */
+        
+        log_message('debug', __FILE__." ".__LINE__);
         $res["facturacion1"]=$this->mainctrdao->crearFacturacion1($ofertaId, $GB, $params);        
         /********************/
         /*FIN facturacion cfessb*/
@@ -806,7 +835,9 @@ public function viewDeal()
 
         $res["status"] = "success";
         $res["data"] = $params;
+        log_message('debug', __FILE__." ".__LINE__);
         echo json_encode($res);
+        return;
     }
 
     public function getZonasCarga(){

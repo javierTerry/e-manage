@@ -476,29 +476,41 @@
         
         
         $("#subir").click(function (event) {
+            console.log("subir");
             //var preciosFile = $("#bprecios")[0].files[0];
-             var tarifasFile = $("#btarifas")[0].files[0];
-            // var horariosFile = $("#bdatoshorarios")[0].files[0];
-            // var generadorFile = $("#bgenerador")[0].files[0];
+
+            //console.log($("#btarifas")[0]);
+            var tarifasFile = $("#btarifas")[0].files[0];
+            var horariosFile = $("#bdatoshorarios")[0].files[0];
+            var generadorFile = $("#bgenerador")[0].files[0];
             var ofertaId = $("#ofertaId").val();
-        
-        
+            
+            console.log(horariosFile);
+
+
+            if (horariosFile && generadorFile) {
+                alert("Debe seleccionar un solo archivo, Horarios o Generar de Bloques (GB).");
+                return;
+            }
+
             if (!horariosFile && !generadorFile) {
-                alert("Debe seleccionar los archivos.");
+                alert("Debe seleccionar un archivo, Horarios o Generar de Bloques (GB).");
                 return;
             }
         
             var confirmar = confirm("¿Está seguro de subir los archivos?");
         
             if (confirmar) {
+                console.log("confirmado ");
                 $('#loader').show();
         
                 var formData = new FormData();
                 //formData.append('preciosFile', preciosFile);
                 formData.append('tarifasFile', tarifasFile);
-                // formData.append('horariosFile', horariosFile);
-                // formData.append('generadorFile', generadorFile);
+                formData.append('horariosFile', horariosFile);
+                formData.append('generadorFile', generadorFile);
                 formData.append('ofertaId', ofertaId);
+                console.log("Inicia Ajax");
                 $.ajax({
                     url: 'saveData',
                     type: 'POST',
@@ -509,18 +521,23 @@
                         
                     },
                     success: function (data) { 
-                      $('#loader').hide();
-                      location.reload();
+                        console.log("Seccion success");
+                        $('#loader').hide();
+                        location.reload();
                     },
                     error: function () {
+                        console.log("Seccion error");
                       $('#loader').hide();
                       alert("Ocurrió un error al guardar el archivo. Por favor, inténtelo de nuevo más tarde.");
                     },
                     complete: function () {
+                        console.log("Seccion complete");
                       $('#loader').hide();
                     }
                   });
               
+            } else {
+                console.log("No confirmado ");
             }
         });
         
@@ -754,6 +771,7 @@
             var txtD = $( "#txtD" ).val();
             var ofertaId = $( "#ofertaId" ).val();
             var selZC = $( "#selZC" ).val();
+            
             var perfil = $( "#selPerfil" ).val();
             var anio1=$( "#txtTAnio1" ).val();
             var mes1=$( "#txtTMes1" ).val();
@@ -815,6 +833,7 @@
                 alert("Debe llenar todos los datos para poder generar.");
                 return;
             }
+
             $('#loader').show();
             $.ajax({
                 url: 'generar',
@@ -830,6 +849,7 @@
                      reqcel4:reqcel4,reqcel5:reqcel5,reqcel6:reqcel6,reqcel7:reqcel7,reqcel8:reqcel8,reqcel9:reqcel9,reqcel10:reqcel10,
                      reqcel11:reqcel11,reqcel12:reqcel12},
                 error: function() {
+                    $('#loader').hide();//chs
                     alert("Ocurrio un error al tratar de Generar");
                 },
                 success: function(data) {

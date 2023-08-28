@@ -372,7 +372,10 @@ class CI_Input {
 	*/
 	public function valid_ip($ip, $which = '')
 	{
+		//$ip = array("localhost");
+		error_log(print_r($ip,true));
 		$which = strtolower($which);
+		error_log(print_r($which,true));
 
 		// First check if filter_var is available
 		if (is_callable('filter_var'))
@@ -385,7 +388,7 @@ class CI_Input {
 					$flag = FILTER_FLAG_IPV6;
 					break;
 				default:
-					$flag = '';
+					$flag = FILTER_DEFAULT;
 					break;
 			}
 

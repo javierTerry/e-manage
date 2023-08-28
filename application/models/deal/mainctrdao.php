@@ -254,177 +254,177 @@ public function saveDeal($userData, $params) {
     }
 
     public function saveTarifas($tarifasFile){
-
-            // Obtiene la ruta temporal del archivo subido
-            $filePath = $tarifasFile['tmp_name'];
-            // Carga el archivo de Excel usando PhpSpreadsheet
-            $objPHPExcel = IOFactory::load($filePath);
-            // Selecciona la hoja "Tarifas"
+        log_message('debug', __FILE__." ".__LINE__);
+        // Obtiene la ruta temporal del archivo subido
+        $filePath = $tarifasFile['tmp_name'];
+        // Carga el archivo de Excel usando PhpSpreadsheet
+        $objPHPExcel = IOFactory::load($filePath);
+        // Selecciona la hoja "Tarifas"
         
         // $sheet =  $objPHPExcel->getActiveSheet();
         //$sheet = $objPHPExcel->setActiveSheetIndex(6);
-           // $sheet = $objPHPExcel->getSheetByName('Hoja3');
+        // $sheet = $objPHPExcel->getSheetByName('Hoja3');
 
-           $sheet = $objPHPExcel->getActiveSheet(); 
+        $sheet = $objPHPExcel->getActiveSheet(); 
 
-            $rowIndex = 3;
-            $previousInpc = null; // Almacenar el valor inpc anterior
+        $rowIndex = 3;
+        $previousInpc = null; // Almacenar el valor inpc anterior
+        log_message('debug', __FILE__." ".__LINE__);
+            foreach ($sheet->getRowIterator(3) as $row) {
+                $rowData = array();
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(FALSE);
+                foreach ($cellIterator as $cell) {
+                    $rowData[] = $cell->getValue();
+                }
+                log_message('debug', __FILE__." ".__LINE__);
+                $data_distribucion = array(
+                    'anio' => $rowData[0],
+                    'division' => $rowData[1],
+                    'tarifa' => $rowData[2],
+                    'mxn/kwh' => $rowData[3]
+                );
 
-                foreach ($sheet->getRowIterator(3) as $row) {
-                    $rowData = array();
-                    $cellIterator = $row->getCellIterator();
-                    $cellIterator->setIterateOnlyExistingCells(FALSE);
-                    foreach ($cellIterator as $cell) {
-                        $rowData[] = $cell->getValue();
-                    }
-            
-                    $data_distribucion = array(
-                        'anio' => $rowData[0],
-                        'division' => $rowData[1],
-                        'tarifa' => $rowData[2],
-                        'mxn/kwh' => $rowData[3]
-                    );
-
-                        
-                        if (!empty(array_filter($data_distribucion))) {
-                            $this->db->insert('of_tarifa_distribucion',  $data_distribucion);
-                        }
-
-                    $data_transmicion = array (
-                        'anio' => $rowData[6],
-                        'tarifa' => $rowData[7],
-                        'tarifaPrecio' => $rowData[8]
-                    );
-
-                        if (!empty(array_filter($data_transmicion))) {
-                            $this->db->insert('of_tarifa_transmision', $data_transmicion);
-                        }
-
-                    $data_operacion = array (
-                        'anio' => $rowData[10],
-                        'tarifa' => $rowData[11]
-                    );
-
-                    if (!empty(array_filter($data_operacion))) {
-                        $this->db->insert('of_tarifa_operacion', $data_operacion);
-                    }
-
-                
-                    $data_scnmem = array (
-                        'anio' => $rowData[13],
-                        'tarifa' => $rowData[14]
-                    );
-
-                            if (!empty(array_filter($data_scnmem))) {
-                            $this->db->insert('of_tarifa_scnmem', $data_scnmem);
-                            }
-
-                    $data_diprecio = array (
-                        'division' => $rowData[16],
-                        'precio' => $rowData[17]
-                    );
-
-                            if (!empty(array_filter($data_diprecio))) {
-                                $this->db->insert('of_tarifa_division_precio', $data_diprecio);
-                            }
-            
-
-                    $data_otrosprecios = array(
-                        'anio' => $rowData[19],
-                        'mes' => $rowData[20],
-                        'mxn/kwh' => $rowData[21]
-                    );  
-
-                        if (!empty(array_filter($data_otrosprecios))) {
-                            $this->db->insert('of_tarifa_otrosprecios', $data_otrosprecios);
-                        }
-
-                
-                    $data_energias = array(
-                        'anio' => $rowData[26],
-                        'mes' => $rowData[27],
-                        'division' => $rowData[28],
-                        'tarifasigla' => $rowData[29],
-                        'tafiratipo' => $rowData[30],
-                        'mxn/kwh' => $rowData[31]
-                    );  
-
-                    if (!empty(array_filter($data_energias))) {
-                        $this->db->insert('of_tarifa_energia', $data_energias);
-                    }
-
-                    $data_capacidad = array(
-                        'anio' => $rowData[33],
-                        'mes' => $rowData[34],
-                        'tarifa' => $rowData[35],
-                        'division' => $rowData[36],
-                        'valor' => $rowData[37]
-                    );  
-
-                    if (!empty(array_filter($data_capacidad))) {
-                        $this->db->insert('of_tarifa_capacidad', $data_capacidad);
-                    }
-        
-                    $data_operacion_sb = array(
-                        'anio' => $rowData[39],
-                        'division' => $rowData[40],
-                        'tarifa' => $rowData[41],
-                        'mxn/kwh' => $rowData[42]
-                    );  
-
-                    if (!empty(array_filter($data_operacion_sb))) {
-                        $this->db->insert('of_tarifa_operacion_sb', $data_operacion_sb);
-                    }    
-        
-                    $data_inversion = array(
-                        'anios' => $rowData[45],
-                        'inversion' => $rowData[46],
-                        'cuota_me_apro' => $rowData[47]
-                    );
-
-                    
-                    if (!empty(array_filter($data_inversion))) {
-                        $this->db->insert('of_tarifa_inversion_gdmth', $data_inversion);
-                    }
-
-                    
-                    $data_sc = array(
-                        'anio' => $rowData[49],
-                        'mes' => $rowData[50],
-                        'mxn/kwh' => $rowData[51]
-                    );
-
-                    if (!empty(array_filter($data_sc))) {
-                        $this->db->insert('of_tarifa_tc', $data_sc);
-                    }
-
-                    
-                    $data_necaxa = array(
-                        'anio' => $rowData[53],
-                        'mes' => $rowData[54],
-                        'inpc' => $rowData[56],
-                        'incremento' => 0 
-                    );
-
-                    if (!empty(array_filter($data_necaxa))) {
-                        $this->db->insert('of_tarifa_precio_necaxa', $data_necaxa);
-            
-                        if ($previousInpc !== null) {
-                            $currentRow = $this->db->insert_id();
-                            $currentInpc = $rowData[56];
-                            $incremento = ($currentInpc - $previousInpc) / $previousInpc;
-            
-                            $this->db->set('incremento', $incremento);
-                            $this->db->where('id', $currentRow);
-                            $this->db->update('of_tarifa_precio_necaxa');
-                        }
-            
-                        $previousInpc = $rowData[56];
-                    }
-                    $rowIndex++;
-                                        
+                log_message('debug', __FILE__." ".__LINE__);    
+                if (!empty(array_filter($data_distribucion))) {
+                    $this->db->insert('of_tarifa_distribucion',  $data_distribucion);
                 }
 
+                $data_transmicion = array (
+                    'anio' => $rowData[6],
+                    'tarifa' => $rowData[7],
+                    'tarifaPrecio' => $rowData[8]
+                );
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_transmicion))) {
+                    $this->db->insert('of_tarifa_transmision', $data_transmicion);
+                }
+
+                $data_operacion = array (
+                    'anio' => $rowData[10],
+                    'tarifa' => $rowData[11]
+                );
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_operacion))) {
+                    $this->db->insert('of_tarifa_operacion', $data_operacion);
+                }
+
+            
+                $data_scnmem = array (
+                    'anio' => $rowData[13],
+                    'tarifa' => $rowData[14]
+                );
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_scnmem))) {
+                    $this->db->insert('of_tarifa_scnmem', $data_scnmem);
+                }
+
+                $data_diprecio = array (
+                    'division' => $rowData[16],
+                    'precio' => $rowData[17]
+                );
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_diprecio))) {
+                    $this->db->insert('of_tarifa_division_precio', $data_diprecio);
+                }
+        
+
+                $data_otrosprecios = array(
+                    'anio' => $rowData[19],
+                    'mes' => $rowData[20],
+                    'mxn/kwh' => $rowData[21]
+                );  
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_otrosprecios))) {
+                    $this->db->insert('of_tarifa_otrosprecios', $data_otrosprecios);
+                }
+
+            
+                $data_energias = array(
+                    'anio' => $rowData[26],
+                    'mes' => $rowData[27],
+                    'division' => $rowData[28],
+                    'tarifasigla' => $rowData[29],
+                    'tafiratipo' => $rowData[30],
+                    'mxn/kwh' => $rowData[31]
+                );  
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_energias))) {
+                    $this->db->insert('of_tarifa_energia', $data_energias);
+                }
+
+                $data_capacidad = array(
+                    'anio' => $rowData[33],
+                    'mes' => $rowData[34],
+                    'tarifa' => $rowData[35],
+                    'division' => $rowData[36],
+                    'valor' => $rowData[37]
+                );  
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_capacidad))) {
+                    $this->db->insert('of_tarifa_capacidad', $data_capacidad);
+                }
+    
+                $data_operacion_sb = array(
+                    'anio' => $rowData[39],
+                    'division' => $rowData[40],
+                    'tarifa' => $rowData[41],
+                    'mxn/kwh' => $rowData[42]
+                );  
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_operacion_sb))) {
+                    $this->db->insert('of_tarifa_operacion_sb', $data_operacion_sb);
+                }    
+    
+                $data_inversion = array(
+                    'anios' => $rowData[45],
+                    'inversion' => $rowData[46],
+                    'cuota_me_apro' => $rowData[47]
+                );
+
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_inversion))) {
+                    $this->db->insert('of_tarifa_inversion_gdmth', $data_inversion);
+                }
+
+                
+                $data_sc = array(
+                    'anio' => $rowData[49],
+                    'mes' => $rowData[50],
+                    'mxn/kwh' => $rowData[51]
+                );
+                log_message('debug', __FILE__." ".__LINE__);
+                if (!empty(array_filter($data_sc))) {
+                    $this->db->insert('of_tarifa_tc', $data_sc);
+                }
+
+                
+                $data_necaxa = array(
+                    'anio' => $rowData[53],
+                    'mes' => $rowData[54],
+                    'inpc' => $rowData[56],
+                    'incremento' => 0 
+                );
+                
+                if (!empty(array_filter($data_necaxa))) {
+                    $this->db->insert('of_tarifa_precio_necaxa', $data_necaxa);
+        
+                    if ($previousInpc !== null) {
+                        $currentRow = $this->db->insert_id();
+                        $currentInpc = $rowData[56];
+                        $incremento = ($currentInpc - $previousInpc) / $previousInpc;
+        
+                        $this->db->set('incremento', $incremento);
+                        $this->db->where('id', $currentRow);
+                        $this->db->update('of_tarifa_precio_necaxa');
+                    }
+        
+                    $previousInpc = $rowData[56];
+                }
+                $rowIndex++;
+                                    
+            }// Fin foreach
+        log_message('debug', __FILE__." ".__LINE__);
                 
         return "success";   
     }
@@ -776,6 +776,7 @@ public function saveDeal($userData, $params) {
        "
         );
     
+        log_message("debug", print_r($query->row(),true));    
         return $query->row()->resultado; 
     }
 
@@ -914,6 +915,8 @@ public function saveDeal($userData, $params) {
     }
 
     public function crearPorcentajePerfil($ofertaId, $GB){
+        log_message('debug', __FILE__." ".__LINE__);
+
         $GBT='';
         if ($GB==1) {
             $GBT='of_generador_bloques';
@@ -966,7 +969,7 @@ public function saveDeal($userData, $params) {
     }
 
     public function saveRecibosTarifas($params){
-       
+        log_message('debug', __FILE__." ".__LINE__);
         $this->db->query("truncate table of_recibos_cfe;");  
         foreach($params as $p){
             $data = array(
@@ -978,21 +981,23 @@ public function saveDeal($userData, $params) {
         
             $this->db->insert('of_recibos_cfe', $data);  
         }
+        log_message('debug', __FILE__." ".__LINE__);
         return true;
     }
 
     public function savePorcentajeReqCel($params){
-       
+        log_message('debug', __FILE__." ".__LINE__);
         $this->db->query("truncate table of_porcentaje_req_cel;");  
         foreach($params as $p){
             $data = array(
-                'of_oferta' => $p[0],
+                //'of_oferta' => $p[0],
                 'anio' => $p[1],
                 'mes' => $p[2],
-                'tarifa' => $p[3]
+                //'tarifa' => $p[3]
+                'porcentaje' => $p[3]
             ); 
         
-            $this->db->insert('of_recibos_cfe', $data);  
+            $this->db->insert('of_porcentaje_req_cel', $data);  
         }
         return true;
     }
