@@ -405,7 +405,6 @@ class MainCtr extends VX_Controller
     
         log_message('debug', __FILE__." ".__LINE__);
         $this->mainctrdao->saveSeguimiento($ofertaId);
-        
     
         log_message('debug', __FILE__." ".__LINE__);
           

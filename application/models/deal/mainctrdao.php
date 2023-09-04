@@ -405,7 +405,7 @@ public function saveDeal($userData, $params) {
                     'inpc' => $rowData[56],
                     'incremento' => 0 
                 );
-                
+                log_message('debug', __FILE__." ".__LINE__);
                 if (!empty(array_filter($data_necaxa))) {
                     $this->db->insert('of_tarifa_precio_necaxa', $data_necaxa);
         
