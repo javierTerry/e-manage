@@ -130,29 +130,10 @@ $("#subir").click(function (event) {
 
         var formData = new FormData();
         formData.append('tarifasFile', tarifasFile);
-  
-        $.ajax({
-            url: 'subirtarifa',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            beforeSend: function () {
-                
-            },
-            success: function (data) { 
-              $('#loader').hide();
-              location.reload();
-            },
-            error: function () {
-              $('#loader').hide();
-              alert("Ocurrió un error al guardar el archivo. Por favor, inténtelo de nuevo más tarde.");
-            },
-            complete: function () {
-              $('#loader').hide();
-            }
-          });
-      
+        
+        $("#cargarArchivoModal").modal('hide');
+        alert("Archivo cargado con Exito.");
+
     }
 });
 

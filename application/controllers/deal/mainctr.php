@@ -1622,8 +1622,7 @@ public function viewDeal()
             redirect(base_url() . "login");
         }
 
-        //$this->loadDataTables();
-
+       
         $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
         $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
         $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
@@ -1641,20 +1640,23 @@ public function viewDeal()
         $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
         $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
         $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/sweetalert2/src/sweetalert2.js";
+
+        //Negocio
         $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
 
-        $clientsSelect = $this->mainctrdao->getClientsSelect();
+        //$clientsSelect = $this->mainctrdao->getClientsSelect();
        
- 
+    /*
         if ($params = $this->input->post()) {
             $deals = $this->mainctrdao->getDealsfilter($params);
         } else {
             $deals = $this->mainctrdao->getDeals();
         }
-
+        */
      
         $currentModule = $this->getCurrentModule();
         $currentModule["data"] = array(
@@ -1662,8 +1664,6 @@ public function viewDeal()
                 "render" => TRUE,
                 "data" => array(
                     "buttons" => array(
-
-
                     )
                 )
             ),

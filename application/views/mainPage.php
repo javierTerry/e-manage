@@ -58,7 +58,7 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Fénix</title>
+        <title>Fénix</title>    
 
         <?php $this->load->view("loadLibraries/css", $css); ?>
 
