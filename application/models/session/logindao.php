@@ -57,6 +57,7 @@ SELECT;
     }
 
     private function getModulesUser($username) {
+        log_message('debug', print_r($username,true));
 
         $select = <<<EOT
             m.view,
@@ -89,7 +90,7 @@ EOT;
             $data["m.module"]    = $value["module"];
             $modules[$key]["views"] = $this->db->get_where("users u", $data)->result_array();
         }
-
+        log_message('debug', print_r($modules,true));
         return $modules;
     }
     

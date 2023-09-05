@@ -1,4 +1,4 @@
-<?php
+    <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -305,6 +305,8 @@ class MainCtr extends VX_Controller
 
         $dataBuild["css"] = $this->libraries["css"];
         $dataBuild["js"] = $this->libraries["js"];
+
+        log_message("debug",print_r($dataBuild,true));
 
         $this->load->view("mainPage", $dataBuild);
     }
@@ -847,21 +849,6 @@ public function viewDeal()
         echo json_encode($res);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function validaFormaCapturada()
     {
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
@@ -967,10 +954,6 @@ public function viewDeal()
         $inputCentral = $params["inputCentral"];
         $inputOrden = $params["inputOrden"];
 
-
-
-
-
         $newInfoData = $this->mainctrdao->getInfoDatas($this->getUserData(), $fechainicio, $inputCentral);
 
         echo json_encode($newInfoData);
@@ -988,9 +971,6 @@ public function viewDeal()
         $fechainicio = $params["fechainicio"];
         $inputCentral = $params["inputCentral"];
         $inputOrden = $params["inputOrden"];
-
-
-
 
 
         $newInfoData = $this->mainctrdao->getInfoDatasTank($this->getUserData(), $fechainicio, $inputCentral);
@@ -1011,9 +991,6 @@ public function viewDeal()
         $fechainicio = $params["fechainicio"];
         $inputCentral = $params["inputCentral"];
         $inputOrden = $params["inputOrden"];
-
-
-
 
 
         $newInfoData = $this->mainctrdao->getInfoDatasSorder($this->getUserData(), $fechainicio, $inputCentral);
@@ -1458,11 +1435,6 @@ public function viewDeal()
         echo $newInfoData;
     }
 
-
-
-
-
-
     /// elicenses
 
     public function elicenses()
@@ -1642,6 +1614,80 @@ public function viewDeal()
         echo json_encode($newInfoData);
     }
 
+
+    public function mm()
+    {
+
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+
+        //$this->loadDataTables();
+
+        $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
+        $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
+        $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
+        $this->libraries["css"]["dependences"][] = "assets/css/modal.windows.css";
+        $this->libraries["css"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.css";
+        $this->libraries["js"]["dependences"][] = "assets/js/Core/routing.page.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/select2/dist/js/select2.full.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/moment/min/moment.min.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/switchery/dist/switchery.min.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/jQuery.Select.Year/lib/year-select.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/Core/DefaultFn.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/Core/AttachmentObj.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/Core/FormObj.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
+        $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
+
+
+        $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
+
+        $clientsSelect = $this->mainctrdao->getClientsSelect();
+       
+ 
+        if ($params = $this->input->post()) {
+            $deals = $this->mainctrdao->getDealsfilter($params);
+        } else {
+            $deals = $this->mainctrdao->getDeals();
+        }
+
+     
+        $currentModule = $this->getCurrentModule();
+        $currentModule["data"] = array(
+            "vMenu" => array(
+                "render" => TRUE,
+                "data" => array(
+                    "buttons" => array(
+
+
+                    )
+                )
+            ),
+            "userData" => $this->getUserData(),
+            //"clientsSelects" => $clientsSelect,
+            //"deals" => $deals
+           
+
+
+        );
+        $currentModule["bodyClass"] = "nav-md";
+
+        $this->setContent($currentModule);
+
+        $dataBuild = $this->getDataBuild();
+
+        $dataBuild["css"] = $this->libraries["css"];
+        $dataBuild["js"] = $this->libraries["js"];
+
+        log_message("debug",print_r($dataBuild,true));
+
+
+        $this->load->view("mainPage", $dataBuild);
+    }
 
 }
 
