@@ -489,56 +489,80 @@
 
 
             if (horariosFile && generadorFile) {
+
                 alert("Debe seleccionar un solo archivo, Horarios o Generar de Bloques (GB).");
                 return;
             }
 
             if (!horariosFile && !generadorFile) {
-                alert("Debe seleccionar un archivo, Horarios o Generar de Bloques (GB).");
+                //alert("");
+                Swal.fire(
+                  'Debe seleccionar un archivo',
+                  'Horarios o Generar de Bloques (GB).',
+                  'warning'
+                )
                 return;
             }
         
-            var confirmar = confirm("¿Está seguro de subir los archivos?");
+            var confirmar = false; //confirm("¿Está seguro de subir los archivos?");
+            Swal.fire({
+              title: '¿Está seguro de subir los archivos?',
+              text: 'Favor de Confirmar',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, Cargar Archivos!',
+              cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    console.log("confirmado ");
+                    $('#loader').show();
+            
+                    var formData = new FormData();
+                    //formData.append('preciosFile', preciosFile);
+                    formData.append('tarifasFile', tarifasFile);
+                    formData.append('horariosFile', horariosFile);
+                    formData.append('generadorFile', generadorFile);
+                    formData.append('ofertaId', ofertaId);
+                    console.log("Inicia Ajax");
+                    $.ajax({
+                        url: 'saveData',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function () {
+                            
+                        },
+                        success: function (data) { 
+                            console.log("Seccion success");
+                            $('#loader').hide();
+                            location.reload();
+                        },
+                        error: function () {
+                            console.log("Seccion error");
+                            $('#loader').hide();
+                            Swal.fire(
+                                'Ocurrió un error al guardar el archivo.',
+                                'Por favor, inténtelo de nuevo más tarde.',
+                                'error'
+                            )
+                          
+                        },
+                        complete: function () {
+                            console.log("Seccion complete");
+                          $('#loader').hide();
+                        }
+                      });
+
+                } else {
+                    console.log("No confirmado ");    
+                }
+                
+            })
         
-            if (confirmar) {
-                console.log("confirmado ");
-                $('#loader').show();
-        
-                var formData = new FormData();
-                //formData.append('preciosFile', preciosFile);
-                formData.append('tarifasFile', tarifasFile);
-                formData.append('horariosFile', horariosFile);
-                formData.append('generadorFile', generadorFile);
-                formData.append('ofertaId', ofertaId);
-                console.log("Inicia Ajax");
-                $.ajax({
-                    url: 'saveData',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
-                        
-                    },
-                    success: function (data) { 
-                        console.log("Seccion success");
-                        $('#loader').hide();
-                        location.reload();
-                    },
-                    error: function () {
-                        console.log("Seccion error");
-                      $('#loader').hide();
-                      alert("Ocurrió un error al guardar el archivo. Por favor, inténtelo de nuevo más tarde.");
-                    },
-                    complete: function () {
-                        console.log("Seccion complete");
-                      $('#loader').hide();
-                    }
-                  });
-              
-            } else {
-                console.log("No confirmado ");
-            }
         });
         
         

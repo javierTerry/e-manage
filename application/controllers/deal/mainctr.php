@@ -43,7 +43,8 @@ class MainCtr extends VX_Controller
                 "assets/vendors/pdf.js/web/viewer.js",
                 "assets/vendors/jquery/src/jquery-ui.min.js",
                 "assets/vendors/bootstrap/dist/js/bootstrap.min.js",
-                "assets/build/js/custom.min.js"
+                "assets/build/js/custom.min.js",
+                "assets/vendors/sweetalert2/dist/sweetalert2.all.min.js"
             )
         )
     );
@@ -91,9 +92,6 @@ class MainCtr extends VX_Controller
 
 
     }
-
-
-
 
     //////
     public function eproduced()
@@ -635,8 +633,6 @@ public function viewDeal()
         }
 
         
-
-
         $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
         $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
         $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
@@ -863,8 +859,6 @@ public function viewDeal()
         $newInfoData = $this->mainctrdao->postInfoDataValida($this->getUserData(), $fechainicio, $inputCentral, $inputOrden);
 
 
-
-
         echo ($newInfoData);
 
     }
@@ -882,9 +876,6 @@ public function viewDeal()
         $inputCentral = $params["inputCentral"];
         $inputOrden = $params["inputOrden"];
         $newInfoData = $this->mainctrdao->postInfoDataValidaDam($this->getUserData(), $fechainicio, $inputCentral, $inputOrden);
-
-
-
 
         echo ($newInfoData);
 
@@ -904,10 +895,6 @@ public function viewDeal()
         $inputOrden = $params["inputOrden"];
         $arrayrelunit = $params["arrayrelunit"];
         $resultdataid = $params["resultdataid"];
-
-
-
-
 
         $newInfoData = $this->mainctrdao->postInfoUpdateData($this->getUserData(), $datExcel, $totDatExcel, $fechainicio, $inputCentral, $inputOrden, $arrayrelunit, $resultdataid);
 
@@ -938,9 +925,6 @@ public function viewDeal()
 
 
     }
-
-
-
 
     public function FormasConsultas()
     {
@@ -998,8 +982,6 @@ public function viewDeal()
         echo json_encode($newInfoData);
 
     }
-
-
 
 
     public function saveFormasSorder()
@@ -1285,10 +1267,6 @@ public function viewDeal()
         $this->load->view("mainPage", $dataBuild);
     }
 
-
-
-
-
     public function saveFormasWturbine()
     {
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
@@ -1329,28 +1307,8 @@ public function viewDeal()
 
         $newInfoData = $this->mainctrdao->getInfoDataWturbine($this->getUserData(), $fechainicio, $inputCentral);
 
-
-
-
-        //$fecha1 = "2010-12-29";
-//$fecha2 = "2011-01-12";
-
-        //for($i=$fecha1;$i<=$fecha2;$i = date("Y-m-d", strtotime($i ."+ 1 days"))){
-        //  echo $i . "<br />";
-        //aca puedes comparar $i a una fecha en la bd y guardar el resultado en un arreglo
-
-        //}
-
-
-
-
-
         echo json_encode($newInfoData);
     }
-
-
-
-
 
     public function sorder()
     {
@@ -1640,24 +1598,10 @@ public function viewDeal()
         $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
         $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
         $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/sweetalert2/src/sweetalert2.js";
-
-        //Negocio
         $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
+        $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/viewDeal.js";
 
-        $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
-
-        //$clientsSelect = $this->mainctrdao->getClientsSelect();
-       
-    /*
-        if ($params = $this->input->post()) {
-            $deals = $this->mainctrdao->getDealsfilter($params);
-        } else {
-            $deals = $this->mainctrdao->getDeals();
-        }
-        */
-     
         $currentModule = $this->getCurrentModule();
         $currentModule["data"] = array(
             "vMenu" => array(
@@ -1668,12 +1612,9 @@ public function viewDeal()
                 )
             ),
             "userData" => $this->getUserData(),
-            //"clientsSelects" => $clientsSelect,
-            //"deals" => $deals
-           
-
 
         );
+
         $currentModule["bodyClass"] = "nav-md";
 
         $this->setContent($currentModule);
