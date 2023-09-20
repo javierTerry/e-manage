@@ -567,6 +567,8 @@
         
         
         $("#validar").click(function (event) {
+            console.log("Validar ")
+
             if (confirm("¿seguro que quiere validar el paso 1?") == true) {
                 var ofertaId = $("#ofertaId").val();
                 var findPaso = 1;   

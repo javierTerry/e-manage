@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     if ($('#tablaCC').length) {
-        guiasTabla()     
+        ccTabla()     
     }
 
 }) 
@@ -54,7 +54,7 @@ $("#agregarCC").click(function (event) {
                         'Fue Exitoso',
                         'success'
                     )
-                    guiasTabla()
+                    ccTabla()
                 },
                 error: function () {
                     console.log("Seccion error");
@@ -80,9 +80,8 @@ $("#agregarCC").click(function (event) {
 
 });
 
-function guiasTabla(){
-    var formData = new FormData();
-    formData.append("ofertaId", 562)
+function ccTabla(){
+    
     
     $.ajax({
         url: 'obtenerCCAjax/?oferta_id=52',
@@ -137,8 +136,47 @@ function guiasTabla(){
 
 
     }).always(function() {
-            console.log( "complete guiasTablaAjax" );
+            console.log( "complete agregarCC" );
     });
 }
 
 
+$("#guardarPaso1CC").click(function (event) {
+    console.log("guardarPaso1CC");
+
+    var ofertaId = $("#oferta_id").val();
+
+    var formData = new FormData();
+    formData.append("oferta_id", ofertaId);
+    
+
+    $.ajax({
+        url: 'guardarPaso1CC',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+        
+    }).done(function( response ) {
+
+        Swal.fire(
+            "Paso 1 Registrado",
+            'Favor de agregar.',
+            'success'
+        )
+        location.reload();
+    }).fail( function( data,jqXHR, textStatus, errorThrown ) {
+        console.log( "fail" );
+        console.log(data);
+        Swal.fire(
+            data.status+' '+data.statusText,
+            'Por favor, inténtelo de nuevo más tarde o Consulte con su administrador.',
+            'error'
+        )
+
+
+    }).always(function() {
+            console.log( "complete agregarCC" );
+    });
+
+});

@@ -667,6 +667,10 @@ public function paso5()
         $validarHorario = 0;
         $validarGenerador = 0;
 
+        //validacion guardar paso1
+        log_message('debug', __FILE__." ".__LINE__);
+        $guardarPaso1 = $this->mainctrdao->getValidarGuardarPaso1($_GET["ofertaId"]);
+
         $validarPrecio = $this->mainctrdao->validarPrecio( $_GET["ofertaId"]);
 
         $validarTarifa = $this->mainctrdao->validarTarifa( $_GET["ofertaId"]); 
@@ -695,8 +699,6 @@ public function paso5()
 
         $currentModule = $this->getCurrentModule();
         
-        
-        
         $currentModule["data"] = array(
             "vMenu" => array(
                 "render" => TRUE,
@@ -724,9 +726,10 @@ public function paso5()
             "validarBtnPasoSi5" => $validarBtnPasoSi5,
             "divisionesSelect" => $divisionesSelect
             ,"deal" => $deal[0]
-
+            ,"guardarPaso1" => $guardarPaso1
 
         );
+
         $currentModule["bodyClass"] = "nav-md";
 
         $this->setContent($currentModule);
@@ -1655,6 +1658,23 @@ public function paso5()
 
         log_message('debug', __FILE__." ".__LINE__);
         
+        //log_message('debug',print_r($res,true));
+        echo json_encode($res);
+    }
+
+    public function guardarPaso1CC(){
+        log_message('debug', __FILE__." ".__LINE__);
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+        $data = $this->input->post();
+        log_message('debug',print_r($data,true));
+        $ofertaId= $data['oferta_id'];
+        $this->mainctrdao->saveSeguimiento($ofertaId);
+
+
+        log_message('debug', __FILE__." ".__LINE__);
+        //$res["status"] = "success";
         log_message('debug',print_r($res,true));
         echo json_encode($res);
     }

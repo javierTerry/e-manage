@@ -80,10 +80,13 @@
                 </div>
             </div>
             <div class="card">
+                <!-- paso 1 -->
                 <?php
                     $this->load->view("deal/ofertas/paso1/body");
-                    $this->load->view("deal/ofertas/paso1/tabla");
+
                 ?>
+
+                
             </div>
             <div class="card">
                 <!-- paso 2 -->

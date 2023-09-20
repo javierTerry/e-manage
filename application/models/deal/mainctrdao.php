@@ -2524,14 +2524,26 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         log_message('debug', print_r($data,true));
 
         $this->db->where('oferta_id', $data["oferta_id"]);
-        //$this->db->where('activo', 1);
         $resultados = $this->db->get('of_cc')->result_array();
-        //log_message("debug", print_r($result,true));
         
         $res["estatus"] = true;
         $res["tabla"] = $resultados;
-        //$res["mensaje"] = sprintf("EL id %s, con nombre '%s'",$id, $data['nombre']);
+       
         return $res;
+    }
+        
+    public function getValidarGuardarPaso1($ofertaId){
+        log_message('debug', __FILE__." ".__LINE__);
+        
+        $this->db->where('ofertaId', $ofertaId);
+        $resultados = $this->db->get('of_datos_seguimiento')->result_array();
+        
+        log_message('debug',print_r($resultados,true));
+        log_message('debug',print_r( count($resultados),true));
+
+        $result = ( count($resultados)>0 ) ? true : false ; 
+        return $result;
+       
     }
 
 
