@@ -1,5 +1,6 @@
 <?php
-
+ini_set("display_errors",0);
+error_reporting(-1);
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
@@ -194,7 +195,7 @@ public function saveDeal($userData, $params) {
 
 
     public function getDeal($ofertaId){
-        $deal=$this->db->query("select o.nombre as oferta,oc.nombre as cliente,oe.estado,ifnull(op.paso,'--') as paso, o.ofertaId, oe.estadoId, op.pasoId, oc.clienteId from of_ofertas o
+        $deal=$this->db->query("select o.nombre as oferta,oc.nombre as cliente,oe.estado,ifnull(op.paso,'--') as paso, o.ofertaId, oe.estadoId, op.pasoId, oc.clienteId, o.folio as fol from of_ofertas o
         inner join of_estados oe on oe.estadoId = o.estado
         left join of_pasos op on op.pasoId = o.paso
         inner join of_clientes oc on oc.clienteId = o.clienteid
@@ -582,25 +583,6 @@ public function saveDeal($userData, $params) {
         return $result; 
     }
     
-   
-    // public function validarSeguimiento($params){
-    //     $paso = $this->db->query("SELECT paso FROM of_pasos WHERE pasoid = ".$params["findPaso"].";"); 
-
-    //     $employee =  $this->db->query("SELECT name FROM employees WHERE employees_id = ".$params["employeeid"].";"); 
-
-
-    //     $data["fecha"] = date("Y-m-d");
-    //     $data["paso"] = $paso;    
-    //     $data["employee"] = $employee;
-    //     $data["oferta_id"] = $params["ofertaId"]; 
-    
-    //     $this->db->insert('of_auditoria_validar', $data);
-    
-    //     $ofertaId = $params["ofertaId"];
-    //     $this->db->query("UPDATE of_datos_seguimiento SET aprobado_paso1 = 1 WHERE ofertaid = ".$ofertaId.";"); 
-    
-    //     return "success";
-    // }
 
     public function validarSeguimiento($params) {
    
@@ -1243,23 +1225,6 @@ public function saveDeal($userData, $params) {
         $restabla = $this->db->query('select * from of_calculo_facturacion_1 where id_oferta='.$ofertaId.';');
         return $restabla->result_array();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2511,11 +2476,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
     public function getInfoDatesWturbine($idworkcenter,$inputCentral) {
 
-         $energy = $this->load->database('energy', TRUE);
-        
-            
-            
-            
+        $energy = $this->load->database('energy', TRUE);
         $energy->select_max("Ener_ov_form_end_date");
         $energy->from("Ener_ov_form");
         $energy->where("id_Ener_station", $inputCentral);
@@ -2538,11 +2499,40 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
         return $resulRow;
         
-        
-        
     }
 
+    public function guardarCC(){
+        $data = $this->input->post();
+        $data['division_id'] = $data['selDivision']; 
+        $data['zona_carga_id'] = $data['selZC']; 
+        log_message('debug', print_r($data,true));
 
+        unset($data['selDivision']);
+        unset($data['selZC']);
+        $this->db->insert('of_cc', $data);
+        $id = $this->db->insert_id();
+        log_message("debug", $id);
+        
+        $res["estatus"] = true;
+        $res["mensaje"] = sprintf("EL id %s, con nombre '%s'",$id, $data['nombre']);
+        return $res;
+    }
+
+    public function obtenerCCOfertaId(){
+        $data = $this->input->get();
+        log_message('debug', __FILE__." ".__LINE__);
+        log_message('debug', print_r($data,true));
+
+        $this->db->where('oferta_id', $data["oferta_id"]);
+        //$this->db->where('activo', 1);
+        $resultados = $this->db->get('of_cc')->result_array();
+        //log_message("debug", print_r($result,true));
+        
+        $res["estatus"] = true;
+        $res["tabla"] = $resultados;
+        //$res["mensaje"] = sprintf("EL id %s, con nombre '%s'",$id, $data['nombre']);
+        return $res;
+    }
 
 
     

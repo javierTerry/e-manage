@@ -1,4 +1,4 @@
-    <?php
+<?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -626,12 +626,13 @@ public function paso5()
 }
 
 
-public function viewDeal()
+    public function viewDeal()
     { // module/deal/deals
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
             redirect(base_url() . "login");
         }
 
+        $this->loadDataTables();
         
         $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
         $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
@@ -653,12 +654,13 @@ public function viewDeal()
         $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/viewDeal.js";
+        $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/cc.js";
 
-
+        
         $clients = $this->mainctrdao->getClients();
         $clientsSelect = $this->mainctrdao->getClientsSelect();
         $divisionesSelect = $this->mainctrdao->getDivisionesSelect();
-       
+        $deal = $this->mainctrdao->getDeal($_GET["ofertaId"]);
 
         $validarPrecio = 0;
         $validarTarifa = 0;
@@ -692,14 +694,14 @@ public function viewDeal()
         $validarBtnPasoSi5 = $this->mainctrdao->validarBtnPasoSi5( $_GET["ofertaId"]);
 
         $currentModule = $this->getCurrentModule();
-      
+        
+        
+        
         $currentModule["data"] = array(
             "vMenu" => array(
                 "render" => TRUE,
                 "data" => array(
                     "buttons" => array(
-
-
                     )
                 )
             ),
@@ -721,6 +723,7 @@ public function viewDeal()
             "auditoria" => $auditoria,
             "validarBtnPasoSi5" => $validarBtnPasoSi5,
             "divisionesSelect" => $divisionesSelect
+            ,"deal" => $deal[0]
 
 
         );
@@ -1289,8 +1292,6 @@ public function viewDeal()
 
         }
 
-
-
     }
 
     public function consultaFormasWturbine()
@@ -1503,7 +1504,6 @@ public function viewDeal()
     }
 
 
-
     public function muestraElicenses()
     {
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
@@ -1630,5 +1630,33 @@ public function viewDeal()
         $this->load->view("mainPage", $dataBuild);
     }
 
+    public function agregarCCAjax(){
+        log_message('debug', __FILE__." ".__LINE__);
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+
+        $res = $this->mainctrdao->guardarCC();
+
+
+        log_message('debug', __FILE__." ".__LINE__);
+        //$res["status"] = "success";
+        log_message('debug',print_r($res,true));
+        echo json_encode($res);
+    }
+
+    public function obtenerCCAjax(){
+        log_message('debug', __FILE__." ".__LINE__);
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+
+        $res = $this->mainctrdao->obtenerCCOfertaId();
+
+        log_message('debug', __FILE__." ".__LINE__);
+        
+        log_message('debug',print_r($res,true));
+        echo json_encode($res);
+    }
 }
 

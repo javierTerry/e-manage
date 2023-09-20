@@ -1,6 +1,6 @@
 <?php
-ini_set ('display_errors', 0);
-ini_set ('display_startup_errors', 0);
+ini_set ('display_errors', -1);
+ini_set ('display_startup_errors', -1);
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -34,7 +34,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
-			error_reporting(E_NOTICE);
+			error_reporting(-1);
 		break;
 
 		case 'testing':

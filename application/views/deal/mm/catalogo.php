@@ -3,7 +3,7 @@
     <div class="form-group col-md-6">
       <label for="inputCentral">Catalogos</label>
 
-        <select class="form-control custom-select-lg" id="selTipoOferta" name="selTipoOferta"
+        <select class="form-control custom-select-lg" id="catalogo_id" name="catalago_id"
             style="width:100%">
 
             <option value="1">INTH</option>
@@ -42,7 +42,7 @@
             </label>
             
             <input class="form-control" id="tarifa_captura" readonly="readonly"
-                name="tarifa_captura" type="text" value="ter">
+                name="tarifa_captura" type="text" >
             </div>
         </div>
     </div>
