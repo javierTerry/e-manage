@@ -1,13 +1,15 @@
-
+var ofertaId = 0;
 $(document).ready(function() {
     if ($('#tablaCC').length) {
+        ofertaId= $("#oferta_id").val();
         ccTabla()     
     }
 
 }) 
 
 $("#agregarCC").click(function (event) {
-    console.log("guardar");
+    console.log("agregarCC");
+    ofertaId= $("#oferta_id").val();
     
     var formData = $('#collapseOne .form-control').serializeArray()
     console.log(formData);
@@ -17,6 +19,10 @@ $("#agregarCC").click(function (event) {
 	  formData.append(field.name, field.value)
 	});
  
+    $("#collapseOne .form-control").serializeArray().forEach(function(field) {
+      $("#"+field.name).val("");
+    });
+
 
     var confirmar = false; //confirm("¿Está seguro de subir los archivos?");
     Swal.fire({
@@ -45,16 +51,21 @@ $("#agregarCC").click(function (event) {
                     
                 },
                 success: function (data) {
+                    $("#collapseOne .form-control").serializeArray().forEach(function(field) {
+                      $("#"+field.name).val("");
+                    });
+                    
                 	const myJSON = JSON.parse(data); 
                     console.log(myJSON);
                     $('#loader').hide();
-                    //location.reload();
+                    
                     Swal.fire(
                         myJSON.mensaje,
                         'Fue Exitoso',
                         'success'
                     )
-                    ccTabla()
+                    //location.reload();
+                    ccTabla();
                 },
                 error: function () {
                     console.log("Seccion error");
@@ -84,7 +95,7 @@ function ccTabla(){
     
     
     $.ajax({
-        url: 'obtenerCCAjax/?oferta_id=52',
+        url: 'obtenerCCAjax/?oferta_id='+ofertaId,
         type: 'GET',
         //data: formData,
         processData: false,
