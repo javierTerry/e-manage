@@ -550,7 +550,7 @@ public function saveDeal($userData, $params) {
 
     public function saveSeguimiento($ofertaId){
         $idOferta = $ofertaId;
-        $data = $params;
+        //$data = $params;
 
         $data["ofertaId"] = $idOferta;
         $data["chkprecios"] = 1 ;

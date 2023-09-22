@@ -361,6 +361,11 @@ class MainCtr extends VX_Controller
         }
         $params = $this->input->post();
         $newInfo = $this->mainctrdao->saveDeal($this->getUserData(), $params);
+
+        $ofertaId = $this->mainctrdao->db->insert_id();
+        log_message('debug', __FILE__." ".__LINE__);
+        $this->mainctrdao->saveSeguimiento($ofertaId);
+        log_message("debug",$ofertaId);
         $res["status"] = $newInfo;
         echo json_encode($res);
     }

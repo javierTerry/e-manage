@@ -1,37 +1,3 @@
-// $("#btnGuardaOferta").click(function(event){
-
-//     if (confirm("¿seguro que quiere crear la oferta?") == true) {
-//         var nombre = $( "#txtNombreOferta" ).val();
-//         var clienteId = $( "#selCliente" ).val();
-//         $.ajax({
-//             url: 'saveDeal',
-//             type: 'POST',
-//             data: {nombre: nombre, clienteId: clienteId},
-//             error: function() {
-//                 alert("Ocurrio un error al tratar de crear la oferta.");
-//             },
-//             success: function(data) {
-//                 res=JSON.parse(data);
-//                 if (res.status == "success"){
-//                     alert("Oferta Creada");
-//                     $( "#txtNombreOferta" ).val('');
-//                     $( "#selCliente" ).val('');
-//                     $('#nuevaOferta').modal('hide');
-//                     location.reload();
-//                 }else{
-//                     alert("Ocurrio un error al tratar de crear la oferta.");
-//                 }
-//                 /*if (data==0) {
-
-//                 }else{
-
-//                 }*/
-//             }
-//         }); 
-//     }
-
-// });
-
 $("#btnGuardaOferta").click(function (event) {
     if (confirm("¿seguro que quiere crear la oferta?") == true) {
         var nombre = $("#selCliente").val();

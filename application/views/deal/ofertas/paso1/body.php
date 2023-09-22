@@ -104,25 +104,19 @@
                     
                 </div>
 
-                <input id="oferta_id" name="oferta_id" type="hidden" value="<?php echo $ofertaId; ?>" class="form-control">
+                
             </div>
         </div>
     </div>
 
-    <?php if ( !$guardarPaso1 ) { ?>
-        <button id="guardarPaso1CC" class="btn btn-success ">Guardar</button>
-    <?php } else { ?>
-        <?php if ($validarBtnPasoSi == 1 ) { ?>
-        <button type="button" id="paso1" class="btn btn-success ">Siguiente Paso </button>
-        
-        <?php } else { ?>
-            <button type="button" id="validar" class="btn btn-success ">Validar</button>
-            <button id="agregarCC" class="btn btn-success ">Agregar CC</button>
-
-        <?php } ?>
-    <?php } ?>
-
+    <?php if ($validarBtnPasoSi == 1 ) { ?>
+    <button type="button" id="paso1" class="btn btn-success ">Siguiente Paso </button>
     
+    <?php } else { ?>
+        <button type="button" id="validar" class="btn btn-success ">Validar</button>
+        <button id="agregarCC" class="btn btn-success ">Agregar CC</button>
+
+    <?php } ?>
 
     
     <?php

@@ -85,8 +85,6 @@
                     $this->load->view("deal/ofertas/paso1/body");
 
                 ?>
-
-                
             </div>
             <div class="card">
                 <!-- paso 2 -->
@@ -95,94 +93,9 @@
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selTarifa" class="form-label">Tarifa:</label>
-                                    <select class="form-control" id="selTarifa" name="selTarifa">
-                                        <option value='GDMTH'>GDMTH</option>
-                                        <option value='DIST'>DIST</option>
-                                        <option value='DIT'>DIT</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="selDivision">Division:</label>
-                                    <select class="form-control" id="selDivision" name="selDivision">
-                                        <option value=0>Seleccione una division...</option>
-                                        <?php foreach ($divisionesSelect as $ds) {
-                                        echo "<option value='" . $ds["of_divisiones_id"] . "'>" . $ds["division"] . "</option>";
-                                    } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="txtD">Demanda Contratada:</label>
-                                    <input type="text" class="form-control" id="txtD" placeholder="KWh" name="txtD">
-
-                                </div>
-                                <div class="form-group">
-
-                                    <label for="selZC">Zona de Carga:</label>
-                                    <select class="form-control" id="selZC" name="selZC">
-                                        <option value=0>Seleccione una zona de carga...</option>
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="selPerfil" class="form-label">Peril:</label>
-                                    <select class="form-control" id="selPerfil" name="selPerfil">
-                                        <option value=0>Seleccione un perfil...</option>
-                                        <option value='_Base'>Base</option>
-                                        <option value='CC'>CC</option>
-
-                                    </select>
-
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                </br>
-                                <label class="form-label">PRECIOS FIJOS</label>
-                                </br>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="txtEnergia" class="form-label">Energia:</label>
-                                <input type="text" class="form-control" id="txtEnergia" placeholder="MXN/MWh"
-                                    name="txtEnergia">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="txtPotencia" class="form-label">Potencia:</label>
-                                <input type="text" class="form-control" id="txtPotencia" placeholder="MXN/MWh"
-                                    name="txtPotencia">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="txtCel" class="form-label">CEL:</label>
-                                <input type="text" class="form-control" id="txtCel" placeholder="MXN/CEL" name="txtCel">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="txtFee" class="form-label">Fee Intermediacion:</label>
-                                <input type="text" class="form-control" id="txtFee" placeholder="" name="txtFee">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="txtCelMxn" class="form-label">CEL:</label>
-                                <input type="text" class="form-control" id="txtCelMxn" placeholder="MXN/MWh"
-                                    name="txtCelMxn">
-                            </div>
-                        </div>
-                        
+                        <?php
+                            $this->load->view("deal/ofertas/paso2/tablaCC");
+                        ?>
                     </div>
                     <div class="card-body">    
                         <br></br>
@@ -194,7 +107,7 @@
                         <hr></hr>
                     </div>
                     <?php
-                        $this->load->view("deal/paso2/tablaResultados")
+                        $this->load->view("deal/ofertas/paso2/tablaResultados")
                     ?>
                         
                     <div class="card-body">

@@ -1,29 +1,31 @@
 var ofertaId = 0;
 $(document).ready(function() {
+    ofertaId= $("#ofertaId").val();
+
     if ($('#tablaCC').length) {
-        ofertaId= $("#oferta_id").val();
         ccTabla()     
     }
+    if ($('#tablaCCPaso2').length) {
+    
+        tablaCCPaso2()
+    }
+
 
 }) 
 
 $("#agregarCC").click(function (event) {
     console.log("agregarCC");
-    ofertaId= $("#oferta_id").val();
+    ofertaId= $("#ofertaId").val();
     
     var formData = $('#collapseOne .form-control').serializeArray()
     console.log(formData);
 
     var formData = new FormData();
+    formData.append("oferta_id", ofertaId);
 	$("#collapseOne .form-control").serializeArray().forEach(function(field) {
 	  formData.append(field.name, field.value)
 	});
  
-    $("#collapseOne .form-control").serializeArray().forEach(function(field) {
-      $("#"+field.name).val("");
-    });
-
-
     var confirmar = false; //confirm("¿Está seguro de subir los archivos?");
     Swal.fire({
       title: '¿Está seguro agregar un CC?',
@@ -52,7 +54,7 @@ $("#agregarCC").click(function (event) {
                 },
                 success: function (data) {
                     $("#collapseOne .form-control").serializeArray().forEach(function(field) {
-                      $("#"+field.name).val("");
+                      $("#"+field.name).empty();
                     });
                     
                 	const myJSON = JSON.parse(data); 
@@ -92,7 +94,6 @@ $("#agregarCC").click(function (event) {
 });
 
 function ccTabla(){
-    
     
     $.ajax({
         url: 'obtenerCCAjax/?oferta_id='+ofertaId,
@@ -147,7 +148,131 @@ function ccTabla(){
 
 
     }).always(function() {
-            console.log( "complete agregarCC" );
+            console.log( "complete ccTabla" );
+    });
+}
+
+function documentoRetorno(row, rol){
+
+    //console.log(data)
+
+    var doc = documento(row)
+
+    var htmlRetorno = '<span> <i title="Retorno de la guia" class="si si-action-undo text-warning tx-20"> </i> </span>';
+    var htmlEliminarGuia = "";
+    if (rol == "admin"){
+        var htmlEliminarGuia =' <a  class="remove-list text-danger tx-20 remove-button ">    \
+                            <i id="eliminarGuia" title="Eliminar Guia id '+row.id +'" class="fa fa-trash" alt="Eliminar"></i>\
+                            </a>';
+        
+    }
+    return doc+htmlRetorno+htmlEliminarGuia;
+}
+
+
+
+function inputEnergia(data) {
+    var html = '<div class="form-group">  \
+                    <input type="text" width="50%" class="form-control" id="enegia'+data.id+'" \
+                        placeholder="Ingrese energia" name="energia'+data.id+'"> \
+                </div>';
+
+    return html;
+}
+
+function inputPotencia(data) {
+    var html = '<div class="form-group">  \
+                    <input type="text" class="form-control" id="potencia'+data.id+'" \
+                        placeholder="Ingrese Potencia" name="potencia'+data.id+'"> \
+                </div>';
+
+    return html;
+}
+
+
+function inputCel(data) {
+console.log(data)
+
+    var html = '<div class="form-group">  \
+                    <input type="text" class="form-control" id="cel'+data.id+'" \
+                        placeholder="Ingrese CEL" name="cel'+data.id+'"> \
+                </div>';
+
+    return html;
+}
+
+function tablaCCPaso2(){
+    
+    $.ajax({
+        url: 'obtenerCCAjax/?oferta_id='+ofertaId,
+        type: 'GET',
+        //data: formData,
+        processData: false,
+        contentType: false
+        
+    }).done(function( response ) {
+        const json = JSON.parse(response);
+        console.log(json)
+        var tablaCC = $('#tablaCCPaso2').DataTable({
+            "oLanguage": {
+                "sEmptyTable": "No se puede mostrar los registros"
+            }
+            ,processing: true
+            ,serverSide: false 
+            ,pagingType: "full_numbers"
+            ,deferRender: true
+            ,bDestroy: true
+            ,data: json.tabla
+            ,autoWidth: false
+            ,order: [[0, 'desc']]
+            ,lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10', '25', '50', 'Todo' ]
+            ]
+            ,dom: 'Bfrtip'
+            ,buttons: [ 
+                'pageLength'
+            ]
+            ,columns: [
+                { "data": "id" } //0
+                ,{ "data": "nombre" }
+                ,{ "data": "rpu_id" }
+                ,{ "data": "tarifa" }
+                ,{ "data": "esquema" }//4
+                ,{ "data": "division_id" } 
+                ,{ "data": "zona_carga_id" }
+                ,{ "data": "demanda_contratada" }
+                ,{ "data": "id"
+                        ,render: function(data, type, row){   
+                            return inputEnergia(row); 
+                        }
+                }
+                ,{ "data": "id"
+                        ,render: function(data, type, row){   
+                            return inputPotencia(row); 
+                        }
+                }
+                ,{ "data": "id"
+                        ,render: function(data, type, row){   
+                            return inputCel(row); 
+                        }
+                }
+
+
+            ],
+        });
+    }).fail( function( data,jqXHR, textStatus, errorThrown ) {
+        console.log( "fail" );
+        console.log(data);
+        Swal.fire(
+            data.status+' '+data.statusText,
+            'Por favor, inténtelo de nuevo más tarde o Consulte con su administrador.',
+            'error'
+        )
+
+
+    }).always(function() {
+            console.log( "complete tablaCCPaso2" );
     });
 }
 
