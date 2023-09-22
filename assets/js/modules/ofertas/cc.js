@@ -53,21 +53,22 @@ $("#agregarCC").click(function (event) {
                     
                 },
                 success: function (data) {
-                    $("#collapseOne .form-control").serializeArray().forEach(function(field) {
-                      $("#"+field.name).empty();
-                    });
                     
                 	const myJSON = JSON.parse(data); 
                     console.log(myJSON);
                     $('#loader').hide();
+                    Swal.fire({
+                        title: myJSON.mensaje,
+                        text: 'Fue Exitoso',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1000
+                        
+                    }).then((result) => {
+                        location.reload();
+                    }); 
+                                        
                     
-                    Swal.fire(
-                        myJSON.mensaje,
-                        'Fue Exitoso',
-                        'success'
-                    )
-                    //location.reload();
-                    ccTabla();
                 },
                 error: function () {
                     console.log("Seccion error");
