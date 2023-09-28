@@ -22,18 +22,11 @@ $("#btnGuardaOferta").click(function (event) {
                 } else {
                     alert("Ocurrio un error al tratar de crear la oferta.");
                 }
-                /*if (data==0) {
-                    
-                }else{
-                    
-                }*/
+                
             }
         });
     }
 });
-
-
-
 
   
 function removeDeal(ofertaId) {
@@ -103,3 +96,50 @@ $("#subir").click(function (event) {
     }
 });
 
+$(".agregarOferta").click(function (event) {
+    var clienteId = $(this).children(".clienteId").val()
+    var nombre = $(this).children(".clienteNombre").val()
+    console.log( clienteId );
+    console.log( nombre );
+    Swal.fire({
+          title: nombre +' ¿Desea agregar una oferta?',
+          text: 'Favor de Confirmar',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, Agregar Oferta!',
+          cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var f = "SC"
+                $.ajax({
+                    url: 'saveDeal',
+                    type: 'POST',
+                    data: { nombre: nombre, clienteId: clienteId , folio: f},
+                    error: function () {
+                        alert("Ocurrio un error al tratar de crear la oferta.");
+                    },
+                    success: function (data) {
+                        res = JSON.parse(data);
+                        if (res.status == "success") {
+                            alert("Oferta Creada");
+                            $("#selCliente").val('');
+                            $("#selTipoOferta").val('');
+                            $("#selFormatoOferta").val('');
+                            $('#nuevaOferta').modal('hide');
+                            location.reload();
+                        } else {
+                            alert("Ocurrio un error al tratar de crear la oferta.");
+                        }
+                        
+                    }
+                });
+
+            } else {
+                console.log("No confirmado ");    
+            }
+            
+        })
+    
+    });

@@ -164,15 +164,12 @@ class MainCtr extends VX_Controller
     ////// alejandro castro
     public function deals()
     {
-
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
             redirect(base_url() . "login");
         }
 
         $this->loadDataTables();
-
-
-
 
         $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
         $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
@@ -197,7 +194,7 @@ class MainCtr extends VX_Controller
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
 
         $clientsSelect = $this->mainctrdao->getClientsSelect();
-       
+        $clients = $this->mainctrdao->getClientes();
  
         if ($params = $this->input->post()) {
             $deals = $this->mainctrdao->getDealsfilter($params);
@@ -205,7 +202,26 @@ class MainCtr extends VX_Controller
             $deals = $this->mainctrdao->getDeals();
         }
 
+        $clientes = array();
+        foreach ($deals as $key => $deal) {
+            
+            $cliente = $deal['cliente'];
+            if (!array_key_exists($cliente, $clientes)) {
+                $clientes[$cliente] = array();
+            }
+            
+            $clientes[$cliente]["clienteId"]=$deal['clienteId'];
+            if ($deal["ofertaId"] > 0) {
+                $clientes[$cliente]['deals'][]=$deal;
+            } else {
+                $clientes[$cliente]['deals']=array();    
+            }
+
+            //log_message("debug", print_r(count($clientes[$cliente]['deals']),true));
+            
+        }
      
+        log_message("debug", print_r($clientes,true));
         $currentModule = $this->getCurrentModule();
         $currentModule["data"] = array(
             "vMenu" => array(
@@ -220,10 +236,10 @@ class MainCtr extends VX_Controller
             "userData" => $this->getUserData(),
             "clientsSelects" => $clientsSelect,
             "deals" => $deals
+            ,"clientes" =>$clientes
            
-
-
         );
+        
         $currentModule["bodyClass"] = "nav-md";
 
         $this->setContent($currentModule);
