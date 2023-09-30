@@ -45,6 +45,14 @@ class mainCtrDao extends VX_Model {
             return "success";
         }
     }
+
+    public function saveClientActivoInactivo($params) {
+        
+        $query = sprintf("update of_clientes set activo = %s where clienteId =%s;",$params["activo"], $params["clienteId"]);
+        $this->db->query($query);
+
+        
+    }
  
     
     public function getClients(){
@@ -162,12 +170,12 @@ public function saveDeal($userData, $params) {
     
     public function getDeals(){
       
-        $clients=$this->db->query("SELECT oc.nombre AS cliente, o.nombre AS oferta, o.folio AS fol, oe.estado, IFNULL(op.paso,'--') AS paso, o.ofertaId, oe.estadoId, op.pasoId, oc.clienteId 
+        $clients=$this->db->query("SELECT oc.nombre AS cliente, o.nombre AS oferta, o.folio AS fol, oe.estado, IFNULL(op.paso,'--') AS paso, o.ofertaId, oe.estadoId, op.pasoId
+            , oc.clienteId, oc.activo 
             FROM of_clientes oc
             LEFT JOIN of_ofertas o  ON o.clienteid = oc.clienteId
             LEFT JOIN of_estados oe ON  oe.estadoId = o.estado
             LEFT JOIN of_pasos op ON op.pasoId = o.paso
-            WHERE oc.activo = 1
             GROUP BY oc.clienteId, o.ofertaId
             ORDER BY oc.nombre, o.nombre");
        return $clients->result_array();

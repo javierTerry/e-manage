@@ -517,7 +517,7 @@ footer{
 }
 
 /* Create two equal columns that sits next to each other */
-.column {
-  flex: 50%;
+.column_30 {
+  flex: 30%;
   padding: 10px;
 }

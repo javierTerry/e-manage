@@ -40,7 +40,7 @@ function callbackSuccess(data) {
             text: 'Favor de validar con su administrador',
             icon: 'error',
             showConfirmButton: false,
-            timer: 375068900
+            timer: 200
             
         }); 
     }
@@ -92,10 +92,83 @@ $("#btnGuardaCliente").click(function(event){
              $('#btnnuevocliente').click();
         }
     });
-
-    //}
             
 });
+
+
+$(".activarInactivarCliente").click(function(event){
+    
+    var activoActual = $(this).parent().parent().children(".activo").val();
+    var clienteId = $(this).parent().parent().children(".clienteId").val();
+    console.log(activoActual);
+    var activo = "";
+    if (activoActual==1) {
+        activo =0;
+    } else {
+        activo =1;
+    }
+    console.log(activo);
+
+    $('.close').click();
+    Swal.fire({
+      title: '¿Seguro que quiere cambiar el estatus ?',
+      text: 'Favor de Confirmar',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Cambiar el estatus!',
+      cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: 'saveClientActivo',
+                type: 'POST',
+                data: {activo: activo,clienteId: clienteId },
+                error: function() {
+                    Swal.fire({
+                        title: 'Ocurrio un error Inesperado.',
+                        text: 'Favor de validar con su administrador',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 3000
+                        
+                    }); 
+                },
+                
+                success: function(data) {
+                    Swal.fire({
+                            title: 'Se cambio el estatus del cliente.',
+                            
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                            
+                        }).then((result) => {
+                            location.reload();
+                        });  
+                    
+                }// fin success
+            }); //fin Ajax
+        } else {//fin IF
+             
+        }
+    });
+  
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 $("#btnGuardaRPU").click(function(event){

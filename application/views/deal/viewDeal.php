@@ -1,11 +1,11 @@
 <div class="right_col" role="main">
 
     <div class="">
+        <a href="/e-manage/module/deal/deals" class="btn btn-lg btn-default">
+            <span class="glyphicon glyphicon-home"></span> Clientes
+        </a>
 
-        <button type="button" class="btn btn-lg btn-default" id="backOfertas">
-            <span class="glyphicon glyphicon-home"></span> Ofertas
-        </button>
-
+        
         <?php
         if ($vMenu["render"]) {
             $this->load->view("main/vMenu", $vMenu["data"]);

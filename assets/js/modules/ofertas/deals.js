@@ -55,23 +55,7 @@ function removeDeal(ofertaId) {
 
 function viewDeal(ofertaId) {
     window.location.href = window.location.origin + "/e-manage/module/deal/viewDeal?ofertaId=" + ofertaId;
-    /*$.ajax({
-        url: 'viewDeal',
-        type: 'POST',
-        data: {ofertaId: ofertaId},
-        error: function() {
-            alert("Ocurrio un error al tratar de visualizar la oferta.");
-        },
-        success: function(data) {
-            res=JSON.parse(data);
-            if (res.status == "success"){
-                
-            }else{
-                alert("Ocurrio un error al tratar de visualizar la oferta.");
-            }
-            
-        }
-    });*/
+    
 }
 
 $("#subir").click(function (event) {
@@ -102,7 +86,7 @@ $(".agregarOferta").click(function (event) {
     console.log( clienteId );
     console.log( nombre );
     Swal.fire({
-          title: nombre +' ¿Desea agregar una oferta?',
+          title: nombre +'<p> ¿Desea agregar una oferta?',
           text: 'Favor de Confirmar',
           icon: 'warning',
           showCancelButton: true,
@@ -118,19 +102,40 @@ $(".agregarOferta").click(function (event) {
                     type: 'POST',
                     data: { nombre: nombre, clienteId: clienteId , folio: f},
                     error: function () {
-                        alert("Ocurrio un error al tratar de crear la oferta.");
+                        Swal.fire(
+                            'Ocurrio un error Inesperado.',
+                            'Consulte a su Administrador',
+                            'warning'
+                        )
                     },
                     success: function (data) {
                         res = JSON.parse(data);
                         if (res.status == "success") {
+                            /*
                             alert("Oferta Creada");
                             $("#selCliente").val('');
                             $("#selTipoOferta").val('');
                             $("#selFormatoOferta").val('');
                             $('#nuevaOferta').modal('hide');
-                            location.reload();
+                            */
+                            Swal.fire({
+                                title: 'Oferta Creada',
+                                text: 'Con Exitoso',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                                
+                            }).then((result) => {
+                                location.reload();
+                            });   
+
                         } else {
-                            alert("Ocurrio un error al tratar de crear la oferta.");
+                            Swal.fire(
+                              'Ocurrio un error al tratar de crear la oferta.',
+                              'Consulte a su Administrador',
+                              'warning'
+                            )
+                            
                         }
                         
                     }

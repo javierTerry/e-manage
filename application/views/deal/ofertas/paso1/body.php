@@ -1,8 +1,11 @@
 <!-- paso uno -->
+<p>
 <div id="headingOne" >
+    <h2>
     Hola <?php echo sprintf(" %s, Seguimiento al Folio: %s", $deal['cliente'],$deal['fol']); ?>
+    </h2>
 </div>
-
+<p>
 <style>
     #loader {
         display: none;
@@ -94,12 +97,10 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="selTarifa" class="form-label">Esquema Suministro:</label>
-                        <select class="form-control" id="esquema" name="esquema">
-                            <option value=0>Seleccione un esquema...</option>
-                            <option value='basico'>Basico</option>
-                            <option value='calificado'>Calificado</option>
-                        </select>
+                        <label for="tensionTarifa" class="form-label">TENSION TARIFA:
+                        </label>
+                        <input type="text" class="form-control" id="tensionTarifa" placeholder="KWh" name="tensionTarifa" readonly>
+                        
                     </div>
                     
                 </div>

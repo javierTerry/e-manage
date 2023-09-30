@@ -33,6 +33,11 @@ class MainCtr extends VX_Controller
                 "assets/vendors/pdf.js/web/viewer.css",
                 "assets/vendors/jquery/src/jquery-ui.min.css",
                 array("rel" => "resource", "type" => "application/l10n", "href" => "assets/vendors/pdf.js/web/locale/locale.properties")
+                ,"assets/vendors/select2/dist/css/select2.min.css"
+                ,"assets/vendors/bootstrap-daterangepicker/daterangepicker.css"
+                ,"assets/css/modal.windows.css"
+                ,"assets/vendors/distexcel/handsontable.full.min.css"
+                ,"assets/css/main.style.css"
             )
         ),
         "js" => array(
@@ -45,6 +50,21 @@ class MainCtr extends VX_Controller
                 "assets/vendors/bootstrap/dist/js/bootstrap.min.js",
                 "assets/build/js/custom.min.js",
                 "assets/vendors/sweetalert2/dist/sweetalert2.all.min.js"
+                ,"assets/js/Core/routing.page.js"
+                ,"assets/vendors/select2/dist/js/select2.full.js"
+                ,"assets/vendors/moment/min/moment.min.js"
+                ,"assets/vendors/switchery/dist/switchery.min.js"
+                ,"assets/vendors/bootstrap-daterangepicker/daterangepicker.js"
+                ,"assets/vendors/jQuery.Select.Year/lib/year-select.js"
+                ,"assets/js/Core/DefaultFn.js"
+                ,"assets/js/Core/AttachmentObj.js"
+                ,"assets/js/Core/FormObj.js"
+                ,"assets/js/Core/ModalObj.js"
+                ,"assets/js/Core/DataTableObj.js"
+                ,"assets/vendors/distexcel/handsontable.full.min.js"
+
+
+
             )
         )
     );
@@ -190,8 +210,9 @@ class MainCtr extends VX_Controller
         $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
         $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
-
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
+
+        $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/clientes.js";
 
         $clientsSelect = $this->mainctrdao->getClientsSelect();
         $clients = $this->mainctrdao->getClientes();
@@ -211,14 +232,14 @@ class MainCtr extends VX_Controller
             }
             
             $clientes[$cliente]["clienteId"]=$deal['clienteId'];
+            $clientes[$cliente]["activo"]=$deal['activo'];
+
             if ($deal["ofertaId"] > 0) {
                 $clientes[$cliente]['deals'][]=$deal;
             } else {
                 $clientes[$cliente]['deals']=array();    
             }
 
-            //log_message("debug", print_r(count($clientes[$cliente]['deals']),true));
-            
         }
      
         log_message("debug", print_r($clientes,true));
@@ -253,7 +274,11 @@ class MainCtr extends VX_Controller
     }
 
 
-
+/**
+ * 
+ * Seccion de clientes
+ * 
+ **/
     ////// alejandro castro
     public function clients()
     {
@@ -262,25 +287,6 @@ class MainCtr extends VX_Controller
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
             redirect(base_url() . "login");
         }
-
-        $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/modal.windows.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.css";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/routing.page.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/select2/dist/js/select2.full.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/moment/min/moment.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/switchery/dist/switchery.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/jQuery.Select.Year/lib/year-select.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DefaultFn.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/AttachmentObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/FormObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/clientes.js";
 
@@ -347,6 +353,31 @@ class MainCtr extends VX_Controller
 
     }
 
+    public function saveClientActivo()
+    {
+        log_message('debug', __FILE__." ".__LINE__);
+
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+        $res = array();
+        $params = $this->input->post();
+        log_message('debug', print_r($params,true));
+
+        $this->mainctrdao->saveClientActivoInactivo($params);
+
+        $res["status"] = 1;
+        echo json_encode($res);
+          
+    }
+
+
+/**
+ * 
+ * Seccion de RPU
+ * 
+ **/
+
     public function saveRPU()
     {
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
@@ -357,6 +388,7 @@ class MainCtr extends VX_Controller
         $res["status"] = $newInfo;
         echo json_encode($res);
     }
+
 
     public function removeRPU()
     {

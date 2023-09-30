@@ -5,10 +5,10 @@
             <span class="glyphicon glyphicon-home"></span> Inicio
         </button>
         
-        <button type="button" class="btn btn-lg btn-default" id="nuevatarifa" data-toggle="modal"
-    data-target="#nuevaTarifa">
-    <span class="glyphicon glyphicon-pencil"></span> Subir Tarifa
-</button>
+        <button type="button" class="btn btn-lg btn-default" id="btnnuevocliente" data-toggle="modal"
+            data-target="#nuevoCliente">
+            <span class="glyphicon glyphicon-pencil"></span> Nuevo Cliente
+        </button>
         <?php
             if ($vMenu["render"]) {
                 $this->load->view("main/vMenu", $vMenu["data"]);
@@ -50,30 +50,41 @@
     <div class="panel panel-default " >
         <div class="panel-heading " >
             <div class="row">
-                <div class="column">
+                <div class="column_30">
                     <a  data-toggle="collapse" href="#collapse-<?php echo str_replace(' ', '', $cliente); ?>">
                         <?php echo $cliente." - Ofertas: ".count($deals['deals']); 
-                            log_message("debug", print_r($deals['deals'],true));
                         ?>
                         
                     </a>
                 </div>
-                <div class="column">
-                    <a  type="button"  id="registrarbtn" class="btn-success" data-toggle="modal" data-target="#modal-win-info-add-licenses" >
-                    <span class="glyphicon glyphicon-ok"></span> Activo
+                <div class="column_30">
+                    <a type="button"  class="activarInactivarCliente" >
+                    <?php if ($deals['activo']) { ?>
+                        <span class="glyphicon glyphicon-ok btn-success">
+                        </span> Activo    
+                    <?php } else { ?> 
+                        <span class="glyphicon glyphicon-remove btn-danger"></span> Inactivo
+                    <?php } ?>
+                    
              
-                    </a> 
-                    <a class="agregarOferta" type="button"  id="agregarOferta<?php echo $deals['clienteId']; ?>" >
-                        <span class="glyphicon glyphicon-plus"></span> Oferta
-                        <input class="form-control clienteId" id="clienteId<?php echo $deals['clienteId']; ?>"  name="clienteId<?php echo $deals['clienteId']; ?>" type="text" value="<?php echo $deals['clienteId']; ?>" hidden>
-
-                        <input class="form-control clienteNombre" id="clienteNombre<?php echo $deals['clienteId']; ?>"  
-                        name="clienteNombre<?php echo $deals['clienteId']; ?>" 
-                        type="text" value="<?php echo $cliente; ?>" hidden>
-                    </a>     
+                    </a>
+                </div>
+                <div class="column_30 "> 
+                        <a class="agregarOferta btn btn-info"  type="button"  id="agregarOferta<?php echo $deals['clienteId']; ?>" >
+                            <span ></span> Nueva Oferta
+                            
+                        </a>     
 
                 </div>
+                    <input class="form-control clienteId" id="clienteId<?php echo $deals['clienteId']; ?>"  name="clienteId<?php echo $deals['clienteId']; ?>" type="text" value="<?php echo $deals['clienteId']; ?>" hidden>
 
+                    <input class="form-control clienteNombre" id="clienteNombre<?php echo $deals['clienteId']; ?>"  
+                            name="clienteNombre<?php echo $deals['clienteId']; ?>" 
+                            type="text" value="<?php echo $cliente; ?>" hidden>
+
+                    <input class="form-control activo" id="activo<?php echo $deals['clienteId']; ?>"  
+                            name="activo<?php echo $deals['clienteId']; ?>" 
+                            type="text" value="<?php echo $deals['activo']; ?>" hidden>
             </div>
             
         </div>
@@ -189,6 +200,7 @@
     </div>
 </div>
 
+<!-- MODALS -->
 <div class="modal fade" id="nuevaTarifa" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -214,6 +226,11 @@
         </div>
     </div>
 </div>
+<!-- NUEVO CLIENTE-->
+<?php 
+    $this->load->view("deal/ofertas/clientes/modals/nuevo"); 
+?>
+
 
 <script>
     function updateFileName(input) {
