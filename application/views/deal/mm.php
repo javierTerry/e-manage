@@ -6,7 +6,6 @@
             <span class="glyphicon glyphicon-home"></span> Inicio
         </button>
         
-       
         <?php
 		    if ($vMenu["render"]) {
 		        $this->load->view("main/vMenu", $vMenu["data"]);
@@ -17,10 +16,15 @@
 
     <div class="card-body">
         <?php
-            $this->load->view("deal/mm/archivos");
-            $this->load->view("deal/mm/catalogo");
+            $this->load->view("utilerias/loader");
         ?>
-        
-        <button type="submit" id="subir" class="btn btn-success ">Guardar</button> 
+        <form id="myForm" >
+
+            <?php
+                $this->load->view("deal/mm/catalogo");
+            ?>
+            <a type="submit" id="subirArchivoMM" class="btn btn-success "> Guardar
+            </a> 
+        </form>
     </div>
 </div>

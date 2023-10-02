@@ -460,9 +460,7 @@
         
         $("#subir").click(function (event) {
             console.log("subir");
-            //var preciosFile = $("#bprecios")[0].files[0];
-
-            //console.log($("#btarifas")[0]);
+            
             var tarifasFile = $("#btarifas")[0].files[0];
             var horariosFile = $("#bdatoshorarios")[0].files[0];
             var generadorFile = $("#bgenerador")[0].files[0];
@@ -538,7 +536,7 @@
                             console.log("Seccion complete");
                           $('#loader').hide();
                         }
-                      });
+                    });
 
                 } else {
                     console.log("No confirmado ");    

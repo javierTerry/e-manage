@@ -75,8 +75,8 @@ class MainCtr extends VX_Controller
         $this->load->library("session");
 
         $this->load->model("manage_email/maindao", "dao");
-
         $this->load->model("deal/mainctrdao", "mainctrdao");
+        $this->load->model("deal/mm/mmctrdao", "mmctrdao");
         $this->load->library("Logging", "logging");
 
     }
@@ -1597,9 +1597,6 @@ public function paso5()
 
         $newInfoData = $this->mainctrdao->getInfoDataElicensesopciones($this->getUserData(), $buscarpor, $inputCentralval, $inputUnidadesval, $fechainicioval, $fechafinval, $optradioval, $numlicinputval);
 
-        //echo var_dump($dataLicencias); 
-
-
         echo json_encode($newInfoData);
     }
 
@@ -1637,27 +1634,13 @@ public function paso5()
             redirect(base_url() . "login");
         }
 
-       
-        $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/modal.windows.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.css";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/routing.page.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/select2/dist/js/select2.full.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/moment/min/moment.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/switchery/dist/switchery.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/jQuery.Select.Year/lib/year-select.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DefaultFn.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/AttachmentObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/FormObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/viewDeal.js";
+
+        $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/mantenimiento/acciones.js";
+        
+        $this->libraries["js"]["dependences"][] = "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js";
+        
 
         $currentModule = $this->getCurrentModule();
         $currentModule["data"] = array(
@@ -1681,10 +1664,29 @@ public function paso5()
         $dataBuild["css"] = $this->libraries["css"];
         $dataBuild["js"] = $this->libraries["js"];
 
-        log_message("debug",print_r($dataBuild,true));
-
-
         $this->load->view("mainPage", $dataBuild);
+    }
+
+    /**
+     * Se guarda un archivo de control baado en el catalogo   
+     * 
+     * @param request POST
+     * 
+     * @return json
+     * 
+     **/
+
+    public function guardarCatalogoArchivo(){
+        log_message('debug', __FILE__." ".__LINE__);
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+
+        $this->mmctrdao->saveCatalogoAchivo();
+        
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        $res["status"] = "success";
+        echo json_encode($res);
     }
 
     public function agregarCCAjax(){
@@ -1696,8 +1698,8 @@ public function paso5()
         $res = $this->mainctrdao->guardarCC();
 
 
-        log_message('debug', __FILE__." ".__LINE__);
-        //$res["status"] = "success";
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        $res["status"] = "success";
         log_message('debug',print_r($res,true));
         echo json_encode($res);
     }
