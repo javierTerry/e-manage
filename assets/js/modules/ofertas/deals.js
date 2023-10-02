@@ -81,8 +81,9 @@ $("#subir").click(function (event) {
 });
 
 $(".agregarOferta").click(function (event) {
-    var clienteId = $(this).children(".clienteId").val()
-    var nombre = $(this).children(".clienteNombre").val()
+    //var clienteId = $(this).children(".clienteId").val()
+    var clienteId = $(this).parent().parent().children(".clienteId").val();
+    var nombre = $(this).parent().parent().children(".clienteNombre").val()
     console.log( clienteId );
     console.log( nombre );
     Swal.fire({
