@@ -50,14 +50,17 @@
     <div class="panel panel-default " >
         <div class="panel-heading " >
             <div class="row">
-                <div class="column_30">
+                <div class="column_25">
                     <a  data-toggle="collapse" href="#collapse-<?php echo str_replace(' ', '', $cliente); ?>">
                         <?php echo $cliente." - Ofertas: ".count($deals['deals']); 
                         ?>
                         
                     </a>
                 </div>
-                <div class="column_30">
+                <div class="column_25">
+                    <label><?php echo $deals['suministro']  ?></label>
+                </div>
+                <div class="column_25">
                     <a type="button"  class="activarInactivarCliente" >
                     <?php if ($deals['activo']) { ?>
                         <span class="glyphicon glyphicon-ok btn-success">
@@ -69,7 +72,7 @@
              
                     </a>
                 </div>
-                <div class="column_30 "> 
+                <div class="column_25_no_padding "> 
                         <a class="agregarOferta btn btn-info"  type="button"  id="agregarOferta<?php echo $deals['clienteId']; ?>" >
                             <span ></span> Nueva Oferta
                             

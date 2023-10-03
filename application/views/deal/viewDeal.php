@@ -1,9 +1,12 @@
 <div class="right_col" role="main">
 
-    <div class="">
+    <div class="row">
         <a href="/e-manage/module/deal/deals" class="btn btn-lg btn-default">
             <span class="glyphicon glyphicon-home"></span> Clientes
         </a>
+        <h2>
+        Hola <?php echo sprintf(" %s, Seguimiento al Folio: %s", $deal['cliente'],$deal['fol']); ?>
+        </h2>
 
         
         <?php

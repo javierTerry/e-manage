@@ -26,7 +26,7 @@ $("#agregarCC").click(function (event) {
 	  formData.append(field.name, field.value)
 	});
  
-    var confirmar = false; //confirm("¿Está seguro de subir los archivos?");
+    var confirmar = false; 
     Swal.fire({
       title: '¿Está seguro agregar un CC?',
       text: 'Favor de Confirmar',
@@ -131,7 +131,6 @@ function ccTabla(){
                 ,{ "data": "nombre" }
                 ,{ "data": "rpu_id" }
                 ,{ "data": "tarifa" }
-                ,{ "data": "esquema" }//4
                 ,{ "data": "division_id" } 
                 ,{ "data": "zona_carga_id" }
                 ,{ "data": "demanda_contratada" }
@@ -239,7 +238,7 @@ function tablaCCPaso2(){
                 ,{ "data": "nombre" }
                 ,{ "data": "rpu_id" }
                 ,{ "data": "tarifa" }
-                ,{ "data": "esquema" }//4
+               
                 ,{ "data": "division_id" } 
                 ,{ "data": "zona_carga_id" }
                 ,{ "data": "demanda_contratada" }

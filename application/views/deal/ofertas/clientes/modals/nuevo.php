@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="inputCentral">Catalogos</label>
+                            <label for="inputCentral">Esquema de Suministro</label>
 
                             <select class="form-control custom-select-lg" id="calificado" name="calificado" style="width:100%" >
                                 <option value="1" selected> Básico </option>

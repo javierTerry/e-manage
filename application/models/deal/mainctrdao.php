@@ -171,7 +171,7 @@ public function saveDeal($userData, $params) {
     public function getDeals(){
       
         $clients=$this->db->query("SELECT oc.nombre AS cliente, o.nombre AS oferta, o.folio AS fol, oe.estado, IFNULL(op.paso,'--') AS paso, o.ofertaId, oe.estadoId, op.pasoId
-            , oc.clienteId, oc.activo 
+            , oc.clienteId, oc.activo, oc.calificado 
             FROM of_clientes oc
             LEFT JOIN of_ofertas o  ON o.clienteid = oc.clienteId
             LEFT JOIN of_estados oe ON  oe.estadoId = o.estado
@@ -1909,27 +1909,12 @@ public function getInfoDatasTank($idworkcenter,$fechainicio,$inputCentral) {
         $energy->order_by("EEO.id_Ener_rel_stationunit","asc");
         $energy->order_by("EEO.Ener_ov_offer_sale_hour","asc");
         
-       
-       
-
-        
-    
-        
-
         $ValuesGet = $energy->get();
 
-        
-
-        //$this->logging->lfile('application/logs/logws/'.date("DmyHis").'oas.txt');
-
-//      $this->logging->lwrite($energy->last_query());
+  
         
         return $ValuesGet->result_array();
  
-        
-
-
-      
     }
 
 
@@ -1950,10 +1935,6 @@ public function getInfoDatasTank($idworkcenter,$fechainicio,$inputCentral) {
         
         return $ValuesGet->result_array();
  
-        
-
-
-      
     }
 
 
@@ -2164,10 +2145,6 @@ public function postInfoDataSorder($params) {
                     if ($totalcount == 0) 
                     {
 
-/////
-
-
-                        
                         
                        $energy->set('date_start',$datenowwithformat);
                        $energy->set('date_end',$datenowwithformat2);
@@ -2176,9 +2153,6 @@ public function postInfoDataSorder($params) {
                        $energy->where("id_Ener_licenses_unit", $idunidadactualiar);
                        $energy ->update('Ener_licenses_unit');
 
-                       // $this->logging->lfile('application/logs/logws/'.date("DmyHis").'DAos.txt');
-
-                        //$this->logging->lwrite($energy->last_query());
                         
                     return 1;
 
@@ -2255,12 +2229,12 @@ public function postInfoDataSorder($params) {
         
 
         $now = date('Y-m-d H:i:s');
-                        $dateMod = str_replace('/', '-', $fechainicioval);
-                        $datenow = strtotime($dateMod);
-                        $datenowwithformat = date('Y-m-d H:i:s', $datenow);
-                        $dateMod2 = str_replace('/', '-', $fechafinval);
-                        $datenow2 = strtotime($dateMod2);
-                        $datenowwithformat2 = date('Y-m-d H:i:s', $datenow2);
+        $dateMod = str_replace('/', '-', $fechainicioval);
+        $datenow = strtotime($dateMod);
+        $datenowwithformat = date('Y-m-d H:i:s', $datenow);
+        $dateMod2 = str_replace('/', '-', $fechafinval);
+        $datenow2 = strtotime($dateMod2);
+        $datenowwithformat2 = date('Y-m-d H:i:s', $datenow2);
 
 
 
@@ -2396,12 +2370,6 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
                $energy->where("id_weather_min_form_user", $idworkcenter["employee_id"]);
                $energy ->update('weather_min_form');
 
-            
-        
-        
-
-       
-
 
         return 1;
     }
@@ -2424,10 +2392,6 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
        $infoWorkcenter = $energy->query("SELECT weather_min_form_value,weather_min_form_month_value, CASE WHEN DATE(weather_min_form_date)!= DATE(CURDATE()) THEN IF (MONTH(weather_min_form_date) = MONTH(CURDATE()),1,0) WHEN MONTH(weather_min_form_date) = MONTH(CURDATE()) THEN 1 ELSE 0 END AS weather_min_form_date FROM (`weather_min_form`) WHERE `id_weather_dam` = '".$inputCentral."' AND DATE(weather_min_form_date) = '".$datenowwithformat."' AND `id_weather_min_form_user` = '".$idworkcenter["employee_id"]."'");
         
         
-
-       // $this->logging->lfile('application/logs/logws/'.date("DmyHis").'Today.txt');
-
-        //$this->logging->lwrite($energy->last_query());
 
         $row = $infoWorkcenter->row(); 
         $resulRow = -1;
@@ -2458,9 +2422,6 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 )");
 
              $row = $infoWorkcenterMonth->row(); 
-        //$this->logging->lfile('application/logs/logws/'.date("DmyHis").'Today.txt');
-
-        //$this->logging->lwrite($energy->last_query());
 
              $resultFechaM =  $row->tipofecha;  
 
@@ -2511,6 +2472,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
     }
 
     public function guardarCC(){
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         $data = $this->input->post();
         $data['division_id'] = $data['selDivision']; 
         $data['zona_carga_id'] = $data['selZC']; 
@@ -2553,6 +2515,30 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         $result = ( count($resultados)>0 ) ? true : false ; 
         return $result;
        
+    }
+
+    /**
+     * Busca la tension de tarifa basado en la tarifa 
+     * 
+     * @param request POST
+     * 
+     * @return json
+     * 
+     **/
+
+    
+    public function getTarifaTension(){
+        $data = $this->input->get();
+        log_message('debug', __FILE__." ".__LINE__);
+        log_message('debug', print_r($data,true));
+
+        $this->db->where('categoria', $data["tarifa"]);
+        $resultados = $this->db->get('of_esquema_tarifario')->result_array();
+        log_message('debug', print_r($resultados,true));
+        $res["estatus"] = "success";
+        $res["data"] = $resultados;
+       
+        return $res;
     }
 
 

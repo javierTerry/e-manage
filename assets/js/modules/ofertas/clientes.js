@@ -49,7 +49,6 @@ function callbackSuccess(data) {
 
 $("#btnGuardaCliente").click(function(event){
     
-    //if (confirm("¿seguro que quiere guardar este cliente?") == true) {
     $('.close').click();
     Swal.fire({
       title: '¿Seguro que quiere guardar este cliente?',
@@ -158,15 +157,6 @@ $(".activarInactivarCliente").click(function(event){
     });
   
 });
-
-
-
-
-
-
-
-
-
 
 
 

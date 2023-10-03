@@ -233,6 +233,7 @@ class MainCtr extends VX_Controller
             
             $clientes[$cliente]["clienteId"]=$deal['clienteId'];
             $clientes[$cliente]["activo"]=$deal['activo'];
+            $clientes[$cliente]["suministro"]= ($deal['calificado'] == 1) ? "Basico" : "Calificado" ; 
 
             if ($deal["ofertaId"] > 0) {
                 $clientes[$cliente]['deals'][]=$deal;
@@ -751,6 +752,8 @@ public function paso5()
         $validarBtnPasoSi5 = $this->mainctrdao->validarBtnPasoSi5( $_GET["ofertaId"]);
 
         $currentModule = $this->getCurrentModule();
+
+
         
         $currentModule["data"] = array(
             "vMenu" => array(
@@ -1731,6 +1734,28 @@ public function paso5()
         log_message('debug', __FILE__." ".__LINE__);
         //$res["status"] = "success";
         log_message('debug',print_r($res,true));
+        echo json_encode($res);
+    }
+
+    /**
+     * Busca la tension de tarifa basado en la tarifa 
+     * 
+     * @param request POST
+     * 
+     * @return json
+     * 
+     **/
+
+    public function tarifaTension(){
+        log_message('debug', __FILE__." ".__LINE__);
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+
+        $res = $this->mainctrdao->getTarifaTension();
+        
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        
         echo json_encode($res);
     }
 }

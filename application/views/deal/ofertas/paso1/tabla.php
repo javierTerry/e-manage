@@ -14,7 +14,7 @@
 		            <th>NOMBRE</th>
 		            <th>RPU/ID</th>
 		            <th>TARIFA</th>
-		            <th>ESQUEMA SUMINISTRO</th>
+		            
 		            <th>DIVISION</th>
 		            <th>ZONA CARGA</th>
 		            <th>DEMANDA CONTRATADA</th>

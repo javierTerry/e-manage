@@ -1,9 +1,6 @@
 <!-- paso uno -->
 <p>
 <div id="headingOne" >
-    <h2>
-    Hola <?php echo sprintf(" %s, Seguimiento al Folio: %s", $deal['cliente'],$deal['fol']); ?>
-    </h2>
 </div>
 <p>
 <style>
@@ -40,76 +37,95 @@
 
 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
     data-bs-parent="#accordionExample">
-    <div class="card-body">
-        <div class="container px-3 text-left" id="cargarCCform">
-            <div class="row gx-4">
-                <div class="col-md-3">
-                    <div class="form-group">
+    <div class="card-body" id="cargarCCform">
+        <div class="row row-sm">
+            <div class="input-group mb-3">
+                <div class="col-lg-3">
+                    <div class="input-group-prepend">
                         <label for="nombreCC" class="form-label">nombreCC:</label>
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre que se usara en el CC" name="nombre">
                     </div>
-
-                    <div class="form-group">
-                        <label for="selDivision">Division:</label>
-                        <select class="form-control" id="selDivision" name="selDivision">
-                            <option value=0>Seleccione una division...</option>
-                            <?php foreach ($divisionesSelect as $ds) {
-                            echo "<option value='" . $ds["of_divisiones_id"] . "'>" . $ds["division"] . "</option>";
-                        } ?>
-                        </select>
-                    </div>
-                                          
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
+
+                <div class="col-lg-2">
+                    <div class="input-group-prepend">
                         <label for="RPUID" class="form-label">RPU/ID:</label>
                         <input type="text" class="form-control" id="rpu_id" placeholder="Ingrese RPUID" name="rpu_id">
                     </div>
-
-                    <div class="form-group">
-
-                        <label for="selZC">Zona de Carga:</label>
-                        <select class="form-control" id="selZC" name="selZC">
-                            <option value=0>Seleccione una zona de carga...</option>
-                        </select>
-
-                    </div>
-                                       
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
+                <div class="col-lg-2">
+                    <div class="input-group-prepend">
+                        <label for="txtD">Demanda Contratada:</label>
+                        <input type="text" class="form-control" id="demanda_contratada" placeholder="KWh" name="demanda_contratada">
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group-prepend">
                         <label for="selTarifa" class="form-label">Tarifa:</label>
                         <select class="form-control" id="tarifa" name="tarifa">
+                            <option value='0'>Seleccione una Tarifa</option>
                             <option value='GDMTH'>GDMTH</option>
                             <option value='DIST'>DIST</option>
                             <option value='DIT'>DIT</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-
-                        <label for="txtD">Demanda Contratada:</label>
-                        <input type="text" class="form-control" id="demanda_contratada" placeholder="KWh" name="demanda_contratada">
-
-                    </div>
-
                 </div>
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="tensionTarifa" class="form-label">TENSION TARIFA:
+                <div class="col-lg-3">
+                    <div class="input-group-prepend">
+                        <label for="tensionTarifa" class="form-label">Tensión   Tarifa:
                         </label>
-                        <input type="text" class="form-control" id="tensionTarifa" placeholder="KWh" name="tensionTarifa" readonly>
-                        
+                        <input type="text" class="form-control" id="tensionTarifa" placeholder="KWh" name="tensionTarifa" readonly value="Seleccione una tarifa">
                     </div>
-                    
                 </div>
-
-                
             </div>
         </div>
-    </div>
+        <!-- Fin Row -->
 
+        <div class="row row-sm">
+            <div class="input-group mb-3">
+                <div class="col-lg-3">
+                    <div class="input-group-prepend">
+                        <label for="selDivision">Division:</label>
+                        <select class="form-control" id="selDivision" name="selDivision">
+                            <option value=0>Seleccione una division...</option>
+                            <?php foreach ($divisionesSelect as $ds) {
+                                echo "<option value='" . $ds["of_divisiones_id"] . "'>" . $ds["division"] . "</option>";
+                            } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group-prepend">
+                        <label for="selZC">Zona de Carga:</label>
+                        <select class="form-control" id="selZC" name="selZC">
+                            <option value=0>Seleccione una zona de carga...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="input-group-prepend">
+                        <label class="form-check-label" for="tipoCatalago">
+                            Carga
+                        </label>
+                        <div class="input-group">
+                            
+                            <label class="input-group-btn">
+                                <span class="btn btn-primary btn-file">
+                                    Archivo <input accept=".xls,.xlsx,.csv" class="hidden"
+                                        name="archivo" type="file" id="archivo">
+                                </span>
+                            </label>
+                            
+                            <input class="form-control" id="archivo_captura" readonly="readonly" name="archivo_captura" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Row -->
+        
+    </div>
+     <!-- Fin Row -->
     <?php if ($validarBtnPasoSi == 1 ) { ?>
     <button type="button" id="paso1" class="btn btn-success ">Siguiente Paso </button>
     

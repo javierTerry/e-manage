@@ -516,8 +516,19 @@ footer{
   display: flex;
 }
 
-/* Create two equal columns that sits next to each other */
+/* Create three equal columns that sits next to each other */
 .column_30 {
   flex: 30%;
   padding: 10px;
+}
+
+/* Crear 4 clomnas de 25% cada una */
+.column_25 {
+  flex: 25%;
+  padding: 10px;
+}
+
+.column_25_no_padding {
+  flex: 25%;
+  padding: 0px;
 }
