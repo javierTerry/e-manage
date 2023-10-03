@@ -18,6 +18,17 @@
                             <label for="txtRazonSocial">Razon Social:</label>
                             <input type="text" class="form-control" id="txtRazonSocial" name="txtRazonSocial">
                         </div>
+
+                        <div class="form-group">
+                            <label for="inputCentral">Catalogos</label>
+
+                            <select class="form-control custom-select-lg" id="calificado" name="calificado" style="width:100%" >
+                                <option value="1" selected> Básico </option>
+                                <option value="2"> Calificado</option>
+                                
+                                
+                            </select>
+                        </div>
                         <button type="button" id="btnGuardaCliente" class="btn btn-success">Guardar</button>
                     </form>
                 </div>

@@ -65,23 +65,24 @@ $("#btnGuardaCliente").click(function(event){
 
             var nombre = $( "#txtNombreCliente" ).val();
             var razonsocial = $( "#txtRazonSocial" ).val();
-
+            var calificado= $( "#calificado" ).val();
             $.ajax({
                 url: 'saveClient',
                 type: 'POST',
-                data: {nombre: nombre, razonsocial: razonsocial},
+                data: {nombre: nombre, razonsocial: razonsocial, calificado:calificado},
                 error: function() {
                     $( "#txtNombreCliente" ).val('');
-                        $( "#txtRazonSocial" ).val('');
-                        $('.close').click();
-                        Swal.fire({
-                            title: 'Ocurrio un error al tratar de Guardar el cliente.',
-                            text: 'Favor de validar con su administrador',
-                            icon: 'error',
-                            showConfirmButton: false,
-                            timer: 3000
-                            
-                        }); 
+                    $( "#txtRazonSocial" ).val('');
+                    $( "#calificado" ).val(1);
+                    $('.close').click();
+                    Swal.fire({
+                        title: 'Ocurrio un error al tratar de Guardar el cliente.',
+                        text: 'Favor de validar con su administrador',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 3000
+                        
+                    }); 
                 },
                 
                 success: function(data) {

@@ -343,8 +343,7 @@ class MainCtr extends VX_Controller
         $params = $this->input->post();
         $nombre = $params["nombre"];
         $razonsocial = $params["razonsocial"];
-        //Validar que es ese valor
-        $calificado = 1;//$params["calificado"];
+        $calificado = $params["calificado"];
         $newInfo = $this->mainctrdao->saveClient($this->getUserData(), $nombre, $razonsocial, $calificado);
         $res["status"] = $newInfo;
 
