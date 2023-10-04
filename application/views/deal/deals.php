@@ -17,16 +17,13 @@
 
     </div>
     <input id="empid" name="empid" type="hidden" value="<?php echo $userData["employee_id"]; ?>">
-    <form class="form-inline" id="filter-form">
+    <form class="form-inline" id="filter-form" action="" method="get">
         <div class="form-group">
             <label for="nombreCliente">Nombre del cliente:</label>
             <input type="text" class="form-control" id="nombreCliente" name="nombreCliente">
         </div>
-        <div class="form-group">
-            <label for="nombreCliente">Folio:</label>
-            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente">
-        </div>
-        <button type="button" class="btn btn-lg btn-default" id="filtro" data-toggle="modal-filtro"
+        
+        <button type="submit" class="btn btn-lg btn-default" id="filtro" data-toggle="modal-filtro"
             data-target="#Filtro-m">
             <span class="glyphicon glyphicon-search"></span> FILTRO
         </button>

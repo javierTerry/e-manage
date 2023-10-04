@@ -184,14 +184,15 @@ public function saveDeal($userData, $params) {
 
 
     public function getDealsfilter($params){
-        $getDealsfilter = $this->db->query('SELECT oc.nombre AS cliente, o.nombre AS oferta, o.folio AS fol, oe.estado, IFNULL(op.paso,"--") AS paso, o.ofertaId, oe.estadoId, op.pasoId, oc.clienteId FROM of_ofertas o
-            INNER JOIN of_estados oe ON oe.estadoId = o.estado
+        $getDealsfilter = $this->db->query("SELECT oc.nombre AS cliente, o.nombre AS oferta, o.folio AS fol, oe.estado, IFNULL(op.paso,'--') AS paso, o.ofertaId, oe.estadoId, op.pasoId
+            , oc.clienteId, oc.activo, oc.calificado 
+            FROM of_clientes oc
+            LEFT JOIN of_ofertas o  ON o.clienteid = oc.clienteId
+            LEFT JOIN of_estados oe ON  oe.estadoId = o.estado
             LEFT JOIN of_pasos op ON op.pasoId = o.paso
-            INNER JOIN of_clientes oc ON oc.clienteId = o.clienteid
-            WHERE o.activo = 1 AND oc.nombre = "'.$params["txtnombred"].'"  
-            AND o.folio = "'.$params["txtfolio"].'" 
+            WHERE oc.nombre like '%".$params['nombreCliente']."%'
             GROUP BY oc.clienteId, o.ofertaId
-            ORDER BY oc.nombre, o.nombre');
+            ORDER BY oc.nombre, o.nombre");
         return $getDealsfilter->result_array();
     }
     

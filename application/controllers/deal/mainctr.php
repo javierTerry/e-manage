@@ -191,33 +191,14 @@ class MainCtr extends VX_Controller
 
         $this->loadDataTables();
 
-        $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/modal.windows.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.css";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/routing.page.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/select2/dist/js/select2.full.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/moment/min/moment.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/switchery/dist/switchery.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/jQuery.Select.Year/lib/year-select.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DefaultFn.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/AttachmentObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/FormObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
-
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/clientes.js";
 
         $clientsSelect = $this->mainctrdao->getClientsSelect();
         $clients = $this->mainctrdao->getClientes();
- 
-        if ($params = $this->input->post()) {
+        
+        if ($params = $this->input->get()) {
             $deals = $this->mainctrdao->getDealsfilter($params);
         } else {
             $deals = $this->mainctrdao->getDeals();
