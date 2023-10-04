@@ -194,17 +194,26 @@ class MainCtr extends VX_Controller
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/deals.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/clientes.js";
-
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         $clientsSelect = $this->mainctrdao->getClientsSelect();
         $clients = $this->mainctrdao->getClientes();
         
+        log_message('debug',print_r($this->input->get(),true));
+        
         if ($params = $this->input->get()) {
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
             $deals = $this->mainctrdao->getDealsfilter($params);
+
+            $filtro = sprintf("&nombreCliente=%s",$params['nombreCliente']); 
+
         } else {
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
             $deals = $this->mainctrdao->getDeals();
+            $filtro="";
         }
 
         $clientes = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         foreach ($deals as $key => $deal) {
             
             $cliente = $deal['cliente'];
@@ -224,7 +233,7 @@ class MainCtr extends VX_Controller
 
         }
      
-        log_message("debug", print_r($clientes,true));
+        //log_message("debug", print_r($clientes,true));
         $currentModule = $this->getCurrentModule();
         $currentModule["data"] = array(
             "vMenu" => array(
@@ -240,6 +249,7 @@ class MainCtr extends VX_Controller
             "clientsSelects" => $clientsSelect,
             "deals" => $deals
             ,"clientes" =>$clientes
+            ,"filtro" =>$filtro 
            
         );
         

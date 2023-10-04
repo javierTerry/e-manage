@@ -138,17 +138,17 @@
             <?php if ($total_pages > 1): ?>
             <li class="page-item">
                 <?php if ($page > 1): ?>
-                <a class="page-link" href="?page=<?php echo $page - 1; ?>">Anterior</a>
+                <a class="page-link" href="?page=<?php echo $page - 1; echo $filtro?>">Anterior</a>
                 <?php endif; ?>
             </li>
             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
             <li class="page-item <?php if ($i === $page) echo 'active'; ?>">
-                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                <a class="page-link" href="?page=<?php echo $i; echo $filtro?>"><?php echo $i; ?></a>
             </li>
             <?php endfor; ?>
             <li class="page-item">
                 <?php if ($page < $total_pages): ?>
-                <a class="page-link" href="?page=<?php echo $page + 1; ?>">Siguiente</a>
+                <a class="page-link" href="?page=<?php echo $page + 1; echo $filtro?>">Siguiente</a>
                 <?php endif; ?>
             </li>
             <?php endif; ?>
