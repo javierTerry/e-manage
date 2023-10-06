@@ -16,16 +16,18 @@ $(document).ready(function() {
 $("#agregarCC").click(function (event) {
     console.log("agregarCC");
     ofertaId= $("#ofertaId").val();
+    var archivo = $("#fArchivo")[0].files[0];
     
     var formData = $('#collapseOne .form-control').serializeArray()
-    console.log(formData);
+    
 
     var formData = new FormData();
     formData.append("oferta_id", ofertaId);
 	$("#collapseOne .form-control").serializeArray().forEach(function(field) {
 	  formData.append(field.name, field.value)
 	});
- 
+    formData.append('archivo', archivo);
+
     var confirmar = false; 
     Swal.fire({
       title: '¿Está seguro agregar un CC?',

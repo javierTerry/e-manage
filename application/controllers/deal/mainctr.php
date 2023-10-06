@@ -1688,7 +1688,10 @@ public function paso5()
             redirect(base_url() . "login");
         }
 
+
         $res = $this->mainctrdao->guardarCC();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        $this->mainctrdao->guardarCalculoPorCC($res);
 
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);

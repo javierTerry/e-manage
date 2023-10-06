@@ -2477,17 +2477,71 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         $data = $this->input->post();
         $data['division_id'] = $data['selDivision']; 
         $data['zona_carga_id'] = $data['selZC']; 
-        log_message('debug', print_r($data,true));
+        
 
         unset($data['selDivision']);
         unset($data['selZC']);
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        log_message('debug', print_r($data,true));
+        log_message('debug', print_r($_FILES,true));
         $this->db->insert('of_cc', $data);
         $id = $this->db->insert_id();
         log_message("debug", $id);
         
-        $res["estatus"] = true;
-        $res["mensaje"] = sprintf("EL id %s, con nombre '%s'",$id, $data['nombre']);
-        return $res;
+        $data["estatus"] = true;
+        $data["mensaje"] = sprintf("EL id %s, con nombre '%s'",$id, $data['nombre']);
+        $data["cc_id"] = $id;
+        return $data;
+    }
+
+    public function guardarCalculoPorCC($data){
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+
+         $filePath = $_FILES['archivo']['tmp_name'];       
+        // Carga el archivo de Excel usando PhpSpreadsheet
+        $objPHPExcel = IOFactory::load($filePath);      
+        // Selecciona la primera hoja
+        $sheet = $objPHPExcel->getActiveSheet(); 
+        $rows = $sheet->toArray();
+        //log_message("debug", print_r($rows ,true));
+
+        $cabeceras = $rows[0];
+        unset($rows[0]);
+        $insert = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        foreach ($rows as $key => $row) {
+
+            $insert['anio'] = $row[0];
+            $insert['mes'] = $row[1];
+            $insert['cm_kWh_ib'] = $row[2];
+            $insert['cm_kWh_ii'] = $row[3];
+            
+            $insert['cc_id'] = $data['cc_id'];
+            $insert['oferta_id'] = $data['oferta_id'];
+
+            $resultados = $this->db
+                    ->where("anio",$row[0])
+                    ->where("mes_numero",$row[1])
+                    ->limit(1, 0)
+                    ->get('of_datos_horarios')
+                    ->result_array()
+                    ;
+            $datosHorarios = $resultados[0];
+            //log_message("debug", print_r($datosHorarios,true) );
+
+            $insert['cantidad_horas_ib_CFE'] = $datosHorarios['B'];
+            $insert['cantidad_horas_ii_CFE'] = $datosHorarios['I'];
+            $insert['cantidad_horas_ip_CFE'] = $datosHorarios['P'];
+            $insert['total_horas_tres_i_CFE'] =$datosHorarios['B']+$datosHorarios['I']+$datosHorarios['P'];
+
+            $insert['promedio_horario_kWh_ib'] = $insert['cm_kWh_ib']/$insert['cantidad_horas_ib_CFE'];
+            
+
+            $this->db->insert('of_calculo_cc', $insert);
+            
+        }
+
+
     }
 
     public function obtenerCCOfertaId(){

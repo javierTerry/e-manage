@@ -111,8 +111,8 @@
                             
                             <label class="input-group-btn">
                                 <span class="btn btn-primary btn-file">
-                                    Archivo <input accept=".xls,.xlsx,.csv" class="hidden"
-                                        name="archivo" type="file" id="archivo">
+                                    Archivo 
+                                    <input accept=".xls,.xlsx,.csv" class="hidden" name="fArchivo" type="file" id="fArchivo" multiple>
                                 </span>
                             </label>
                             
