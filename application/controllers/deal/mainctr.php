@@ -60,7 +60,7 @@ class MainCtr extends VX_Controller
                 ,"assets/js/Core/AttachmentObj.js"
                 ,"assets/js/Core/FormObj.js"
                 ,"assets/js/Core/ModalObj.js"
-                ,"assets/js/Core/DataTableObj.js"
+                //,"assets/js/Core/DataTableObj.js"
                 ,"assets/vendors/distexcel/handsontable.full.min.js"
 
 
@@ -83,7 +83,7 @@ class MainCtr extends VX_Controller
 
     private function loadDataTables()
     {
-
+        /*
         $js = array(
             "assets/vendors/datatables.net/js/jquery.dataTables.min.js",
             "assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js",
@@ -105,6 +105,16 @@ class MainCtr extends VX_Controller
             "assets/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css",
             "assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
             "assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
+        );
+        */
+
+        $js = array("https://code.jquery.com/jquery-3.7.0.js"
+            ,"https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"
+
+        );
+
+        $css = array( 
+            "https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
         );
 
         $this->libraries["js"]["dependences"] = array_merge($this->libraries["js"]["dependences"], $js);
@@ -679,24 +689,6 @@ public function paso5()
 
         $this->loadDataTables();
         
-        $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
-        $this->libraries["css"]["dependences"][] = "assets/css/modal.windows.css";
-        $this->libraries["css"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.css";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/routing.page.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/select2/dist/js/select2.full.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/moment/min/moment.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/switchery/dist/switchery.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/jQuery.Select.Year/lib/year-select.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DefaultFn.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/AttachmentObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/FormObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/ModalObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/Core/DataTableObj.js";
-        $this->libraries["js"]["dependences"][] = "assets/vendors/distexcel/handsontable.full.min.js";
-        $this->libraries["js"]["dependences"][] = "assets/js/modules/energy_management/fechamuestra.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/viewDeal.js";
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/cc.js";
@@ -1456,8 +1448,6 @@ public function paso5()
         $this->loadDataTables();
 
 
-
-
         $this->libraries["css"]["dependences"][] = "assets/vendors/select2/dist/css/select2.min.css";
         $this->libraries["css"]["dependences"][] = "assets/vendors/bootstrap-daterangepicker/daterangepicker.css";
         $this->libraries["css"]["dependences"][] = "assets/css/main.style.css";
@@ -1622,18 +1612,19 @@ public function paso5()
 
     public function mm()
     {
-
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
             redirect(base_url() . "login");
         }
 
-
+        $this->loadDataTables();
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/viewDeal.js";
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/mantenimiento/acciones.js";
         
-        $this->libraries["js"]["dependences"][] = "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js";
-        
+        //$this->libraries["js"]["dependences"][] = "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js";
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        $catalogos = $this->mmctrdao->getCatalogos();
 
         $currentModule = $this->getCurrentModule();
         $currentModule["data"] = array(
@@ -1644,7 +1635,8 @@ public function paso5()
                     )
                 )
             ),
-            "userData" => $this->getUserData(),
+            "userData" => $this->getUserData()
+            ,"catalogos" => $catalogos
 
         );
 
@@ -1656,7 +1648,7 @@ public function paso5()
 
         $dataBuild["css"] = $this->libraries["css"];
         $dataBuild["js"] = $this->libraries["js"];
-
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         $this->load->view("mainPage", $dataBuild);
     }
 
@@ -1708,7 +1700,12 @@ public function paso5()
 
         $res = $this->mainctrdao->obtenerCCOfertaId();
 
-        log_message('debug', __FILE__." ".__LINE__);
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__); 
+        foreach ($res['tabla'] as $key => $value) {
+
+            $res['tabla'][$key]['calculoCC'] = $this->mainctrdao->obtenerCalculoCC($value['oferta_id'], $value['id']);
+        }
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         
         //log_message('debug',print_r($res,true));
         echo json_encode($res);

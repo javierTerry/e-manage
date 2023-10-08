@@ -67,5 +67,23 @@ class Mmctrdao extends VX_Model {
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
     }
+
+    /**
+     * Description of mainctrDao
+     *
+     * @param array con los datos 
+     */
+    public function getCatalogos() {
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+
+        $catalogos=$this->db->query('select omcc.nombre, omcc.catalogoId 
+            from of_mm_cfg_catalogos omcc
+            where omcc.activo = 1
+            order by nombre ASC
+            ;');
+        return $catalogos->result_array();
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
 }
 ?>

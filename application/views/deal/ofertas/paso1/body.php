@@ -124,6 +124,7 @@
         </div>
         <!-- Fin Row -->
         
+  
     </div>
      <!-- Fin Row -->
     <?php if ($validarBtnPasoSi == 1 ) { ?>
@@ -141,4 +142,6 @@
     ?>
             
 </div>
+
+
 <!-- id="collapseOne" -->

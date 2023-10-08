@@ -5,17 +5,9 @@
 
         <select class="form-control custom-select-lg" id="catalogo_id" name="catalogo_id" style="width:100%" >
             <option value="0" selected> Seleccionar ...</option>
-            <option value="1"> Zona Carga</option>
-            <option value="2"> Tarifa Capacidad</option>
-            <option value="3"> Tarifas Distribucion </option>
-            <option value="4"> Tarifa Transmision</option>
-            <option value="5"> Esquema Tarifario</option>
-            <option value="6"> Intervalos</option>
-            <option value="7"> Tarifa Energia</option>
-            <option value="8"> PML Ajustado</option>
-            <option value="9"> Tarifa Op CENACE</option>
-            <option value="10"> Tarifa SCnMEM</option>
-            <option value="11"> Operacion SB</option>
+            <?php foreach ($catalogos as $key => $catalogo) { 
+                echo "<option value='".$catalogo['catalogoId']."'>".$catalogo['nombre']."</option>";
+            }?>
             
       </select>
     </div>

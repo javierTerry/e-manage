@@ -1,4 +1,5 @@
 var ofertaId = 0;
+var tablaCC = null
 $(document).ready(function() {
     ofertaId= $("#ofertaId").val();
 
@@ -96,6 +97,48 @@ $("#agregarCC").click(function (event) {
 
 });
 
+$("#guardarPaso1CC").click(function (event) {
+    console.log("guardarPaso1CC");
+
+    var ofertaId = $("#oferta_id").val();
+
+    var formData = new FormData();
+    formData.append("oferta_id", ofertaId);
+    
+
+    $.ajax({
+        url: 'guardarPaso1CC',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+        
+    }).done(function( response ) {
+
+        Swal.fire(
+            "Paso 1 Registrado",
+            'Favor de agregar.',
+            'success'
+        )
+        location.reload();
+    }).fail( function( data,jqXHR, textStatus, errorThrown ) {
+        console.log( "fail" );
+        console.log(data);
+        Swal.fire(
+            data.status+' '+data.statusText,
+            'Por favor, inténtelo de nuevo más tarde o Consulte con su administrador.',
+            'error'
+        )
+
+
+    }).always(function() {
+            console.log( "complete agregarCC" );
+    });
+
+});
+
+//Function
+
 function ccTabla(){
     
     $.ajax({
@@ -107,8 +150,8 @@ function ccTabla(){
         
     }).done(function( response ) {
         const json = JSON.parse(response);
-        console.log(json)
-        var tablaCC = $('#tablaCC').DataTable({
+        //console.log(json)
+        tablaCC = $('#tablaCC').DataTable({
             "oLanguage": {
                 "sEmptyTable": "No se puede mostrar los registros"
             }
@@ -119,16 +162,23 @@ function ccTabla(){
             ,bDestroy: true
             ,data: json.tabla
             ,autoWidth: false
-            ,order: [[0, 'desc']]
-            ,lengthMenu: [
+            ,order: [[1, 'desc']]
+            ,paging: true
+            ,aLengthMenu: [
                 [ 10, 25, 50, -1 ],
                 [ '10', '25', '50', 'Todo' ]
             ]
-            ,dom: 'Bfrtip'
+            ,dom: 'lBfrtip'
             ,buttons: [ 
                 'pageLength'
             ]
             ,columns: [
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '+'
+                },
                 { "data": "id" } //0
                 ,{ "data": "nombre" }
                 ,{ "data": "rpu_id" }
@@ -138,6 +188,22 @@ function ccTabla(){
                 ,{ "data": "demanda_contratada" }
 
             ],
+        });
+
+        tablaCC.on('click', 'td.dt-control', function (e) {
+            let tr = e.target.closest('tr');
+            let row = tablaCC.row(tr);
+         
+            //$("#nuevoCliente").modal("show");
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+            }
+            else {
+                // Open this row
+                row.child(calculoCC( row.data().calculoCC )).show();
+
+            }
         });
     }).fail( function( data,jqXHR, textStatus, errorThrown ) {
         console.log( "fail" );
@@ -153,6 +219,9 @@ function ccTabla(){
             console.log( "complete ccTabla" );
     });
 }
+
+
+
 
 function documentoRetorno(row, rol){
 
@@ -193,7 +262,6 @@ function inputPotencia(data) {
 
 
 function inputCel(data) {
-console.log(data)
 
     var html = '<div class="form-group">  \
                     <input type="text" class="form-control" id="cel'+data.id+'" \
@@ -278,43 +346,48 @@ function tablaCCPaso2(){
     });
 }
 
-
-$("#guardarPaso1CC").click(function (event) {
-    console.log("guardarPaso1CC");
-
-    var ofertaId = $("#oferta_id").val();
-
-    var formData = new FormData();
-    formData.append("oferta_id", ofertaId);
+function calculoCC(resultados) {
+    // `d` is the original data object for the row
+    var tBody = "";
+    
+    resultados.forEach( function(data, indice) {
+        
+        tBody +='<tr>    \
+            <th>'+data.anio+'</th>  \
+            <th>'+data.mes+'</th>  \
+            <th>'+data.cantidad_horas_ib_CFE+'</th>  \
+            <th>'+data.cantidad_horas_ii_CFE+'</th> \
+            <th>'+data.cantidad_horas_ip_CFE+'</th> \
+            <th>'+data.total_horas_tres_i_CFE+'</th> \
+            <th>'+data.cm_kWh_ib+'</th> \
+            <th>'+data.cm_kWh_ii+'</th> \
+            <th>'+data.promedio_horario_kWh_ib+'</th> \
+        </tr>   \
+        '
+    });
     
 
-    $.ajax({
-        url: 'guardarPaso1CC',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false
-        
-    }).done(function( response ) {
 
-        Swal.fire(
-            "Paso 1 Registrado",
-            'Favor de agregar.',
-            'success'
-        )
-        location.reload();
-    }).fail( function( data,jqXHR, textStatus, errorThrown ) {
-        console.log( "fail" );
-        console.log(data);
-        Swal.fire(
-            data.status+' '+data.statusText,
-            'Por favor, inténtelo de nuevo más tarde o Consulte con su administrador.',
-            'error'
-        )
+    tabla = '<table id="tablaCC" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+            <thead> \
+                <tr>    \
+                    <th>Año</th>  \
+                    <th>Mes</th>  \
+                    <th>CANTIDAD HORAS <p> IB CFE</th>  \
+                    <th>CANTIDAD HORAS <p> II CFE</th> \
+                    <th>CANTIDAD HORAS <p> IP CFE</th> \
+                    <th>TOTAL HORAS <p> INTERVALOS CFE</th> \
+                    <th>Consumo mensual kWh<p>Intervalo Base</th> \
+                    <th>Consumo mensual kWh<p>Intervalo Intermedia</th> \
+                    <th>Promedio horario kWh<p>Intevalo Base</th> \
+                </tr>   \
+            </thead>    \
+            <tbody>'
+            +tBody+ 
+            '</tbody>    \
+        </table>' 
+    ;
 
-
-    }).always(function() {
-            console.log( "complete agregarCC" );
-    });
-
-});
+    return tabla;
+}

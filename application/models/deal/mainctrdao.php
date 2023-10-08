@@ -1,6 +1,4 @@
 <?php
-ini_set("display_errors",0);
-error_reporting(-1);
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
@@ -2546,16 +2544,31 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
     public function obtenerCCOfertaId(){
         $data = $this->input->get();
-        log_message('debug', __FILE__." ".__LINE__);
-        log_message('debug', print_r($data,true));
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        //log_message('debug', print_r($data,true));
 
         $this->db->where('oferta_id', $data["oferta_id"]);
         $resultados = $this->db->get('of_cc')->result_array();
         
         $res["estatus"] = true;
         $res["tabla"] = $resultados;
-       
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        
         return $res;
+    }
+
+    public function obtenerCalculoCC($ofertaId, $ccId){
+        
+        log_message('debug', __FILE__." ".__LINE__);
+        //log_message('debug', print_r($data,true));
+
+        $resultados = $this->db->where('oferta_id', $ofertaId)
+                ->where('cc_id', $ccId)
+                ->get('of_calculo_cc')->result_array()
+            ;
+        log_message('debug', __FILE__." ".__LINE__);        
+        
+        return $resultados;
     }
         
     public function getValidarGuardarPaso1($ofertaId){
