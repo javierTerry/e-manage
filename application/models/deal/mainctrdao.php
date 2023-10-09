@@ -2495,7 +2495,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
     public function guardarCalculoPorCC($data){
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
 
-         $filePath = $_FILES['archivo']['tmp_name'];       
+        $filePath = $_FILES['archivo']['tmp_name'];       
         // Carga el archivo de Excel usando PhpSpreadsheet
         $objPHPExcel = IOFactory::load($filePath);      
         // Selecciona la primera hoja
@@ -2503,7 +2503,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         $rows = $sheet->toArray();
         //log_message("debug", print_r($rows ,true));
 
-        $cabeceras = $rows[0];
+        //Quitar Cabeceras
         unset($rows[0]);
         $insert = array();
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);

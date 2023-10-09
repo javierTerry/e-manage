@@ -1,5 +1,5 @@
 <?php
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
 /**
  * Description of mainctrDao
  *
@@ -22,7 +22,15 @@ class Mmctrdao extends VX_Model {
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         $data = $this->input->post();
         log_message('debug', print_r($_FILES,true));
-
+        $filePath = $_FILES['archivo']['tmp_name'];
+        // Carga el archivo de Excel usando PhpSpreadsheet
+        $objPHPExcel = IOFactory::load($filePath);      
+        // Selecciona la primera hoja
+        $sheet = $objPHPExcel->getActiveSheet(); 
+        $rows = $sheet->toArray();
+        //log_message("debug", print_r($rows ,true));
+        //Quitar Cabeceras
+        unset($rows[0]);
         switch ($data['catalogoId']) {
             case 1:
                 $this->db->insert('of_zonas_carga', $data);
@@ -34,7 +42,8 @@ class Mmctrdao extends VX_Model {
                 $this->db->insert('of_tarifa_distribucion', $data);
                 break;
             case 4:
-                $this->db->insert('of_tarifa_transmision', $data);
+                $this->saveCatalogoTransmision($rows);
+                
                 break;
             case 5:
                 $this->db->insert('', $data);
@@ -52,11 +61,21 @@ class Mmctrdao extends VX_Model {
                 $this->db->insert('', $data);
                 break;
             case 10:
-                $this->db->insert('of_tarifa_scnmem', $data);
+                $this->saveCatalogoScnmen($rows);
                 break;
             case 11:
                 $this->db->insert('of_tarifa_operacion_sb', $data);
                 break;
+            case 12:
+                
+                break;
+            case 13:
+                
+                break;
+            case 14:
+                $this->saveCatalogoTipoCambio($rows);
+                break;
+
 
             default:
                 // code...
@@ -85,5 +104,77 @@ class Mmctrdao extends VX_Model {
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
     }
+
+    /**
+     * Se inserta valores para la tabla of_tarifa_transmision
+     *
+     * @param array con los datos
+     * @return void 
+     */
+    private function saveCatalogoTransmision($rows ) {
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+   
+        $insert = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        foreach ($rows as $key => $row) {
+            //log_message('debug',print_r($row,true) );
+            $data['anio'] = $row[0];
+            $data['tarifa'] = $row[1];
+            $data['tarifaPrecio'] = $row[2];
+            $this->db->insert('of_tarifa_transmision', $data);
+
+        }
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
+
+
+    /**
+     * Se inserta valores para la tabla of_tarifa_tc
+     *
+     * @param array con los datos
+     * @return void 
+     */
+    private function saveCatalogoTipoCambio($rows ) {
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+   
+        $insert = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        foreach ($rows as $key => $row) {
+            //log_message('debug',print_r($row,true) );
+            $data['anio'] = $row[0];
+            $data['mes'] = $row[1];
+            $data['mxn/kwh'] = $row[2];
+            $this->db->insert('of_tarifa_tc', $data);
+
+        }
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
+
+    /**
+     * Se inserta valores para la tabla of_tarifa_scnmem
+     *
+     * @param array con los datos
+     * @return void 
+     */
+    private function saveCatalogoScnmen($rows ) {
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+   
+        $insert = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        foreach ($rows as $key => $row) {
+            //log_message('debug',print_r($row,true) );
+            $data['anio'] = $row[0];
+            $data['tarifa'] = $row[1];
+            
+            $this->db->insert('of_tarifa_scnmem', $data);
+
+        }
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
+    
+    
 }
 ?>

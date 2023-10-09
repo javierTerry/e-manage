@@ -1,44 +1,41 @@
 <div class="right_col" role="main">
     <div class="">
 
-         <button type="button" class="btn btn-lg btn-default" id="verinicio">
-      <span class="glyphicon glyphicon-home"></span> Oferta
-    </button>
- <button type="button" class="btn btn-lg btn-default" id="verhistorico">
-      <span class="glyphicon glyphicon-pencil"></span> Editar
-    </button>
+        <button type="button" class="btn btn-lg btn-default" id="verinicio">
+            <span class="glyphicon glyphicon-home"></span> Oferta
+        </button>
+        <button type="button" class="btn btn-lg btn-default" id="verhistorico">
+          <span class="glyphicon glyphicon-pencil"></span> Editar
+        </button>
         <?php
         if ($vMenu["render"]) {
             $this->load->view("main/vMenu", $vMenu["data"]);
         }
         ?>
 
-    <?php
+<?php
     
-      $posuserInfoData=count($userInfoData);
-      $posuserStationData=count($userStationData);
+    $posuserInfoData=count($userInfoData);
+    $posuserStationData=count($userStationData);
 
 
-      $verAdminWC = $userData["AdminWorkCenter"];
+    $verAdminWC = $userData["AdminWorkCenter"];
 
-  if (count($verAdminWC)>0) {
-     $armaexcel = 1;
-  }
-    else{
-
-    $armaexcel = $userData["WorkCenter"];
-
+    if (count($verAdminWC)>0) {
+         $armaexcel = 1;
+    }else{
+        $armaexcel = $userData["WorkCenter"];
     }
 
-$cargararray = "var data = [";
-$rowcabeceras = "rowHeaders: [";
+    $cargararray = "var data = [";
+    $rowcabeceras = "rowHeaders: [";
     for ($i=0; $i < $posuserStationData; $i++) { 
-    $cargararray = $cargararray . "{},";
-    $rowcabeceras = $rowcabeceras."'".$userStationData[$i]["Ener_rel_acronym"].$userStationData[$i]["Ener_unit"]."'";
-    $arrayrelunit[] = $userStationData[$i]["id_Ener_rel_stationunit"];
-    if ($i < $posuserStationData - 1) {
-        $rowcabeceras = $rowcabeceras.",";
-    }
+        $cargararray = $cargararray . "{},";
+        $rowcabeceras = $rowcabeceras."'".$userStationData[$i]["Ener_rel_acronym"].$userStationData[$i]["Ener_unit"]."'";
+        $arrayrelunit[] = $userStationData[$i]["id_Ener_rel_stationunit"];
+        if ($i < $posuserStationData - 1) {
+            $rowcabeceras = $rowcabeceras.",";
+        }
     }
     $cargararray = $cargararray . "];";
     $rowcabeceras = $rowcabeceras . "],";
@@ -136,10 +133,10 @@ $logicaExcel = "hot = new Handsontable(container, {data: data,maxRows:".$posuser
 
 <div class="form-group col-md-1" id="bhistoricos" style="display:none;">
     <label for="inputOrden"></label>
-<button class="btn btn-default" id="buscarexcel" >
-      <span class="glyphicon glyphicon-search"></span> Buscar
+    <button class="btn btn-default" id="buscarexcel" >
+        <span class="glyphicon glyphicon-search"></span> Buscar
     </button>
-    </div>
+</div>
 
     <div class="form-group col-md-12">
         <br><br>
@@ -154,10 +151,9 @@ $logicaExcel = "hot = new Handsontable(container, {data: data,maxRows:".$posuser
     </div>
     
     <div class="form-group col-md-12">
-<button  class="btn btn-success" id="guardaform">Generar Oferta</button>
-<button class="btn btn-success" id="actualizaform" style="display:none;">Actualizar</button>
-  <button class="btn btn-danger" id="cancelarform">Cancelar</button>
-
+        <button  class="btn btn-success" id="guardaform">Generar Oferta</button>
+        <button class="btn btn-success" id="actualizaform" style="display:none;">Actualizar</button>
+          <button class="btn btn-danger" id="cancelarform">Cancelar</button>
     </div>
  
 
