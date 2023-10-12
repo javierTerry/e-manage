@@ -33,10 +33,11 @@ class Mmctrdao extends VX_Model {
         unset($rows[0]);
         switch ($data['catalogoId']) {
             case 1:
-                $this->db->insert('of_zonas_carga', $data);
+                $this->saveZonascarga($rows);
+                //$this->db->insert('of_zonas_carga', $data);
                 break;
             case 2:
-                $this->db->insert('of_zonas_carga', $data);
+                $this->db->insert('', $data);
                 break;
             case 3:
                 $this->db->insert('of_tarifa_distribucion', $data);
@@ -174,6 +175,50 @@ class Mmctrdao extends VX_Model {
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
     }
+
+
+    /**
+     * Se inserta valores para la tabla of_zonas_carga
+     *
+     * @param array con los datos
+     * @return void 
+     */
+    private function saveZonascarga($rows ) {
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        
+        //log_message('debug',print_r($rows,true) );
+        $insert = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        
+        foreach ($rows as $key => $row) {
+            //log_message('debug',print_r($row,true) );
+            
+            $query = sprintf("select of_divisiones_id from of_divisiones where activo=1 and division='%s';", $row[0]);
+            //log_message('debug',print_r($query,true) );
+
+            $zonaCarga=$this->db->query($query)->result_array();
+            
+            
+            $data['division_id'] = $zonaCarga[0]['of_divisiones_id'];
+            $data['zona_carga'] = $row[1];
+            $data['activo'] = 1;
+            $data['GDMTH_PT'] = $row[2];
+            $data['GDMTH_P_NO_T'] = $row[3];
+            $data['DIST_PT'] = $row[4];
+            $data['DIST_P_NO_T'] = $row[5];
+            $data['DIT_PT'] = $row[6];
+            $data['DIT_P_NO_T'] = $row[7];
+            
+            
+            $this->db->insert('of_zonas_carga', $data);
+
+        }
+        
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
+
+
     
     
 }

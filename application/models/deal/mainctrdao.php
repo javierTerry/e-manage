@@ -2479,6 +2479,8 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
         unset($data['selDivision']);
         unset($data['selZC']);
+        unset($data['tablaCC_length']);
+        
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         log_message('debug', print_r($data,true));
         log_message('debug', print_r($_FILES,true));
@@ -2513,6 +2515,15 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['mes'] = $row[1];
             $insert['cm_kWh_ib'] = $row[2];
             $insert['cm_kWh_ii'] = $row[3];
+
+            $insert['cm_kWh_ip'] = $row[4];
+            $insert['ct_kWh'] = $row[5];
+            $insert['dm_kW'] = $row[6];
+            $insert['dmp_kW'] = $row[7];
+            $insert['er_kVARh'] = $row[8];
+            $insert['tr_MXN_kWh'] = $row[9];
+            //$insert[''] = $row[];
+            
             
             $insert['cc_id'] = $data['cc_id'];
             $insert['oferta_id'] = $data['oferta_id'];
@@ -2533,8 +2544,34 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['total_horas_tres_i_CFE'] =$datosHorarios['B']+$datosHorarios['I']+$datosHorarios['P'];
 
             $insert['promedio_horario_kWh_ib'] = $insert['cm_kWh_ib']/$insert['cantidad_horas_ib_CFE'];
-            
 
+            
+            $zonaCarga = $this->db
+                    ->where("of_zonas_carga_id",$data['zona_carga_id'])
+                    ->where("division_id",$data['division_id'])
+                    ->get('of_zonas_carga')
+                    ->result_array()[0]
+                    ;
+            
+            switch ($data['tarifa']) {
+                case 'GDMTH':
+                    $insert['ppt'] = $zonaCarga['GDMTH_PT']; 
+                    $insert['ppnt'] = $zonaCarga['GDMTH_P_NO_T']; 
+                    break;
+                case 'DIST':
+                    $insert['ppt'] = $zonaCarga['DIST_PT']; 
+                    $insert['ppnt'] = $zonaCarga['DIST_P_NO_T'];
+                    break;
+                case 'DIT':
+                    $insert['ppt'] = $zonaCarga['DIT_PT']; 
+                    $insert['ppnt'] = $zonaCarga['DIT_P_NO_T'];
+                    break;
+                
+                default:
+                    // code...
+                    break;
+            }
+            log_message("debug",print_r($zonaCarga,true));
             $this->db->insert('of_calculo_cc', $insert);
             
         }
@@ -2609,6 +2646,6 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         return $res;
     }
 
-
+    
     
 }
