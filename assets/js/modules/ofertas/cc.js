@@ -168,7 +168,7 @@ function ccTabla(){
                 [ 10, 25, 50, -1 ],
                 [ '10', '25', '50', 'Todo' ]
             ]
-            ,dom: 'lBfrtip'
+            ,dom: 'lfrtip'
             ,buttons: [ 
                 'pageLength'
             ]
@@ -183,8 +183,8 @@ function ccTabla(){
                 ,{ "data": "nombre" }
                 ,{ "data": "rpu_id" }
                 ,{ "data": "tarifa" }
-                ,{ "data": "division_id" } 
-                ,{ "data": "zona_carga_id" }
+                ,{ "data": "division" } 
+                ,{ "data": "zona_carga" }
                 ,{ "data": "demanda_contratada" }
 
             ],
@@ -361,20 +361,20 @@ function calculoCC(resultados) {
             <th>'+data.total_horas_tres_i_CFE+'</th> \
             <th>'+data.cm_kWh_ib+'</th> \
             <th>'+data.cm_kWh_ii+'</th> \
-            <th>8</th> \
-            <th>9</th> \
-            <th>10</th> \
-            <th>11</th> \
-            <th>12</th> \
-            <th>13</th> \
+            <th>'+data.cm_kWh_ip+'</th> \
+            <th>'+data.ct_kWh+'</th> \
+            <th>'+data.dm_kW+'</th> \
+            <th>'+data.dmp_kW+'</th> \
+            <th>'+data.er_kVARh+'</th> \
+            <th>'+data.tr_MXN_kWh+'</th> \
             <th>'+data.promedio_horario_kWh_ib+'</th> \
-            <th>15</th> \
+            <th>'+data.promedio_horario_kwh_ii+'</th> \
+            <th>'+data.promedio_horario_kwh_ip+'</th> \
             <th></th> \
             <th></th> \
             <th></th> \
             <th></th> \
             <th></th> \
-            <th>20</th> \
             <th></th> \
             <th></th> \
             <th></th> \

@@ -1727,7 +1727,6 @@ public function paso5()
         }
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         
-        //log_message('debug',print_r($res,true));
         echo json_encode($res);
     }
 

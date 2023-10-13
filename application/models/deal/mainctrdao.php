@@ -2515,7 +2515,6 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['mes'] = $row[1];
             $insert['cm_kWh_ib'] = $row[2];
             $insert['cm_kWh_ii'] = $row[3];
-
             $insert['cm_kWh_ip'] = $row[4];
             $insert['ct_kWh'] = $row[5];
             $insert['dm_kW'] = $row[6];
@@ -2545,6 +2544,9 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
             $insert['promedio_horario_kWh_ib'] = $insert['cm_kWh_ib']/$insert['cantidad_horas_ib_CFE'];
 
+            $insert['promedio_horario_kwh_ii'] = $insert['cm_kWh_ii']/$insert['cantidad_horas_ii_CFE'];
+
+            $insert['promedio_horario_kwh_ip'] = $insert['cm_kWh_ip']/$insert['cantidad_horas_ip_CFE'];
             
             $zonaCarga = $this->db
                     ->where("of_zonas_carga_id",$data['zona_carga_id'])
@@ -2571,7 +2573,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
                     // code...
                     break;
             }
-            log_message("debug",print_r($zonaCarga,true));
+            //log_message("debug",print_r($zonaCarga,true));
             $this->db->insert('of_calculo_cc', $insert);
             
         }
@@ -2584,8 +2586,14 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         //log_message('debug', print_r($data,true));
 
-        $this->db->where('oferta_id', $data["oferta_id"]);
-        $resultados = $this->db->get('of_cc')->result_array();
+        $resultados = $this->db
+            ->select("*")
+            ->join('of_divisiones od', 'od.of_divisiones_id = of_cc.division_id')
+            ->join('of_zonas_carga ozc', 'ozc.of_zonas_carga_id = of_cc.zona_carga_id')
+            ->where('oferta_id', $data["oferta_id"])
+            ->get('of_cc')->result_array();
+
+        log_message('debug', print_r($resultados,true));
         
         $res["estatus"] = true;
         $res["tabla"] = $resultados;
