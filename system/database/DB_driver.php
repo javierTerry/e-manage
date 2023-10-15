@@ -322,6 +322,7 @@ class CI_DB_driver {
 
 				// Log and display errors
 				log_message('error', 'Query error: '.$error_msg);
+				return false;
 				return $this->display_error(
 										array(
 												'Error Number: '.$error_no,
@@ -545,7 +546,7 @@ class CI_DB_driver {
 				$this->_trans_status = TRUE;
 			}
 
-			log_message('debug', 'DB Transaction Failure');
+			log_message('debug', 'DB Transaction Failure 1');
 			return FALSE;
 		}
 

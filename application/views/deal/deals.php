@@ -58,7 +58,7 @@
         
         <button type="submit" class="btn btn-lg btn-default" id="filtro" data-toggle="modal-filtro"
             data-target="#Filtro-m">
-            <span class="glyphicon glyphicon-search"></span> FILTRO
+            <span class="glyphicon glyphicon-search"></span> BUSCAR
         </button>
 
     </form>

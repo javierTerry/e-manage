@@ -1700,11 +1700,21 @@ public function paso5()
             redirect(base_url() . "login");
         }
 
-
-        $res = $this->mainctrdao->guardarCC();
-        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
-        $this->mainctrdao->guardarCalculoPorCC($res);
-
+        $res = array();
+        try {
+            $res = $this->mainctrdao->guardarCC();
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            $this->mainctrdao->guardarCalculoPorCC($res);
+    
+        } catch (\Exception $e) {
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            log_message('debug', print_r($res,true));
+            header('HTTP/1.1 400 Bad Request');
+            $this->mainctrdao->saveRollbackCC($res['cc_id']);
+            $res["status"] = "error";
+            return json_encode($res);
+        }
+        
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         $res["status"] = "success";

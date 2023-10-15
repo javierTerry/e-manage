@@ -1,5 +1,6 @@
 var ofertaId = 0;
 var tablaCC = null
+
 $(document).ready(function() {
     ofertaId= $("#ofertaId").val();
 
@@ -14,21 +15,66 @@ $(document).ready(function() {
 
 }) 
 
+//Inicio Seccion #agregarCC
 $("#agregarCC").click(function (event) {
     console.log("agregarCC");
     ofertaId= $("#ofertaId").val();
     var archivo = $("#fArchivo")[0].files[0];
     
-    var formData = $('#collapseOne .form-control').serializeArray()
+    //var formData = $('#collapseOne .form-control').serializeArray()
     
 
     var formData = new FormData();
-    formData.append("oferta_id", ofertaId);
+    
 	$("#collapseOne .form-control").serializeArray().forEach(function(field) {
 	  formData.append(field.name, field.value)
 	});
+    formData.append("oferta_id", ofertaId);
     formData.append('archivo', archivo);
 
+    fdValidateOk = true
+    for (const values of formData.entries()) {
+        console.log(values[0]+" "+values[1]);
+        
+        campoValidado = true
+        switch (values[0]) {
+            case 'oferta_id':
+                campoValidado = (values[1] >0)
+                break;
+            case 'selDivision':
+                
+                campoValidado = (values[1] >0)
+                break;
+            case 'selZC':
+                campoValidado = (values[1] >0)
+                break;
+          
+            default:
+                campoValidado = (values[1] != '')
+        }
+        
+        fdValidateOk = ( fdValidateOk && campoValidado )
+       
+    }
+    //console.log(formData);
+    console.log(fdValidateOk)
+    if (fdValidateOk) {
+        agregarCCConfirmacion(formData)
+    } else {
+        
+        Swal.fire(
+            'Favor de validar campos.',
+            'Todos los campos son obligatorios.',
+            'warning'
+        )    
+    }
+
+
+        
+
+});
+
+function agregarCCConfirmacion(formData){
     var confirmar = false; 
     Swal.fire({
       title: '¿Está seguro agregar un CC?',
@@ -44,58 +90,63 @@ $("#agregarCC").click(function (event) {
 
             console.log("confirmado ");
             $('#loader').show();
-    
-            console.log("Inicia Ajax");
-            $.ajax({
-                url: 'agregarCCAjax',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-                ,beforeSend: function () {
-                    
-                },
-                success: function (data) {
-                    
-                	const myJSON = JSON.parse(data); 
-                    console.log(myJSON);
-                    $('#loader').hide();
-                    Swal.fire({
-                        title: myJSON.mensaje,
-                        text: 'Fue Exitoso',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        timer: 1000
-                        
-                    }).then((result) => {
-                        location.reload();
-                    }); 
-                                        
-                    
-                },
-                error: function () {
-                    console.log("Seccion error");
-                    $('#loader').hide();
-                    Swal.fire(
-                        'Ocurrió un error al guardar el archivo.',
-                        'Por favor, inténtelo de nuevo más tarde.',
-                        'error'
-                    )
-                  
-                },
-                complete: function () {
-                    console.log("Seccion complete");
-                  $('#loader').hide();
-                }
-              });
+            agregarCCEnvio(formData)    
+            
 
         } else {
             console.log("No confirmado ");    
         }
         
     })
+}
 
-});
+function agregarCCEnvio (formData){
+    console.log("Inicia Ajax");
+    $.ajax({
+        url: 'agregarCCAjax',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+        ,beforeSend: function () {
+            
+        },
+        success: function (data, textStatus, xhr) {
+            console.log(textStatus)
+            console.log(xhr)
+            const myJSON = JSON.parse(data); 
+            console.log(myJSON);
+            $('#loader').hide();
+            Swal.fire({
+                title: myJSON.mensaje,
+                text: 'Fue Exitoso',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1000
+                
+            }).then((result) => {
+                location.reload();
+            }); 
+                                
+            
+        },
+        error: function () {
+            console.log("Seccion error");
+            $('#loader').hide();
+            Swal.fire(
+                'Ocurrió un error al guardar el archivo.',
+                'Por favor, inténtelo de nuevo más tarde.',
+                'error'
+            )
+          
+        },
+        complete: function () {
+            console.log("Seccion complete");
+          $('#loader').hide();
+        }
+      });
+}
+//Fin Seccion #agregarCC
 
 $("#guardarPaso1CC").click(function (event) {
     console.log("guardarPaso1CC");
@@ -162,7 +213,7 @@ function ccTabla(){
             ,bDestroy: true
             ,data: json.tabla
             ,autoWidth: false
-            ,order: [[1, 'desc']]
+            ,order: [[1, 'asc']]
             ,paging: true
             ,aLengthMenu: [
                 [ 10, 25, 50, -1 ],
@@ -381,46 +432,46 @@ function calculoCC(resultados) {
             <th></th> \
             <th>'+data.ppt+'</th> \
             <th>'+data.ppnt+'</th> \
-            <th></th> \
+            <th>'+data.total_perdidas+'</th> \
         </tr>   \
         '
     });
     
-
+                         
 
     tabla = '<table id="tablaCC" class="table table-striped table-bordered \
             dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
             <thead> \
                 <tr>    \
-                    <th>0</th>  \
-                    <th>1</th>  \
-                    <th>2</th>  \
-                    <th>3</th> \
-                    <th>4</th> \
-                    <th>5</th> \
-                    <th>6</th> \
-                    <th>7</th> \
-                    <th>8</th> \
-                    <th>9</th> \
-                    <th>10</th> \
-                    <th>11</th> \
-                    <th>12</th> \
-                    <th>13</th> \
-                    <th>14</th> \
-                    <th>15</th>  \
-                    <th>16</th>  \
-                    <th>17</th>  \
-                    <th>18</th> \
-                    <th>19</th> \
-                    <th>20</th> \
-                    <th>21</th> \
-                    <th>22</th> \
-                    <th>23</th> \
-                    <th>24</th> \
-                    <th>25</th> \
-                    <th>26</th> \
-                    <th>27</th> \
-                    <th>28</th> \
+                    <th>Año</th>  \
+                    <th>Mes</th>  \
+                    <th>IB</th>  \
+                    <th>II</th> \
+                    <th>IP</th> \
+                    <th>3I</th> \
+                    <th>CIB</th> \
+                    <th>CII</th> \
+                    <th>CIP</th> \
+                    <th>CT</th> \
+                    <th>DM</th> \
+                    <th>DMP</th> \
+                    <th>ER</th> \
+                    <th>TR</th> \
+                    <th>PIB</th> \
+                    <th>PII</th>  \
+                    <th>PIP</th>  \
+                    <th>PCCIB</th>  \
+                    <th>PCCII</th> \
+                    <th>PCCIP</th> \
+                    <th>%IB</th> \
+                    <th>%II</th> \
+                    <th>%IP</th> \
+                    <th>PBIB</th> \
+                    <th>PBII</th> \
+                    <th>PBIP</th> \
+                    <th>PPT</th> \
+                    <th>PPNT</th> \
+                    <th>TCP</th> \
                 </tr>   \
             </thead>    \
             <tbody>'

@@ -63,7 +63,7 @@
                     <div class="input-group-prepend">
                         <label for="selTarifa" class="form-label">Tarifa:</label>
                         <select class="form-control" id="tarifa" name="tarifa">
-                            <option value='0'>Seleccione una Tarifa</option>
+                            <option value=''>Seleccione una Tarifa</option>
                             <option value='GDMTH'>GDMTH</option>
                             <option value='DIST'>DIST</option>
                             <option value='DIT'>DIT</option>
@@ -74,7 +74,7 @@
                     <div class="input-group-prepend">
                         <label for="tensionTarifa" class="form-label">Tensión   Tarifa:
                         </label>
-                        <input type="text" class="form-control" id="tensionTarifa" placeholder="KWh" name="tensionTarifa" readonly value="Seleccione una tarifa">
+                        <input type="text" class="form-control" id="tensionTarifa" placeholder="KWh" name="tensionTarifa" readonly value="">
                     </div>
                 </div>
             </div>

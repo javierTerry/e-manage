@@ -2573,11 +2573,20 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
                     // code...
                     break;
             }
-            //log_message("debug",print_r($zonaCarga,true));
-            $this->db->insert('of_calculo_cc', $insert);
+
+            $insert['total_perdidas'] = $insert['ppt'] + $insert['ppnt'];
+
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+           
+            $queryEstatus = $queryEstatus = $this->db->insert('of_calculo_cc', $insert);
+
+            if ( !$queryEstatus ) {
+                throw new Exception("Error de insert of_calculo_cc");    
+            }
+            
             
         }
-
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
 
     }
 
@@ -2604,15 +2613,16 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
     public function obtenerCalculoCC($ofertaId, $ccId){
         
-        log_message('debug', __FILE__." ".__LINE__);
-        //log_message('debug', print_r($data,true));
-
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        
         $resultados = $this->db->where('oferta_id', $ofertaId)
                 ->where('cc_id', $ccId)
-                ->get('of_calculo_cc')->result_array()
+                ->get('of_calculo_cc')
+                ->result_array()
             ;
-        log_message('debug', __FILE__." ".__LINE__);        
-        
+
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__); 
         return $resultados;
     }
         
@@ -2653,6 +2663,37 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
        
         return $res;
     }
+
+    /**
+     * Se elimina los registros en de las tabls of_cc y of_calculo_cc 
+     * 
+     * @param Integer cc_id
+     * 
+     * @return 
+     * 
+     **/
+
+    
+    public function saveRollbackCC($ccId){
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        
+        $resultadosCC = $this->db
+            ->where('id', $ccId)
+            ->delete('of_cc'); 
+
+        $resultadosCalculos = $this->db
+            ->where('cc_id', $ccId)
+            ->delete('of_calculo_cc'); 
+
+        log_message('debug', print_r($resultadosCC,true));
+        log_message('debug', print_r($resultadosCalculos,true));
+        $res["estatus"] = "success";
+        //$res["data"] = $resultados;
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        return $res;
+    }
+
+    
 
     
     
