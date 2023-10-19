@@ -9,6 +9,7 @@
 		<table id="tablaCCPaso2" class="table table-striped table-bordered dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">
 		    <thead>
 		        <tr>
+		        	<th></th>
 		            <th>ID CC</th>
 		            <th>NOMBRE</th>
 		            <th>RPU/ID</th>
@@ -17,9 +18,7 @@
 		            <th>DIVISION</th>
 		            <th>ZONA <p>CARGA</th>
 		            <th>DEMANDA <p>CONTRATADA</th>
-		            <th>Energía <p>(MXN/MWh)</th>
-		            <th>Potencia <p>(MXN/MWh)</th>
-		            <th>CEL <p>(MXN/CEL)</th>
+		            
 		            
 		        </tr>
 		    </thead>

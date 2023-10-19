@@ -110,9 +110,7 @@
                         </div>
                         <hr></hr>
                     </div>
-                    <?php
-                        $this->load->view("deal/ofertas/paso2/tablaResultados")
-                    ?>
+                   
                         
                     <div class="card-body">
                         <div class="row">

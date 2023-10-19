@@ -2508,7 +2508,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         //Quitar Cabeceras
         unset($rows[0]);
         $insert = array();
-        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
         foreach ($rows as $key => $row) {
 
             $insert['anio'] = $row[0];
@@ -2541,12 +2541,24 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['cantidad_horas_ii_CFE'] = $datosHorarios['I'];
             $insert['cantidad_horas_ip_CFE'] = $datosHorarios['P'];
             $insert['total_horas_tres_i_CFE'] =$datosHorarios['B']+$datosHorarios['I']+$datosHorarios['P'];
-
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
             $insert['promedio_horario_kWh_ib'] = $insert['cm_kWh_ib']/$insert['cantidad_horas_ib_CFE'];
 
             $insert['promedio_horario_kwh_ii'] = $insert['cm_kWh_ii']/$insert['cantidad_horas_ii_CFE'];
 
             $insert['promedio_horario_kwh_ip'] = $insert['cm_kWh_ip']/$insert['cantidad_horas_ip_CFE'];
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert['porcentaje_ib'] = $insert['cantidad_horas_ib_CFE'] / $insert['total_horas_tres_i_CFE'];
+            $insert['porcentaje_ii'] = $insert['cantidad_horas_ii_CFE'] / $insert['total_horas_tres_i_CFE'];
+            $insert['porcentaje_ip'] = $insert['cantidad_horas_ip_CFE'] / $insert['total_horas_tres_i_CFE'];
+            
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert['pb_ib'] = $insert['ct_kWh'] * $insert['porcentaje_ib'];
+            $insert['pb_ii'] = $insert['ct_kWh'] * $insert['porcentaje_ii'];
+            $insert['pb_ip'] = $insert['ct_kWh'] * $insert['porcentaje_ip'];
+            
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert = $this->calculoPerfilCC($insert);
             
             $zonaCarga = $this->db
                     ->where("of_zonas_carga_id",$data['zona_carga_id'])
@@ -2602,7 +2614,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             ->where('oferta_id', $data["oferta_id"])
             ->get('of_cc')->result_array();
 
-        log_message('debug', print_r($resultados,true));
+        //log_message('debug', print_r($resultados,true));
         
         $res["estatus"] = true;
         $res["tabla"] = $resultados;
@@ -2647,9 +2659,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
      * 
      * @return json
      * 
-     **/
-
-    
+     **/ 
     public function getTarifaTension(){
         $data = $this->input->get();
         log_message('debug', __FILE__." ".__LINE__);
@@ -2693,6 +2703,45 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         return $res;
     }
 
+
+    /**
+     * Se elimina los registros en de las tabls of_cc y of_calculo_cc 
+     * 
+     * @author 
+     * @since
+     * @version
+     * 
+     * @param integer $cc_id El id de un CC 
+     * 
+     * @return array Regresa los valores del calculo 
+     * 
+     **/
+
+    private function calculoPerfilCC(array $insert){
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+
+        if ( ($insert['cm_kWh_ib'] ) > 0 ) {
+            $insert['pcc_ib'] = $insert['cm_kWh_ib']/$insert['ct_kWh'];
+        } else {
+            $insert['pcc_ib'] = 0;
+        }
+
+        if ( ($insert['cm_kWh_ii'] ) > 0 ) {
+            $insert['pcc_ii'] = $insert['cm_kWh_ii']/$insert['ct_kWh'];
+        } else {
+            $insert['pcc_ii'] = 0;
+        }
+
+        if ( ($insert['cm_kWh_ip'] ) > 0 ) {
+            $insert['pcc_ip'] = $insert['cm_kWh_ip']/$insert['ct_kWh'];
+        } else {
+            $insert['pcc_ip'] = 0;
+        }
+
+
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        return $insert;
+    }
     
 
     

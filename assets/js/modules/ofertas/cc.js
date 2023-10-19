@@ -69,9 +69,6 @@ $("#agregarCC").click(function (event) {
         )    
     }
 
-
-        
-
 });
 
 function agregarCCConfirmacion(formData){
@@ -252,7 +249,7 @@ function ccTabla(){
             }
             else {
                 // Open this row
-                row.child(calculoCC( row.data().calculoCC )).show();
+                row.child(calculoCC( row.data().calculoCC) ).show();
 
             }
         });
@@ -270,8 +267,6 @@ function ccTabla(){
             console.log( "complete ccTabla" );
     });
 }
-
-
 
 
 function documentoRetorno(row, rol){
@@ -334,7 +329,7 @@ function tablaCCPaso2(){
     }).done(function( response ) {
         const json = JSON.parse(response);
         console.log(json)
-        var tablaCC = $('#tablaCCPaso2').DataTable({
+        var subTabla = $('#tablaCCPaso2').DataTable({
             "oLanguage": {
                 "sEmptyTable": "No se puede mostrar los registros"
             }
@@ -355,32 +350,39 @@ function tablaCCPaso2(){
                 'pageLength'
             ]
             ,columns: [
-                { "data": "id" } //0
+                {
+                    className: 'dt-control-paso2',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '+'
+                }
+                ,{ "data": "id" } //0
                 ,{ "data": "nombre" }
                 ,{ "data": "rpu_id" }
                 ,{ "data": "tarifa" }
-               
                 ,{ "data": "division_id" } 
-                ,{ "data": "zona_carga_id" }
+                ,{ "data": "division" } 
+                ,{ "data": "zona_carga" }
                 ,{ "data": "demanda_contratada" }
-                ,{ "data": "id"
-                        ,render: function(data, type, row){   
-                            return inputEnergia(row); 
-                        }
-                }
-                ,{ "data": "id"
-                        ,render: function(data, type, row){   
-                            return inputPotencia(row); 
-                        }
-                }
-                ,{ "data": "id"
-                        ,render: function(data, type, row){   
-                            return inputCel(row); 
-                        }
-                }
+                
 
 
             ],
+        });
+
+        subTabla.on('click', 'td.dt-control-paso2', function (e) {
+            let tr = e.target.closest('tr');
+            let row = subTabla.row(tr);
+            
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+            }
+            else {
+                // Open this row
+                row.child( precioCondComerciales( row.data().calculoCC ) ).show();
+
+            }
         });
     }).fail( function( data,jqXHR, textStatus, errorThrown ) {
         console.log( "fail" );
@@ -398,7 +400,7 @@ function tablaCCPaso2(){
 }
 
 function calculoCC(resultados) {
-    // `d` is the original data object for the row
+    
     var tBody = "";
     
     resultados.forEach( function(data, indice) {
@@ -421,15 +423,15 @@ function calculoCC(resultados) {
             <th>'+data.promedio_horario_kWh_ib+'</th> \
             <th>'+data.promedio_horario_kwh_ii+'</th> \
             <th>'+data.promedio_horario_kwh_ip+'</th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
-            <th></th> \
+            <th>'+data.pcc_ib+'</th> \
+            <th>'+data.pcc_ii+'</th> \
+            <th>'+data.pcc_ip+'</th> \
+            <th>'+data.porcentaje_ib+'</th> \
+            <th>'+data.porcentaje_ii+'</th> \
+            <th>'+data.porcentaje_ip+'</th> \
+            <th>'+data.pb_ib+'</th> \
+            <th>'+data.pb_ii+'</th> \
+            <th>'+data.pb_ip+'</th> \
             <th>'+data.ppt+'</th> \
             <th>'+data.ppnt+'</th> \
             <th>'+data.total_perdidas+'</th> \
@@ -481,4 +483,140 @@ function calculoCC(resultados) {
     ;
 
     return tabla;
+}
+
+function precioCondComerciales(datos) {
+
+    console.log("carga");
+    var ahorros = tablaCCPaso2Ahorros(datos)
+    var resultados = tablaCCPaso2Resultados(datos)
+    var roi = tablaCCPaso2Roi(datos)
+
+    return resultados + roi + ahorros ;
+
+}
+
+
+function tablaCCPaso2Ahorros(resultados){
+
+    var tBody = "";
+    
+    resultados.forEach( function(data, indice) {
+        
+        tBody +='<tr>    \
+            <th>'+data.anio+'</th>  \
+            <th>'+data.mes+'</th>  \
+            <th></th>  \
+            <th></th>  \
+            <th></th>  \
+            <th></th>  \
+            <th></th>  \
+        </tr>   \
+        '
+    });
+    
+                         
+    //           
+    var tabla = '<table id="tablaCCPaso2Ahorros" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+            <thead> \
+                <tr BGCOLOR ="#86a899" align="center"> <th colspan="7" style="text-align:center">Ahorros</th></tr>\
+                <tr>    \
+                    <th>Año</th>  \
+                    <th>Mes</th>  \
+                    <th>Consumo sin pérdidas (kWh)</th>  \
+                    <th>Facturación Fénix estimada (MXN)</th>  \
+                    <th>Facturación CFE SSB estimada (MXN)</th>  \
+                    <th>Ahorros (MXN)</th>  \
+                    <th>% Ahorro</th>  \
+                </tr>   \
+            </thead>    \
+            <tbody>'
+            +tBody+ 
+            '</tbody>    \
+        </table>' 
+    ;
+
+    return tabla;
+
+}
+
+function tablaCCPaso2Resultados(resultados){
+
+    var tBody = "";
+    
+    tBody +='<tr>    \
+            <td>Ahorro MXP</td>  \
+            <td>Ahorro %</td>  \
+            <td></td>  \
+            <td>Total Utilidad (MXN/MWh)</td>  \
+            <td>% Utilidad Fenix </td>  \
+            <td>Utilidad (MXN)</td>  \
+        </tr>   \
+        ' 
+    tBody +='<tr>    \
+            <td>1,688,752</td>  \
+            <td>25%</td>  \
+            <td></td>  \
+            <td>223</td>  \
+            <td>18%</td>  \
+            <td>618,013</td>  \
+        </tr>   \
+        '    
+                         
+    //           
+    var tabla = '<table id="tablaCCPaso2Resultados" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+            <thead> \
+                <tr BGCOLOR ="#86a899"> <th colspan="6" style="text-align:center">Resultados</th></tr>\
+                <tr>    \
+                    <th colspan="2" style="text-align:center" >Ahorros</th>  \
+                    <th></th>  \
+                    <th colspan="3" style="text-align:center" >Utilidades</th>  \
+                </tr>   \
+            </thead>    \
+            <tbody>'
+            +tBody+ 
+            '</tbody>    \
+        </table>' 
+    ;
+
+    return tabla;
+
+}
+
+
+function tablaCCPaso2Roi(resultados){
+
+    var tBody = "";
+    
+    tBody +='<tr>    \
+            <td >1,688,752 </td>  \
+            <td>140,729</td>  \
+            <td>1,800,000 </td>  \
+            <td>13</td>  \
+        </tr>   \
+        ' 
+    
+                         
+    //           
+    var tabla = '<table id="tablaCCPaso2Roi" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+            <thead> \
+                <tr BGCOLOR ="#86a899"> <th  colspan="4" style="text-align:center">ROI</th></tr>\
+                <tr>    \
+                    <th style="text-align:center">Ahorro anual (MXN)</th>  \
+                    <th style="text-align:center">Ahorro mensual (MXN)    </th>  \
+                    <th style="text-align:center">Inversión (MXN)</th>  \
+                    <th style="text-align:center">Periodo de retorno de la inversión (meses)</th>  \
+                </tr>   \
+            </thead>    \
+            <tbody>'
+            +tBody+ 
+            '</tbody>    \
+        </table>' 
+    ;
+
+    return tabla;
+
 }
