@@ -98,6 +98,11 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="card-body">
                         <?php
+                            $this->load->view("deal/ofertas/paso2/resumenCC");
+                        ?>
+                    </div>
+                    <div class="card-body">
+                        <?php
                             $this->load->view("deal/ofertas/paso2/tablaCC");
                         ?>
                     </div>

@@ -532,3 +532,7 @@ footer{
   flex: 25%;
   padding: 0px;
 }
+
+tr.titulo {
+  background-color :#86a899;
+}
