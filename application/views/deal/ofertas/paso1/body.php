@@ -40,7 +40,7 @@
     <div class="card-body" id="cargarCCform">
         <div class="row row-sm">
             <div class="input-group mb-3">
-                <div class="col-lg-3">
+                <div class="col-md-2">
                     <div class="input-group-prepend">
                         <label for="nombreCC" class="form-label">nombreCC:</label>
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre que se usara en el CC" name="nombre">
@@ -53,13 +53,13 @@
                         <input type="text" class="form-control" id="rpu_id" placeholder="Ingrese RPUID" name="rpu_id">
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-1">
                     <div class="input-group-prepend">
-                        <label for="txtD">Demanda Contratada:</label>
+                        <label for="txtD">Demanda :</label>
                         <input type="text" class="form-control" id="demanda_contratada" placeholder="KWh" name="demanda_contratada">
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-1">
                     <div class="input-group-prepend">
                         <label for="selTarifa" class="form-label">Tarifa:</label>
                         <select class="form-control" id="tarifa" name="tarifa">
@@ -70,20 +70,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-1">
                     <div class="input-group-prepend">
                         <label for="tensionTarifa" class="form-label">Tensión   Tarifa:
                         </label>
                         <input type="text" class="form-control" id="tensionTarifa" placeholder="KWh" name="tensionTarifa" readonly value="">
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Fin Row -->
 
-        <div class="row row-sm">
-            <div class="input-group mb-3">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="input-group-prepend">
                         <label for="selDivision">Division:</label>
                         <select class="form-control" id="selDivision" name="selDivision">
@@ -94,7 +89,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-4">
+
+                <div class="col-lg-2">
                     <div class="input-group-prepend">
                         <label for="selZC">Zona de Carga:</label>
                         <select class="form-control" id="selZC" name="selZC">
@@ -102,7 +98,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-5">
+            </div>
+        </div>
+        <!-- Fin Row -->
+
+        <div class="row row-sm">
+            <div class="input-group mb-3">
+                
+                
+                <div class="col-lg-12">
                     <div class="input-group-prepend">
                         <label class="form-check-label" for="tipoCatalago">
                             Carga

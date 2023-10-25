@@ -10,8 +10,10 @@
 		    <thead>
 		        <tr>
 		        	<th></th>
-		            <th>ID CC</th>
-		            <th>NOMBRE</th>
+		            <th>
+		            	ID CC
+			        </th>
+		            <th >NOMBRE</th>
 		            <th>RPU/ID</th>
 		            <th>TARIFA</th>
 		            <th>ESQUEMA <p>SUMINISTRO</th>

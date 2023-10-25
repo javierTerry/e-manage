@@ -34,14 +34,25 @@
 <div class="right_col" role="main">
     <div class="">
 
-        <button type="button" class="btn btn-lg btn-default" id="verinicio">
+        <form class="" id="" action="" method="get">
+            <button type="button" class="btn btn-default" id="verinicio">
             <span class="glyphicon glyphicon-home"></span> Inicio
         </button>
         
-        <button type="button" class="btn btn-lg btn-default" id="btnnuevocliente" data-toggle="modal"
+        <button type="button" class="btn btn-default" id="btnnuevocliente" data-toggle="modal"
             data-target="#nuevoCliente">
             <span class="glyphicon glyphicon-pencil"></span> Nuevo Cliente
         </button>
+
+            <input type="text" id="nombreCliente" name="nombreCliente">
+            
+            <button  id="filtro" class="btn-info">
+                <span class="glyphicon glyphicon-search ">Cliente</span> 
+            </button>
+
+        </form>
+
+
         <?php
             if ($vMenu["render"]) {
                 $this->load->view("main/vMenu", $vMenu["data"]);
@@ -49,20 +60,6 @@
             ?>
 
     </div>
-    <input id="empid" name="empid" type="hidden" value="<?php echo $userData["employee_id"]; ?>">
-    <form class="form-inline" id="filter-form" action="" method="get">
-        <div class="form-group">
-            <label for="nombreCliente">Nombre del cliente:</label>
-            <input type="text" class="form-control" id="nombreCliente" name="nombreCliente">
-        </div>
-        
-        <button type="submit" class="btn btn-lg btn-default" id="filtro" data-toggle="modal-filtro"
-            data-target="#Filtro-m">
-            <span class="glyphicon glyphicon-search"></span> BUSCAR
-        </button>
-
-    </form>
-
 
     <?php
         define('MAX_ITEMS_PER_PAGE', 5);

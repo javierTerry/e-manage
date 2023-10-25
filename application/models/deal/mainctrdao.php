@@ -2476,17 +2476,24 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         $data['division_id'] = $data['selDivision']; 
         $data['zona_carga_id'] = $data['selZC']; 
         
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        if ( !count($_FILES) ) {
+            unset($data['archivo']);
 
+        }
+        
         unset($data['selDivision']);
         unset($data['selZC']);
         unset($data['tablaCC_length']);
         
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         log_message('debug', print_r($data,true));
-        log_message('debug', print_r($_FILES,true));
+        log_message('debug', print_r(count($_FILES),true));
+        
         $this->db->insert('of_cc', $data);
         $id = $this->db->insert_id();
         log_message("debug", $id);
+        
         
         $data["estatus"] = true;
         $data["mensaje"] = sprintf("EL id %s, con nombre '%s'",$id, $data['nombre']);
@@ -2497,6 +2504,35 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
     public function guardarCalculoPorCC($data){
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
 
+        if (count($_FILES)) {
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            $this->calculoPorCCConArchivo($data);
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        } else {
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            $this->calculoPorCCSinArchivo($data);
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+
+        }
+        
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+
+    }
+
+    /**
+     * calculoPorCCConArchivo
+     * 
+     * Este archivo muestra el uso de la etiqueta @name 
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @package deal.mainctrdao
+     * @access private
+     * @return $insert
+     */
+
+    private function calculoPorCCConArchivo($data){
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         $filePath = $_FILES['archivo']['tmp_name'];       
         // Carga el archivo de Excel usando PhpSpreadsheet
         $objPHPExcel = IOFactory::load($filePath);      
@@ -2521,8 +2557,6 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['dmp_kW'] = $row[7];
             $insert['er_kVARh'] = $row[8];
             $insert['tr_MXN_kWh'] = $row[9];
-            //$insert[''] = $row[];
-            
             
             $insert['cc_id'] = $data['cc_id'];
             $insert['oferta_id'] = $data['oferta_id'];
@@ -2535,8 +2569,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
                     ->result_array()
                     ;
             $datosHorarios = $resultados[0];
-            //log_message("debug", print_r($datosHorarios,true) );
-
+          
             $insert['cantidad_horas_ib_CFE'] = $datosHorarios['B'];
             $insert['cantidad_horas_ii_CFE'] = $datosHorarios['I'];
             $insert['cantidad_horas_ip_CFE'] = $datosHorarios['P'];
@@ -2595,11 +2628,128 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             if ( !$queryEstatus ) {
                 throw new Exception("Error de insert of_calculo_cc");    
             }
-            
-            
+                  
         }
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
 
+    /**
+     * calculoPorCCSinArchivo
+     * 
+     * Este archivo muestra el uso de la etiqueta @name 
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @package deal.mainctrdao
+     * @access private
+     * @return $insert
+     */
+
+    private function calculoPorCCSinArchivo($data){
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+
+        $fechaActualAno = date("Y");
+        $fechaActualMes = date("m");
+        
+        for ($i=0; $i < 12; $i++) { 
+
+            if ($fechaActualMes === 0) {
+                log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__." mes negativo");
+                $fechaActualAno--;
+                $fechaActualMes = 12;
+            } 
+            
+            log_message('debug',$fechaActualAno." ".$fechaActualMes);
+            
+
+            $insert['anio'] = $fechaActualAno;
+            $insert['mes'] = $fechaActualMes;
+            $insert['cm_kWh_ib'] = 0;
+            $insert['cm_kWh_ii'] = 0;
+            $insert['cm_kWh_ip'] = 0;
+            $insert['ct_kWh'] = 0;
+            $insert['dm_kW'] = 0;
+            $insert['dmp_kW'] = 0;
+            $insert['er_kVARh'] = 0;
+            $insert['tr_MXN_kWh'] = 0;
+            
+            $insert['cc_id'] = $data['cc_id'];
+            $insert['oferta_id'] = $data['oferta_id'];
+
+            $resultados = $this->db
+                    ->where("anio",$insert['anio'])
+                    ->where("mes_numero",$insert['mes'])
+                    ->limit(1, 0)
+                    ->get('of_datos_horarios')
+                    ->result_array()
+                    ;
+            $datosHorarios = $resultados[0];
+          
+            $insert['cantidad_horas_ib_CFE'] = $datosHorarios['B'];
+            $insert['cantidad_horas_ii_CFE'] = $datosHorarios['I'];
+            $insert['cantidad_horas_ip_CFE'] = $datosHorarios['P'];
+            $insert['total_horas_tres_i_CFE'] =$datosHorarios['B']+$datosHorarios['I']+$datosHorarios['P'];
+
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert['promedio_horario_kWh_ib'] = $insert['cm_kWh_ib']/$insert['cantidad_horas_ib_CFE'];
+
+            $insert['promedio_horario_kwh_ii'] = $insert['cm_kWh_ii']/$insert['cantidad_horas_ii_CFE'];
+
+            $insert['promedio_horario_kwh_ip'] = $insert['cm_kWh_ip']/$insert['cantidad_horas_ip_CFE'];
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert['porcentaje_ib'] = $insert['cantidad_horas_ib_CFE'] / $insert['total_horas_tres_i_CFE'];
+            $insert['porcentaje_ii'] = $insert['cantidad_horas_ii_CFE'] / $insert['total_horas_tres_i_CFE'];
+            $insert['porcentaje_ip'] = $insert['cantidad_horas_ip_CFE'] / $insert['total_horas_tres_i_CFE'];
+            
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert['pb_ib'] = $insert['ct_kWh'] * $insert['porcentaje_ib'];
+            $insert['pb_ii'] = $insert['ct_kWh'] * $insert['porcentaje_ii'];
+            $insert['pb_ip'] = $insert['ct_kWh'] * $insert['porcentaje_ip'];
+            
+            log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+            $insert = $this->calculoPerfilCC($insert);
+            
+            $zonaCarga = $this->db
+                    ->where("of_zonas_carga_id",$data['zona_carga_id'])
+                    ->where("division_id",$data['division_id'])
+                    ->get('of_zonas_carga')
+                    ->result_array()[0]
+                    ;
+            
+            switch ($data['tarifa']) {
+                case 'GDMTH':
+                    $insert['ppt'] = $zonaCarga['GDMTH_PT']; 
+                    $insert['ppnt'] = $zonaCarga['GDMTH_P_NO_T']; 
+                    break;
+                case 'DIST':
+                    $insert['ppt'] = $zonaCarga['DIST_PT']; 
+                    $insert['ppnt'] = $zonaCarga['DIST_P_NO_T'];
+                    break;
+                case 'DIT':
+                    $insert['ppt'] = $zonaCarga['DIT_PT']; 
+                    $insert['ppnt'] = $zonaCarga['DIT_P_NO_T'];
+                    break;
+                
+                default:
+                    // code...
+                    break;
+            }
+
+            $insert['total_perdidas'] = $insert['ppt'] + $insert['ppnt'];
+
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+           
+            $queryEstatus = $queryEstatus = $this->db->insert('of_calculo_cc', $insert);
+
+            if ( !$queryEstatus ) {
+                throw new Exception("Error de insert of_calculo_cc");    
+            }
+            $fechaActualMes--;
+        } // for 
+
+         
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
     }
 
     public function obtenerCCOfertaId(){

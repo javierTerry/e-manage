@@ -20,9 +20,6 @@ $("#agregarCC").click(function (event) {
     console.log("agregarCC");
     ofertaId= $("#ofertaId").val();
     var archivo = $("#fArchivo")[0].files[0];
-    
-    //var formData = $('#collapseOne .form-control').serializeArray()
-    
 
     var formData = new FormData();
     
@@ -34,7 +31,7 @@ $("#agregarCC").click(function (event) {
 
     fdValidateOk = true
     for (const values of formData.entries()) {
-        console.log(values[0]+" "+values[1]);
+        console.log(values[0]+" - "+values[1]);
         
         campoValidado = true
         switch (values[0]) {
@@ -42,11 +39,16 @@ $("#agregarCC").click(function (event) {
                 campoValidado = (values[1] >0)
                 break;
             case 'selDivision':
-                
                 campoValidado = (values[1] >0)
                 break;
             case 'selZC':
                 campoValidado = (values[1] >0)
+                break;
+            case 'archivo_captura':
+                campoValidado = (true)
+                break;
+            case 'archivo':
+                campoValidado = (true)
                 break;
           
             default:
@@ -203,6 +205,7 @@ function ccTabla(){
             "oLanguage": {
                 "sEmptyTable": "No se puede mostrar los registros"
             }
+            ,autoWidth: true
             ,processing: true
             ,serverSide: false 
             ,pagingType: "full_numbers"
@@ -444,36 +447,36 @@ function calculoCC(resultados) {
     tabla = '<table id="tablaCC" class="table table-striped table-bordered \
             dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
             <thead> \
-                <tr>    \
+                <tr >    \
                     <th>Año</th>  \
                     <th>Mes</th>  \
-                    <th>IB</th>  \
-                    <th>II</th> \
-                    <th>IP</th> \
-                    <th>3I</th> \
-                    <th>CIB</th> \
-                    <th>CII</th> \
-                    <th>CIP</th> \
-                    <th>CT</th> \
-                    <th>DM</th> \
-                    <th>DMP</th> \
-                    <th>ER</th> \
-                    <th>TR</th> \
-                    <th>PIB</th> \
-                    <th>PII</th>  \
-                    <th>PIP</th>  \
-                    <th>PCCIB</th>  \
-                    <th>PCCII</th> \
-                    <th>PCCIP</th> \
-                    <th>%IB</th> \
-                    <th>%II</th> \
-                    <th>%IP</th> \
-                    <th>PBIB</th> \
-                    <th>PBII</th> \
-                    <th>PBIP</th> \
-                    <th>PPT</th> \
-                    <th>PPNT</th> \
-                    <th>TCP</th> \
+                    <th class="CellWithComment">IB <span class="CellComment">Cantidad horas intervalo Base CFE</span></th>  \
+                    <th class="CellWithComment">II <span class="CellComment">Cantidad horas intervalo Intermedia CFE</span></th> \
+                    <th class="CellWithComment">IP<span class="CellComment">Cantidad horas intervalo Punta CFE</span></th> \
+                    <th class="CellWithComment">3I<span class="CellComment">Total horas tres intervalos CFE</span></th> \
+                    <th class="CellWithComment">CIB <span class="CellComment">Consumo mensual kWh en Intervalo Base </span> </th> \
+                    <th class="CellWithComment">CII <span class="CellComment">Consumo mensual kWh en Intervalo Intermedia </span> </th> \
+                    <th class="CellWithComment">CIP <span class="CellComment">Consumo mensual kWh en Intervalo Punta </span> </th> \
+                    <th class="CellWithComment">CT <span class="CellComment">Consumos totales (kWh) </span> </th> \
+                    <th class="CellWithComment">DM <span class="CellComment">Demanda máxima (kW) </span> </th> \
+                    <th class="CellWithComment">DMP <span class="CellComment">Demanda máxima en punta (kW) </span> </th> \
+                    <th class="CellWithComment">ER <span class="CellComment">Energía reactiva (kVARh) </span> </th> \
+                    <th class="CellWithComment">TR <span class="CellComment">Tarifa recibo (MXN/kWh) </span> </th> \
+                    <th class="CellWithComment">PIB <span class="CellComment">Promedio horario (kWh) Intevalo Base </span> </th> \
+                    <th class="CellWithComment">PII <span class="CellComment">Promedio horario (kWh) Intervalo Intermedia </span> </th>  \
+                    <th class="CellWithComment">PIP <span class="CellComment">Promedio horario (kWh) Intervalo Punta </span> </th>  \
+                    <th class="CellWithComment">PCCIB <span class="CellComment">Perfil Centro de Carga Intervalo Base </span> </th>  \
+                    <th class="CellWithComment">PCCII <span class="CellComment">Perfil Centro de Carga Intervalo Intermedia </span> </th> \
+                    <th class="CellWithComment">PCCIP <span class="CellComment">Perfil Centro de Carga Intervalo Punta </span> </th> \
+                    <th class="CellWithComment">%IB <span class="CellComment">Porcentaje intervalo Base </span> </th> \
+                    <th class="CellWithComment">%II <span class="CellComment">Porcentaje intervalo Intermedia </span> </th> \
+                    <th class="CellWithComment">%IP <span class="CellComment">Porcentaje intervalo Punta </span> </th> \
+                    <th class="CellWithComment">PBIB <span class="CellComment">Perfil Base Intervalo Base </span> </th> \
+                    <th class="CellWithComment">PBII <span class="CellComment">Perfil Base Intervalo Intermedia </span> </th> \
+                    <th class="CellWithComment">PBIP <span class="CellComment">Perfil Base Intervalo Punta </span> </th> \
+                    <th class="CellWithComment">PPT <span class="CellComment">Pérdidas Técnicas (PPT) </span> </th> \
+                    <th class="CellWithComment">PPNT <span class="CellComment">Pérdidas no Técnicas (PPNT) </span> </th> \
+                    <th class="CellWithComment">TCP <span class="CellComment">Total Cálculo de Pérdidas </span> </th> \
                 </tr>   \
             </thead>    \
             <tbody>'

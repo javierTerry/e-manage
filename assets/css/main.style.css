@@ -536,3 +536,48 @@ footer{
 tr.titulo {
   background-color :#86a899;
 }
+
+
+/* deals.php input buscar */ 
+input[type="text"] {
+    width: 200px;
+    height: 32px;
+    padding-right: 0px;
+}
+
+button[id="filtro"] {
+    margin-left: -74px;
+    height: 33px;
+    width: 70px;
+    
+    color: white;
+
+    -webkit-appearance: none;
+}
+
+
+
+.CellWithComment{
+    position:relative;
+}
+
+.CellComment{
+    min-width: max-content;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 80%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.CellWithComment:hover span.CellComment{
+    display:block;
+    visibility: visible;
+    opacity: 1;
+}

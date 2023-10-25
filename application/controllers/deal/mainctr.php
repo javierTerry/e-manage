@@ -1700,6 +1700,7 @@ public function paso5()
             redirect(base_url() . "login");
         }
 
+
         $res = array();
         try {
             $res = $this->mainctrdao->guardarCC();
