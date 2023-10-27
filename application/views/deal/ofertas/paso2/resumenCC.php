@@ -35,7 +35,7 @@
 		    </thead>
 		    <tbody>
 		    	<tr>
-		    		<td class="group">2</td>
+		    		<td >2</td>
 		    		<td>2.55</td>
 		    		<td></td>
 		    		<td>8,653,925</td>

@@ -490,16 +490,81 @@ function calculoCC(resultados) {
 
 function precioCondComerciales(datos) {
 
-    console.log("carga");
+    console.log("precioCondComerciales");
+    var cCoemrciales = condicionesComerciales(datos);
     var ahorros = tablaCCPaso2Ahorros(datos)
     var resultados = tablaCCPaso2Resultados(datos)
     var roi = tablaCCPaso2Roi(datos)
     var utilidad = tablaCCUtilidad(datos)
 
-    return resultados + roi + ahorros + utilidad;
+    return cCoemrciales + resultados + roi + ahorros + utilidad;
 
 }
 
+function condicionesComerciales(resultados){
+     var tBody = "";
+    var tabla = '<table id="condicionesComerciales" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+            <thead> \
+                <tr BGCOLOR ="#86a899" align="center"> \
+                    <th colspan="4" style="text-align:center">Condiciones comerciales de la oferta </th> \
+                    <th></th>\
+                    <th colspan="2" style="text-align:center">Condiciones de cobertura </th> \
+                </tr> \
+            </thead>    \
+            <tbody>\
+                <tr>    \
+                    <td>Fee de intermediación</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td>% exposición MTR</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td></td>  \
+                    <td>Nodo Cobertura</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                </tr>   \
+                <tr>    \
+                    <td>Diferencias Nodales asumidas por</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td>Fee MTR (MXN/MWh)</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td></td>  \
+                    <td>Costo Energía</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                </tr>   \
+                <tr>    \
+                    <td>Nodo Diferencias Nodales</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td>Incluir Financiamiento</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td></td>  \
+                    <td>Moneda</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                </tr>   \
+                <tr>    \
+                    <td>Costos regulados</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td>Años</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td></td>  \
+                    <td>% Cobertura</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                </tr>   \
+                <tr>    \
+                    <td>Otros costos (MWh)</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td>Otro monto mensual</td>  \
+                    <td><input id="empid" name="empid"  ></td>  \
+                    <td></td>  \
+                    <td></td>  \
+                    <td></td>  \
+                </tr>   \
+            </tbody>    \
+        </table>' 
+    ;
+
+    return tabla;
+
+}
 
 function tablaCCPaso2Ahorros(resultados){
 

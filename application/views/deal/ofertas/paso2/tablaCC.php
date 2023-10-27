@@ -25,5 +25,11 @@
 		        </tr>
 		    </thead>
 		</table>
+
+		
 	</div>
+
+
 </div>
+
+<!-- NUEVO CLIENTE-->
