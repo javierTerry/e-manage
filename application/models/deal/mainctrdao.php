@@ -2893,6 +2893,48 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         return $insert;
     }
     
+    /**
+     * resumenCC
+     * 
+     * Se busca obtener el resumen de los calculos de los Centros de Costos
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @since 2023/10/27
+     * 
+     * @package deal.mainctrdao
+     * @access public
+     * @return $insert
+     */
+
+    public function resumenCC( $ofertaId){
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+
+        $resultados = $this->db
+            
+            ->where('oferta_id',$ofertaId)
+            ->get('of_cc_resumen_view')
+            ->result_array();
+
+        $resultado = null;
+        $campos = $this->db->list_fields('of_cc_resumen_view');
+        log_message("debug", print_r( $campos, true));
+
+        foreach ($campos as $key => $value) {
+            $resultado[$value] = 0;
+        }
+
+        log_message("debug", print_r( $resultado, true));
+        
+        foreach ($resultados as $key => $value) {
+            $resultado= $value;
+        }
+
+        return $resultado;
+
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+
+    }
 
     
     

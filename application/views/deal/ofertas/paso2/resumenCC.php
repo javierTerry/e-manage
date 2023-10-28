@@ -35,8 +35,8 @@
 		    </thead>
 		    <tbody>
 		    	<tr>
-		    		<td >2</td>
-		    		<td>2.55</td>
+		    		<td ><?php echo $resumenCC['no_cc_conteo']; ?></td>
+		    		<td><?php echo $resumenCC['demanda_contratada_sum']; ?></td>
 		    		<td></td>
 		    		<td>8,653,925</td>
 		    		<td>19%</td>

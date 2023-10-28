@@ -693,6 +693,7 @@ public function paso5()
         $clientsSelect = $this->mainctrdao->getClientsSelect();
         $divisionesSelect = $this->mainctrdao->getDivisionesSelect();
         $deal = $this->mainctrdao->getDeal($_GET["ofertaId"]);
+        $resumenCC = $this->mainctrdao->resumenCC($_GET["ofertaId"]);
 
         $validarPrecio = 0;
         $validarTarifa = 0;
@@ -761,9 +762,12 @@ public function paso5()
             "divisionesSelect" => $divisionesSelect
             ,"deal" => $deal[0]
             ,"guardarPaso1" => $guardarPaso1
+            ,"resumenCC" => $resumenCC
+
 
         );
 
+        log_message("debug", print_r($resumenCC ,true) );
         $currentModule["bodyClass"] = "nav-md";
 
         $this->setContent($currentModule);
