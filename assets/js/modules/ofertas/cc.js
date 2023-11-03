@@ -699,16 +699,7 @@ function tablaCCPaso2Roi(resultados){
 
 function tablaCCUtilidad(datos){
     var tBody = "";
-    /*    
-    tBody +='<tr>    \
-            <td >1,688,752 </td>  \
-            <td>140,729</td>  \
-            <td>1,800,000 </td>  \
-            <td>13</td>  \
-        </tr>   \
-        ' 
-*/
-
+    
     var tabla = '<table id="tablaCCPaso2Utilidad" class="table table-striped table-bordered \
         dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
         <thead> \
@@ -751,7 +742,17 @@ function tablaCCUtilidad(datos){
 
 
 
-$( "#tablaCCPaso2AhorrosResumen_sh" ).on( "click", function() {
-    console.log("tabla");
-  $( "#tablaCCPaso2AhorrosResument" ).toggle();
+$( "#tablaCCPaso2AhorrosResumen_sa" ).on( "click", function() {
+    console.log("tablaCCPaso2AhorrosResumen_sa");
+  $( "#tablaCCPaso2AhorrosResumen" ).toggle();
+});
+
+$( "#tablaCCPaso2AhorrosResumen_su" ).on( "click", function() {
+    console.log("tablaCCPaso2AhorrosResumen_su");
+  $( "#tablaCCPaso2UtilidadesResumen" ).toggle();
+});
+
+$( "#tablaCCPaso2AhorrosResumen_sr" ).on( "click", function() {
+    console.log("tablaCCPaso2AhorrosResumen_sr");
+  $( "#tablaCCPaso2RoiResumen" ).toggle();
 });

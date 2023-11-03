@@ -51,16 +51,19 @@
 	<div class="x_content">
 		<div >
 			<h2>
-				<span id="tablaCCPaso2AhorrosResumen_sh" class="column_25" >
+				<span id="tablaCCPaso2AhorrosResumen_sa" class="column_25" >
 			            Seccion Ahorros 
 			    </span>
-				<span class="column_25" > Seccion Utilidades</span>
-				<span class="column_25" > Seccion ROI</span>
+				<span id="tablaCCPaso2AhorrosResumen_su"class="column_25" > Seccion Utilidades</span>
+				<span id="tablaCCPaso2AhorrosResumen_sr"class="column_25" > Seccion ROI</span>
 			</h2>
 		</div>
 		
 		<?php
             $this->load->view("deal/ofertas/paso2/tablaCCPaso2AhorrosResumen");
+            $this->load->view("deal/ofertas/paso2/tablaCCPaso2UtilidadesResumen");
+            $this->load->view("deal/ofertas/paso2/tablaCCPaso2RoiResumen");
         ?>
+
 	</div>
 </div>
