@@ -748,3 +748,10 @@ function tablaCCUtilidad(datos){
     return tabla;
 
 }
+
+
+
+$( "#tablaCCPaso2AhorrosResumen_sh" ).on( "click", function() {
+    console.log("tabla");
+  $( "#tablaCCPaso2AhorrosResument" ).toggle();
+});

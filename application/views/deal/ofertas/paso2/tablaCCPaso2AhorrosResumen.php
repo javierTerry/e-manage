@@ -1,4 +1,4 @@
-<table id="tablaCCPaso2AhorrosResumen" class="table table-striped table-bordered dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">
+<table id="tablaCCPaso2AhorrosResument" class="table table-striped table-bordered dt-responsive " cellspacing="0" width="100%" style="display: none;">
     <thead> 
         <tr BGCOLOR ="#86a899" align="center"> <th colspan="7" style="text-align:center">Ahorros</th></tr>
         <tr>    
