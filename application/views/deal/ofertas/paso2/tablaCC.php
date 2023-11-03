@@ -10,17 +10,17 @@
 		    <thead>
 		        <tr>
 		        	<th></th>
-		            <th>
-		            	ID CC
-			        </th>
-		            <th >NOMBRE</th>
+		            <th>ID CC</th>
+		            <th>NOMBRE</th>
 		            <th>RPU/ID</th>
 		            <th>TARIFA</th>
 		            <th>ESQUEMA <p>SUMINISTRO</th>
 		            <th>DIVISION</th>
 		            <th>ZONA <p>CARGA</th>
 		            <th>DEMANDA <p>CONTRATADA</th>
-		            
+		            <th>ENERGÍA <p>(MXN/MWh)</th>
+		            <th>POTENCIA <p>(MXN/MWh)</th>
+		            <th>CEL <p>(MXN/CEL)</th>
 		            
 		        </tr>
 		    </thead>

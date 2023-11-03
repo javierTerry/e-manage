@@ -2545,6 +2545,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         unset($rows[0]);
         $insert = array();
         log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        $i=1;
         foreach ($rows as $key => $row) {
 
             $insert['anio'] = $row[0];
@@ -2622,7 +2623,9 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['total_perdidas'] = $insert['ppt'] + $insert['ppnt'];
 
             log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
-           
+            //$insert = $this->calculoAhorros( $insert);
+            $insert['secuencia']= $i;
+            $i++;
             $queryEstatus = $queryEstatus = $this->db->insert('of_calculo_cc', $insert);
 
             if ( !$queryEstatus ) {
@@ -2650,7 +2653,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
         $fechaActualAno = date("Y");
         $fechaActualMes = date("m");
-        
+        $secuencia=12;
         for ($i=0; $i < 12; $i++) { 
 
             if ($fechaActualMes === 0) {
@@ -2738,6 +2741,8 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $insert['total_perdidas'] = $insert['ppt'] + $insert['ppnt'];
 
             log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            //$insert = $this->calculoAhorros( $insert);
+            $insert['secuencia']= $secuencia -$i;
            
             $queryEstatus = $queryEstatus = $this->db->insert('of_calculo_cc', $insert);
 
@@ -2750,6 +2755,29 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
          
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
+
+    /**
+     * calculoAhorros
+     * 
+     * Se realizan los calculos de la seccion de ahorros  
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @package deal.mainctrdao
+     * @param array $insert
+     * 
+     * @access private
+     * @return $insert
+     */
+
+    private function calculoAhorros( $insert){
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        $insert['csp_kwh'] = $insert['ct_kWh'] / 1000;
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        return $insert;
+
     }
 
     public function obtenerCCOfertaId(){
@@ -2930,12 +2958,36 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
             $resultado= $value;
         }
 
-        return $resultado;
-
         log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        return $resultado;
 
     }
 
-    
-    
+
+    /**
+     * resumenCCAhorros
+     * 
+     * Se busca obtener el resumen de los calculos de los Centros de Costos
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @since 2023/10/27
+     * 
+     * @package deal.mainctrdao
+     * @access public
+     * @return $insert
+     */
+    public function resumenCCAhorros( $ofertaId){
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+
+        $resultados = $this->db
+            ->where('oferta_id',$ofertaId)
+            ->get('of_cc_resumen_ahorrros_view')
+            ->result_array();
+        
+        //log_message('debug', print_r($resultados,true));
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        return $resultados;
+
+    }
 }

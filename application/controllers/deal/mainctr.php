@@ -683,17 +683,17 @@ public function paso5()
         }
 
         $this->loadDataTables();
-        
 
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/viewDeal.js";
         $this->libraries["js"]["dependences"][] = "assets/js/modules/ofertas/cc.js";
 
-        
+        $ofertaId= $_GET["ofertaId"];        
         $clients = $this->mainctrdao->getClients();
         $clientsSelect = $this->mainctrdao->getClientsSelect();
         $divisionesSelect = $this->mainctrdao->getDivisionesSelect();
-        $deal = $this->mainctrdao->getDeal($_GET["ofertaId"]);
-        $resumenCC = $this->mainctrdao->resumenCC($_GET["ofertaId"]);
+        $deal = $this->mainctrdao->getDeal($ofertaId);
+        $resumenCC = $this->mainctrdao->resumenCC($ofertaId);
+        $resumenCCAhorros = $this->mainctrdao->resumenCCAhorros($ofertaId);
 
         $validarPrecio = 0;
         $validarTarifa = 0;
@@ -763,6 +763,7 @@ public function paso5()
             ,"deal" => $deal[0]
             ,"guardarPaso1" => $guardarPaso1
             ,"resumenCC" => $resumenCC
+            ,"resumenCCAhorros" => $resumenCCAhorros
 
 
         );

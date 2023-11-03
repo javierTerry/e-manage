@@ -293,8 +293,8 @@ function documentoRetorno(row, rol){
 
 function inputEnergia(data) {
     var html = '<div class="form-group">  \
-                    <input type="text" width="50%" class="form-control" id="enegia'+data.id+'" \
-                        placeholder="Ingrese energia" name="energia'+data.id+'"> \
+                    <input type="text" width="10" class="form-control" id="enegia'+data.id+'" \
+                        placeholder="" name="energia'+data.id+'"> \
                 </div>';
 
     return html;
@@ -339,10 +339,12 @@ function tablaCCPaso2(){
             ,processing: true
             ,serverSide: false 
             ,pagingType: "full_numbers"
-            ,deferRender: true
+            ,deferRender: false
             ,bDestroy: true
             ,data: json.tabla
             ,autoWidth: false
+            ,"targets": 'no-sort'
+            ,bSort: false
             ,order: [[0, 'desc']]
             ,lengthMenu: [
                 [ 10, 25, 50, -1 ],
@@ -367,9 +369,14 @@ function tablaCCPaso2(){
                 ,{ "data": "division" } 
                 ,{ "data": "zona_carga" }
                 ,{ "data": "demanda_contratada" }
+                ,{ "data": "demanda_contratada"
+                        ,render: function (data, type, row) {
+                            return ""; //inputEnergia(data);   
+                        }  
+                }
+                ,{ "data": "demanda_contratada" }
+                ,{ "data": "demanda_contratada" }
                 
-
-
             ],
         });
 
@@ -497,7 +504,7 @@ function precioCondComerciales(datos) {
     var roi = tablaCCPaso2Roi(datos)
     var utilidad = tablaCCUtilidad(datos)
 
-    return cCoemrciales + resultados + roi + ahorros + utilidad;
+    return cCoemrciales + ahorros + resultados +  utilidad +  roi;
 
 }
 
@@ -575,7 +582,7 @@ function tablaCCPaso2Ahorros(resultados){
         tBody +='<tr>    \
             <th>'+data.anio+'</th>  \
             <th>'+data.mes+'</th>  \
-            <th></th>  \
+            <th>'+data.csp_kwh+'</th>  \
             <th></th>  \
             <th></th>  \
             <th></th>  \

@@ -48,4 +48,9 @@
 		    </tbody>
 		</table>
 	</div>
+	<div class="x_content">
+		<?php
+            $this->load->view("deal/ofertas/paso2/tablaCCPaso2AhorrosResumen");
+        ?>
+	</div>
 </div>
