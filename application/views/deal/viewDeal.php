@@ -98,14 +98,16 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="card-body">
                         <?php
-                            $this->load->view("deal/ofertas/paso2/resumenCC");
-                        ?>
-                    </div>
-                    <div class="card-body">
-                        <?php
                             $this->load->view("deal/ofertas/paso2/tablaCC");
                         ?>
                     </div>
+
+                    <div class="card-body">
+                        <?php
+                            $this->load->view("deal/ofertas/paso2/resumenCC");
+                        ?>
+                    </div>
+                    <!--
                     <div class="card-body">    
                         <br></br>
                         <div class="row">
@@ -115,7 +117,7 @@
                         </div>
                         <hr></hr>
                     </div>
-                   
+                   -->
                         
                     <div class="card-body">
                         <div class="row">
@@ -144,7 +146,7 @@
                             <form>
                                 <div class="form-group">
                                     <button type="button" id="excel" class="btn btn-success">Descargar Excel</button>
-                                    <button type="button" id="generarWord" class="btn btn-success">Generar
+                                    <button type="button" id="generarWord" class="btn btn-success">Generar 1
                                         Reporte</button>
                                 </div>
                                 <button type="button" id="guardar2" class="btn btn-success">Guardar</button>

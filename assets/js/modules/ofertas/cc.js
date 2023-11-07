@@ -321,6 +321,7 @@ function inputCel(data) {
 }
 
 function tablaCCPaso2(){
+    let row = null
     
     $.ajax({
         url: 'obtenerCCAjax/?oferta_id='+ofertaId,
@@ -382,7 +383,7 @@ function tablaCCPaso2(){
 
         subTabla.on('click', 'td.dt-control-paso2', function (e) {
             let tr = e.target.closest('tr');
-            let row = subTabla.row(tr);
+            row= subTabla.row(tr);
             
             if (row.child.isShown()) {
                 // This row is already open - close it
@@ -390,9 +391,24 @@ function tablaCCPaso2(){
             }
             else {
                 // Open this row
-                row.child( precioCondComerciales( row.data().calculoCC ) ).show();
+                row.child( precioCondComerciales( row.data() ) ).show();
 
             }
+        });
+
+        subTabla.on('click', ".calculo", function(e) {
+           
+            console.log(row.data());
+            var ccId = row.data().id;
+            
+            var feeccId = "#fee"+ccId;
+            console.log(feeccId);
+            console.log( $(feeccId).val() )
+            $("#tablaCCPaso2Ahorros"+ccId ).toggle();
+            $("#tablaCCPaso2Resultados"+ccId ).toggle();
+            $("#tablaCCPaso2Roi"+ccId ).toggle();
+            $("#tablaCCUtilidad"+ccId ).toggle();
+            ajaxAhorros(ccId);
         });
     }).fail( function( data,jqXHR, textStatus, errorThrown ) {
         console.log( "fail" );
@@ -495,23 +511,29 @@ function calculoCC(resultados) {
     return tabla;
 }
 
-function precioCondComerciales(datos) {
+function precioCondComerciales(data) {
 
     console.log("precioCondComerciales");
-    var cCoemrciales = condicionesComerciales(datos);
-    var ahorros = tablaCCPaso2Ahorros(datos)
-    var resultados = tablaCCPaso2Resultados(datos)
-    var roi = tablaCCPaso2Roi(datos)
-    var utilidad = tablaCCUtilidad(datos)
-
+    console.log(data)
+    var cCoemrciales = condicionesComerciales(data);
+    var ahorros = tablaCCPaso2Ahorros(data)
+    var resultados = tablaCCPaso2Resultados(data)
+    var roi = tablaCCPaso2Roi(data)
+    var utilidad = tablaCCUtilidad(data)
+    /*
+    
+   
+    */
     return cCoemrciales + ahorros + resultados +  utilidad +  roi;
 
 }
 
-function condicionesComerciales(resultados){
+function condicionesComerciales(data){
+
+    var ccId = data.id;
      var tBody = "";
     var tabla = '<table id="condicionesComerciales" class="table table-striped table-bordered \
-            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" >\
             <thead> \
                 <tr BGCOLOR ="#86a899" align="center"> \
                     <th colspan="4" style="text-align:center">Condiciones comerciales de la oferta </th> \
@@ -522,45 +544,45 @@ function condicionesComerciales(resultados){
             <tbody>\
                 <tr>    \
                     <td>Fee de intermediación</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="fee'+ccId+'" name="fee'+ccId+'"  ></td>  \
                     <td>% exposición MTR</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="mtr'+ccId+'" name="mtr'+ccId+'"  ></td>  \
                     <td></td>  \
                     <td>Nodo Cobertura</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="nc'+ccId+'" name="nc'+ccId+'"  ></td>  \
                 </tr>   \
                 <tr>    \
                     <td>Diferencias Nodales asumidas por</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="dna'+ccId+'" name="dna'+ccId+'"  ></td>  \
                     <td>Fee MTR (MXN/MWh)</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="feemtr'+ccId+'" name="feemtr'+ccId+'"  ></td>  \
                     <td></td>  \
                     <td>Costo Energía</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="ce'+ccId+'" name="ce'+ccId+'"  ></td>  \
                 </tr>   \
                 <tr>    \
                     <td>Nodo Diferencias Nodales</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="ndn'+ccId+'" name="ndn'+ccId+'"  ></td>  \
                     <td>Incluir Financiamiento</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="if'+ccId+'" name="if'+ccId+'"  ></td>  \
                     <td></td>  \
                     <td>Moneda</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="moneda'+ccId+'" name="moneda'+ccId+'"  ></td>  \
                 </tr>   \
                 <tr>    \
                     <td>Costos regulados</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="cr'+ccId+'" name="cr'+ccId+'"  ></td>  \
                     <td>Años</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="anos'+ccId+'" name="anos_'+ccId+'"  ></td>  \
                     <td></td>  \
                     <td>% Cobertura</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="pc_'+ccId+'" name="pc_'+ccId+'"  ></td>  \
                 </tr>   \
                 <tr>    \
                     <td>Otros costos (MWh)</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="oc_'+ccId+'" name="oc_'+ccId+'"  ></td>  \
                     <td>Otro monto mensual</td>  \
-                    <td><input id="empid" name="empid"  ></td>  \
+                    <td><input id="omm_'+ccId+'" name="omm_'+ccId+'"  ></td>  \
                     <td></td>  \
                     <td></td>  \
                     <td></td>  \
@@ -569,34 +591,19 @@ function condicionesComerciales(resultados){
         </table>' 
     ;
 
-    return tabla;
+    var boton = '<button type="button" id="guardar'+ccId+'" class="btn btn-success calculo">Calcular</button>'
+    return  tabla + boton;
 
 }
 
-function tablaCCPaso2Ahorros(resultados){
-
-    var tBody = "";
-    
-    resultados.forEach( function(data, indice) {
-        
-        tBody +='<tr>    \
-            <th>'+data.anio+'</th>  \
-            <th>'+data.mes+'</th>  \
-            <th>'+data.csp_kwh+'</th>  \
-            <th></th>  \
-            <th></th>  \
-            <th></th>  \
-            <th></th>  \
-        </tr>   \
-        '
-    });
-    
-                         
+function tablaCCPaso2Ahorros(data){      
     //           
-    var tabla = '<table id="tablaCCPaso2Ahorros" class="table table-striped table-bordered \
-            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+    var tabla = '<table id="tablaCCPaso2Ahorros'+data.id+'" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" style="display: none;">\
             <thead> \
-                <tr BGCOLOR ="#86a899" align="center"> <th colspan="7" style="text-align:center">Ahorros</th></tr>\
+                <tr BGCOLOR ="#86a899" align="center"> \
+                    <th colspan="7" style="text-align:center">Ahorros</th>\
+                </tr>\
                 <tr>    \
                     <th>Año</th>  \
                     <th>Mes</th>  \
@@ -607,9 +614,7 @@ function tablaCCPaso2Ahorros(resultados){
                     <th>% Ahorro</th>  \
                 </tr>   \
             </thead>    \
-            <tbody>'
-            +tBody+ 
-            '</tbody>    \
+              \
         </table>' 
     ;
 
@@ -617,7 +622,7 @@ function tablaCCPaso2Ahorros(resultados){
 
 }
 
-function tablaCCPaso2Resultados(resultados){
+function tablaCCPaso2Resultados(data){
 
     var tBody = "";
     
@@ -641,8 +646,8 @@ function tablaCCPaso2Resultados(resultados){
         '    
                          
     //           
-    var tabla = '<table id="tablaCCPaso2Resultados" class="table table-striped table-bordered \
-            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+    var tabla = '<table id="tablaCCPaso2Resultados'+data.id+'" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" style="display: none;">\
             <thead> \
                 <tr BGCOLOR ="#86a899"> <th colspan="6" style="text-align:center">Resultados</th></tr>\
                 <tr>    \
@@ -651,9 +656,7 @@ function tablaCCPaso2Resultados(resultados){
                     <th colspan="3" style="text-align:center" >Utilidades</th>  \
                 </tr>   \
             </thead>    \
-            <tbody>'
-            +tBody+ 
-            '</tbody>    \
+            <tbody>   </tbody>    \
         </table>' 
     ;
 
@@ -662,7 +665,7 @@ function tablaCCPaso2Resultados(resultados){
 }
 
 
-function tablaCCPaso2Roi(resultados){
+function tablaCCPaso2Roi(data){
 
     var tBody = "";
     
@@ -676,8 +679,8 @@ function tablaCCPaso2Roi(resultados){
     
                          
     //           
-    var tabla = '<table id="tablaCCPaso2Roi" class="table table-striped table-bordered \
-            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+    var tabla = '<table id="tablaCCPaso2Roi'+data.id+'" class="table table-striped table-bordered \
+            dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" style="display: none;">\
             <thead> \
                 <tr BGCOLOR ="#86a899"> <th  colspan="4" style="text-align:center">ROI</th></tr>\
                 <tr>    \
@@ -687,9 +690,7 @@ function tablaCCPaso2Roi(resultados){
                     <th style="text-align:center">Periodo de retorno de la inversión (meses)</th>  \
                 </tr>   \
             </thead>    \
-            <tbody>'
-            +tBody+ 
-            '</tbody>    \
+            <tbody></tbody>    \
         </table>' 
     ;
 
@@ -697,11 +698,11 @@ function tablaCCPaso2Roi(resultados){
 
 }
 
-function tablaCCUtilidad(datos){
+function tablaCCUtilidad(data){
     var tBody = "";
     
-    var tabla = '<table id="tablaCCPaso2Utilidad" class="table table-striped table-bordered \
-        dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%">\
+    var tabla = '<table id="tablaCCPaso2Utilidad'+data.id+'" class="table table-striped table-bordered \
+        dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" style="display: none;">\
         <thead> \
             <tr BGCOLOR ="#86a899"> <th  colspan="13" style="text-align:center">UTILIDADES</th></tr>\
             <tr BGCOLOR ="#86a899"> \
@@ -730,9 +731,7 @@ function tablaCCUtilidad(datos){
                 <th style="text-align:center">Total fee<p> (MXN)</th> \
             </tr>\
         </thead>    \
-        <tbody>'
-        +tBody+ 
-        '</tbody>    \
+        <tbody></tbody>    \
     </table>' 
     ;
 
@@ -756,3 +755,65 @@ $( "#tablaCCPaso2AhorrosResumen_sr" ).on( "click", function() {
     console.log("tablaCCPaso2AhorrosResumen_sr");
   $( "#tablaCCPaso2RoiResumen" ).toggle();
 });
+
+
+//20231106
+function ajaxAhorros(ccId){
+
+    $.ajax({
+        url: 'ahorrosCCAjax/?cc_id='+ccId,
+        type: 'GET',
+        //data: formData,
+        processData: false,
+        contentType: false
+        
+    }).done(function( response ) {
+        const json = JSON.parse(response);
+        console.log(json)
+        var subTabla = $('#tablaCCPaso2Ahorros'+ccId).DataTable({
+            "oLanguage": {
+                "sEmptyTable": "No se puede mostrar los registros"
+            }
+            ,processing: true
+            ,serverSide: false 
+            ,deferRender: false
+            ,bDestroy: true
+            ,data: json.data
+            ,autoWidth: false
+            ,bSort: false
+            ,order: [[0, 'desc']]
+            ,lengthMenu: [
+                [ 12],
+                [ '12' ]
+            ]
+            ,bFilter: false
+            ,bLengthChange: false
+            ,bPaginate: false
+            ,columns: [
+                { "data": "anio" } //0
+                ,{ "data": "mes" }
+                ,{ "data": "ahorro_csp_kwh" }
+                ,{ "data": "ahorro_ffe_mxn" }
+                ,{ "data": "ahorro_f_cfe_ssb_e_mxn" } 
+                ,{ "data": "ahorro_ahorrosmxn" } 
+                ,{ "data": "ahorro_p_ahorro" }
+               
+            ],
+        });
+
+        
+    }).fail( function( data,jqXHR, textStatus, errorThrown ) {
+        console.log( "fail" );
+        console.log(data);
+        Swal.fire(
+            data.status+' '+data.statusText,
+            'Por favor, inténtelo de nuevo más tarde o Consulte con su administrador.',
+            'error'
+        )
+
+
+    }).always(function() {
+            console.log( "complete tablaCCPaso2" );
+    });
+
+}

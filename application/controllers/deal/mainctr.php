@@ -1784,5 +1784,48 @@ public function paso5()
         
         echo json_encode($res);
     }
+
+    /**
+     * ahorrosCCAjax
+     * 
+     * Se realizan los calculos de la seccion de ahorros por cada CC
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @package deal.mainctrdao
+     * @since 2023/11/06
+     * @param array $insert
+     * 
+     * @access public
+     * @return json
+     */
+
+    public function ahorrosCCAjax(){
+        log_message('debug', __FILE__." ".__LINE__);
+        if ($this->getSessionData() && !$this->session->userdata("userInfo")) {
+            redirect(base_url() . "login");
+        }
+
+        $res = array();
+        try {
+            $res['data'] = $this->mainctrdao->getAhorrosPorCc();
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            
+    
+        } catch (\Exception $e) {
+            log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+            log_message('debug', print_r($res,true));
+            header('HTTP/1.1 400 Bad Request');
+            $this->mainctrdao->saveRollbackCC($res['cc_id']);
+            $res["status"] = "error";
+            return json_encode($res);
+        }
+        
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        $res["status"] = "success";
+        log_message('debug',print_r($res,true));
+        echo json_encode($res);
+    }
 }
 

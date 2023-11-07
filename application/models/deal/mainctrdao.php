@@ -2773,7 +2773,8 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
     private function calculoAhorros( $insert){
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
-        $insert['csp_kwh'] = $insert['ct_kWh'] / 1000;
+        $insert['ahorro_csp_kwh'] = $insert['ct_kWh'] / 1000;
+        $insert['ahorro_ffe_mxn'] = $insert['cm_kWh_ii'] / 1000;
 
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
         return $insert;
@@ -2983,6 +2984,35 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         $resultados = $this->db
             ->where('oferta_id',$ofertaId)
             ->get('of_cc_resumen_ahorrros_view')
+            ->result_array();
+        
+        //log_message('debug', print_r($resultados,true));
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        return $resultados;
+
+    }
+
+
+    /**
+     * resumenCCAhorros
+     * 
+     * Se busca obtener el resumen de los calculos de los Centros de Costos
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @since 2023/10/27
+     * 
+     * @package deal.mainctrdao
+     * @access public
+     * @return $insert
+     */
+    public function getAhorrosPorCc(){
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+        $data = $this->input->get();
+        log_message('debug',print_r($data,true));
+        $resultados = $this->db
+            ->where('cc_id',$data['cc_id'])
+            ->get('of_cc_ahorros_view')
             ->result_array();
         
         //log_message('debug', print_r($resultados,true));
