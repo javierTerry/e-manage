@@ -35,14 +35,14 @@
     <div class="container">
         <div class="accordion" id="accordionExample">
             <div class="steps">
-                <progress id="progress" value=0 max=100></progress>
+                <progress id="progress" value=0 max=70></progress>
                 <div class="step-item">
                     <button id="sb1" class="step-button text-center" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         1
                     </button>
                     <div class="step-title">
-                        Validar Datos
+                        Registrar Consumos Historicos
                     </div>
                 </div>
                 <div class="step-item">
@@ -51,7 +51,7 @@
                         2
                     </button>
                     <div class="step-title">
-                        Generar
+                        Obtener resultados de oportunidad de negocio
                     </div>
                 </div>
                 <div class="step-item">
@@ -60,7 +60,7 @@
                         3
                     </button>
                     <div class="step-title">
-                        Oferta
+                        Generar oferta de suministro
                     </div>
                 </div>
                 <div class="step-item">
@@ -69,7 +69,7 @@
                         4
                     </button>
                     <div class="step-title">
-                        Contratos
+                        Formalizar contrato
                     </div>
                 </div>
                 <div class="step-item">
@@ -107,17 +107,7 @@
                             $this->load->view("deal/ofertas/paso2/resumenCC");
                         ?>
                     </div>
-                    <!--
-                    <div class="card-body">    
-                        <br></br>
-                        <div class="row">
-                            <div class="container text-center">
-                                <button type="button" id="generar" class="btn btn-success">Generar</button>
-                            </div>
-                        </div>
-                        <hr></hr>
-                    </div>
-                   -->
+                    
                         
                     <div class="card-body">
                         <div class="row">

@@ -322,7 +322,7 @@ function inputCel(data) {
 
 function tablaCCPaso2(){
     let row = null
-    
+    var catalogos = null    
     $.ajax({
         url: 'obtenerCCAjax/?oferta_id='+ofertaId,
         type: 'GET',
@@ -332,7 +332,9 @@ function tablaCCPaso2(){
         
     }).done(function( response ) {
         const json = JSON.parse(response);
-        console.log(json)
+        
+        catalogos = json.catalogos;
+        console.log(catalogos)
         var subTabla = $('#tablaCCPaso2').DataTable({
             "oLanguage": {
                 "sEmptyTable": "No se puede mostrar los registros"
@@ -391,7 +393,7 @@ function tablaCCPaso2(){
             }
             else {
                 // Open this row
-                row.child( precioCondComerciales( row.data() ) ).show();
+                row.child( precioCondComerciales( row.data(), catalogos ) ).show();
 
             }
         });
@@ -511,11 +513,11 @@ function calculoCC(resultados) {
     return tabla;
 }
 
-function precioCondComerciales(data) {
+function precioCondComerciales(data, catalogos) {
 
     console.log("precioCondComerciales");
     console.log(data)
-    var cCoemrciales = condicionesComerciales(data);
+    var cCoemrciales = condicionesComerciales(data, catalogos);
     var ahorros = tablaCCPaso2Ahorros(data)
     var resultados = tablaCCPaso2Resultados(data)
     var roi = tablaCCPaso2Roi(data)
@@ -528,10 +530,21 @@ function precioCondComerciales(data) {
 
 }
 
-function condicionesComerciales(data){
+function condicionesComerciales(data, catalogos){
 
     var ccId = data.id;
      var tBody = "";
+
+    console.log(catalogos.difNodalesAsumidas)
+    var combo = '<select name="cars" id="cars" width="100%">'
+    var option ='';
+     $.each(catalogos.difNodalesAsumidas, function( index, value ) {
+      console.log( index + ": " + value.por );
+      option=option+'<option value="'+value.nodalesAsumidasId+'">'+value.por+'</option>';
+    });
+
+    var comboBox = combo+option+'</select>';
+    
     var tabla = '<table id="condicionesComerciales" class="table table-striped table-bordered \
             dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" >\
             <thead> \
@@ -553,7 +566,7 @@ function condicionesComerciales(data){
                 </tr>   \
                 <tr>    \
                     <td>Diferencias Nodales asumidas por</td>  \
-                    <td><input id="dna'+ccId+'" name="dna'+ccId+'"  ></td>  \
+                    <td>'+comboBox+'</td>  \
                     <td>Fee MTR (MXN/MWh)</td>  \
                     <td><input id="feemtr'+ccId+'" name="feemtr'+ccId+'"  ></td>  \
                     <td></td>  \

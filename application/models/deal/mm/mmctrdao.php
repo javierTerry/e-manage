@@ -28,7 +28,7 @@ class Mmctrdao extends VX_Model {
         // Selecciona la primera hoja
         $sheet = $objPHPExcel->getActiveSheet(); 
         $rows = $sheet->toArray();
-        //log_message("debug", print_r($rows ,true));
+        log_message("debug", print_r($data['catalogoId'] ,true));
         //Quitar Cabeceras
         unset($rows[0]);
         switch ($data['catalogoId']) {
@@ -75,6 +75,24 @@ class Mmctrdao extends VX_Model {
                 break;
             case 14:
                 $this->saveCatalogoTipoCambio($rows);
+                break;
+            case 15:
+                
+                break;
+            case 16:
+                $this->saveCatalogoDifNodalesAsumidas($rows);
+                break;
+            case 17:
+                
+                break;
+            case 18:
+                
+                break;
+            case 19:
+                
+                break;
+            case 20:
+                
                 break;
 
 
@@ -218,8 +236,35 @@ class Mmctrdao extends VX_Model {
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
     }
 
+     /**
+     * saveCatalogoDifNodalesAsumidas
+     * 
+     * Se revisa cada renglon de un archvio para cargar cada registro 
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @since 2023/11/08
+     * 
+     * @package deal/mm
+     * @access private
+     * @param array, $rows renglon activo 
+     * @return $insert
+     */
 
-    
+    private function saveCatalogoDifNodalesAsumidas($rows ) {
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+   
+        $insert = array();
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+        foreach ($rows as $key => $row) {
+            $data['por'] = $row[0];
+            
+            $this->db->insert('of_dif_nodales_asumidas', $data);
+
+        }
+
+        log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__);
+    }
     
 }
 ?>

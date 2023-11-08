@@ -1735,7 +1735,7 @@ public function paso5()
         }
 
         $res = $this->mainctrdao->obtenerCCOfertaId();
-
+        $res['catalogos']['difNodalesAsumidas'] = $this->mainctrdao->catalogoDifNodalesAsumidas();
         log_message('debug', __FILE__." ".__LINE__." ".__FUNCTION__); 
         foreach ($res['tabla'] as $key => $value) {
 

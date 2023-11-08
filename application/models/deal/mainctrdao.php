@@ -2994,7 +2994,7 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
 
 
     /**
-     * resumenCCAhorros
+     * getAhorrosPorCc
      * 
      * Se busca obtener el resumen de los calculos de los Centros de Costos
      * 
@@ -3019,5 +3019,31 @@ public function postInfoDataWturbine($idworkcenter,$fechainicio,$inputCentral,$i
         log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
         return $resultados;
 
+    }
+
+
+    /**
+     * CatalogoDifNodalesAsumidas
+     * 
+     * Se busca obtener el resumen de los calculos de los Centros de Costos
+     * 
+     * @author Jorge Romero
+     * @version 1.0.0
+     * @since 2023/10/27
+     * 
+     * @package deal.mainctrdao
+     * @access public
+     * @return $insert
+     */
+    public function catalogoDifNodalesAsumidas(){
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
+
+        $resultados = $this->db
+            ->where('estatus',1)
+            ->get('of_dif_nodales_asumidas')
+            ->result_array();
+
+        return $resultados;
+        log_message('debug', __FILE__." ".__FUNCTION__." ".__LINE__);
     }
 }
