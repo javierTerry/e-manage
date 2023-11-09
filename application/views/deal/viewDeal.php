@@ -35,14 +35,14 @@
     <div class="container">
         <div class="accordion" id="accordionExample">
             <div class="steps">
-                <progress id="progress" value=0 max=70></progress>
+                <progress id="progress" value=00 max=90></progress>
                 <div class="step-item">
                     <button id="sb1" class="step-button text-center" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         1
                     </button>
                     <div class="step-title">
-                        Registrar Consumos Historicos
+                        Consumos Historicos
                     </div>
                 </div>
                 <div class="step-item">
@@ -51,7 +51,7 @@
                         2
                     </button>
                     <div class="step-title">
-                        Obtener resultados de oportunidad de negocio
+                        Oportunidad negocio
                     </div>
                 </div>
                 <div class="step-item">
@@ -60,7 +60,7 @@
                         3
                     </button>
                     <div class="step-title">
-                        Generar oferta de suministro
+                        Oferta suministro
                     </div>
                 </div>
                 <div class="step-item">

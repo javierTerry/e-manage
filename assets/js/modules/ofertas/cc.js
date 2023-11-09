@@ -536,14 +536,28 @@ function condicionesComerciales(data, catalogos){
      var tBody = "";
 
     console.log(catalogos.difNodalesAsumidas)
-    var combo = '<select name="cars" id="cars" width="100%">'
+    var combo = '<select name="dna'+ccId+'" id="dna'+ccId+'" width="100%">'
     var option ='';
      $.each(catalogos.difNodalesAsumidas, function( index, value ) {
       console.log( index + ": " + value.por );
       option=option+'<option value="'+value.nodalesAsumidasId+'">'+value.por+'</option>';
     });
 
-    var comboBox = combo+option+'</select>';
+    var comboBoxDna = combo+option+'</select>';
+
+    var comboBoxFinanciamiento = '<select name="finaciamiento'+ccId+'" id="finaciamiento'+ccId+'" width="100%">\
+            <option value="1">NO</option>\
+            <option value="2">SI</option>\
+            </select>';
+
+    var comboBoxAnos = '<select name="anos'+ccId+'" id="anos'+ccId+'" width="100%">\
+            <option value="1">1</option>\
+            <option value="2">2</option>\
+            <option value="3">3</option>\
+            <option value="4">4</option>\
+            <option value="5">5</option>\
+            </select>';
+    
     
     var tabla = '<table id="condicionesComerciales" class="table table-striped table-bordered \
             dt-responsive nowrap hover cursor-picker" cellspacing="0" width="100%" >\
@@ -566,7 +580,7 @@ function condicionesComerciales(data, catalogos){
                 </tr>   \
                 <tr>    \
                     <td>Diferencias Nodales asumidas por</td>  \
-                    <td>'+comboBox+'</td>  \
+                    <td>'+comboBoxDna+'</td>  \
                     <td>Fee MTR (MXN/MWh)</td>  \
                     <td><input id="feemtr'+ccId+'" name="feemtr'+ccId+'"  ></td>  \
                     <td></td>  \
@@ -577,7 +591,7 @@ function condicionesComerciales(data, catalogos){
                     <td>Nodo Diferencias Nodales</td>  \
                     <td><input id="ndn'+ccId+'" name="ndn'+ccId+'"  ></td>  \
                     <td>Incluir Financiamiento</td>  \
-                    <td><input id="if'+ccId+'" name="if'+ccId+'"  ></td>  \
+                    <td>'+comboBoxFinanciamiento+'</td>  \
                     <td></td>  \
                     <td>Moneda</td>  \
                     <td><input id="moneda'+ccId+'" name="moneda'+ccId+'"  ></td>  \
@@ -586,7 +600,7 @@ function condicionesComerciales(data, catalogos){
                     <td>Costos regulados</td>  \
                     <td><input id="cr'+ccId+'" name="cr'+ccId+'"  ></td>  \
                     <td>Años</td>  \
-                    <td><input id="anos'+ccId+'" name="anos_'+ccId+'"  ></td>  \
+                    <td>'+comboBoxAnos+'</td>  \
                     <td></td>  \
                     <td>% Cobertura</td>  \
                     <td><input id="pc_'+ccId+'" name="pc_'+ccId+'"  ></td>  \

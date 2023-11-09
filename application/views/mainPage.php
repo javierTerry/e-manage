@@ -10,17 +10,17 @@
                 position: relative;
             }
             .step-button {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
-                border: 2px;
+                border: 1px;
                 background-color: #95A5A6;
                 color: white;
                 transition: .4s;
             }
             .step-button[aria-expanded="true"] { 
-                width: 60px;
-                height: 60px;
+                width: 50px;
+                height: 50px;
                 background-color: #3498DB;
                 color: white;
             }

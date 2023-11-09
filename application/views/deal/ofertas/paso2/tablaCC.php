@@ -1,7 +1,7 @@
  <div class="x_panel">
     <div class="x_title">
         <h2>
-            <p>Centros de Costos </p>
+            <p>Centros de Carga </p>
         </h2>
         <div class="clearfix"></div>
     </div>
